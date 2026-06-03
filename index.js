@@ -8,10 +8,10 @@ const TASTERS   = ['ดิว','แอน','อร','เอิน','ทดสอ
 const PRODUCERS = ['บอย','เก๋'];
 const PASS_SCORE = 4;
 const CRITERIA = [
-  { key:'color',   label:'สี (Color)',           hint:'สีน้ำตาลสม่ำเสมอ ไม่คล้ำหรือซีดเกิน' },
+  { key:'color',   label:'สี (Color)',           hint:'สีสม่ำเสมอ ตรงตามสูตร' },
   { key:'aroma',   label:'กลิ่น (Aroma)',         hint:'กลิ่นถั่วหอม ไม่เหม็นหืดหรือฉุน' },
-  { key:'texture', label:'เนื้อสัมผัส (Texture)', hint:'เนียน ไม่แยกชั้น ไม่แข็งหรือเหลวเกิน' },
-  { key:'taste',   label:'รสชาติ (Taste)',         hint:'สมดุลหวาน-เค็ม รสถั่วชัด' },
+  { key:'texture', label:'เนื้อสัมผัส (Texture)', hint:'เนียน ไม่แยกชั้น ไม่หนืดหรือเหลวเกิน' },
+  { key:'taste',   label:'รสชาติ (Taste)',         hint:'รสชาติตรงตามสูตร ไม่มีรสผิดปกติ' },  
   { key:'overall', label:'Overall',                hint:'ประเมินรวมทั้งหมด' },
 ];
 
