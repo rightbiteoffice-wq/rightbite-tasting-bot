@@ -96,8 +96,8 @@ async function checkAndSummarize(sku) {
   if (count === 2) msg += '\n(ปิดผลด้วย 2 คนเห็นตรงกัน)';
   if (triggerX) msg += `\n\n⚠️ ${triggerName} คะแนนต่างจากคนอื่น ≥ 2\n→ นัดชิมถ้วย X ด้วยครับ`;
 
-  for (const uid of result.doneUsers) await pushMessage(uid, msg);
-  config.emergency_mode = 'false';
+const allUsers = Object.keys(state).filter(uid => state[uid] && state[uid].name);
+for (const uid of allUsers) await pushMessage(uid, msg);  config.emergency_mode = 'false';
 }
 
 async function handleFollow(event) {
