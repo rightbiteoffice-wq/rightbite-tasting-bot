@@ -426,6 +426,10 @@ async function checkMorningReminder() {
 
 // เช็คทุก 5 นาที
 setInterval(checkMorningReminder, 5 * 60 * 1000);
+setInterval(() => {
+  axios.get('https://rightbite-tasting-bot.onrender.com/')
+    .catch(() => {});
+}, 10 * 60 * 1000);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Bot running on port ${PORT}`));
