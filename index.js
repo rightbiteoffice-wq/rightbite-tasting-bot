@@ -237,6 +237,13 @@ async function handleMessage(event) {
     config.emergency_mode  = 'false';
     config.reminded_today  = false;
     scores.splice(0, scores.length, ...scores.filter(s => s.date !== today()));
+    Object.keys(state).forEach(uid => {
+  if (state[uid] && state[uid].name) {
+    state[uid].step   = 0;
+    state[uid].skuIdx = 0;
+    state[uid].scores = {};
+  }
+});
     const skuList = skus.map((s,i)=>`${i+1}) ${s}`).join('\n');
     await replyMessage(token, `🥜 เปิดรอบชิมแล้วครับ\nSKU วันนี้ ${skus.length} รายการ\n${skuList}\n\nแจ้งผู้ชิมให้เข้ามากรอกคะแนนได้เลยครับ\nถ้ามีคนลา พิมพ์ "ชิมแทน บอย" หรือ "ชิมแทน เก๋"`);
     return;
