@@ -409,20 +409,6 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ['delivery', 'ค่าขนส่งครึ่งหนึ่งของ 8,000 (อีกครึ่งอยู่ที่ห้องเก็บของ)', 'Half of the 8,000 delivery (the other half is under the storeroom)', 1, 'trip', 4000],
       ['structure', 'ปัดเศษตามยอดโอน', 'Rounded to the amount transferred', null, null, 0.37, true]
     ]},
-    { id: 'qt2610-0340', date: '2026-10-07', v: 'mss', no: 'QT2610-0340', kind: 'quote', total: 10847, lines: [
-      ['roof', 'หลังคาเมทัลชีท 760 มม. Asian White 0.35 ยาว 1.20 ม.', 'Roof sheet 760 mm, Asian White 0.35, 1.20 m', 7, 'sheet', 1302],
-      ['roof', 'แผ่นผนังลอน 860 มม. Asian White 0.35 ยาว 2.60 ม.', 'Wall sheet 860 mm, Asian White 0.35, 2.60 m', 8, 'sheet', 3224],
-      ['roof', 'บานเกล็ด 304 มม. สีครีม Peanut Butter ยาว 2.10 ม.', 'Louvre 304 mm, Peanut Butter cream, 2.10 m', 6, 'sheet', 964.53],
-      ['roof', 'ครอบพับตามแบบ 304 มม. Peanut Butter ยาว 2.10 ม.', 'Custom-bent flashing 304 mm, Peanut Butter, 2.10 m', 8, 'sheet', 1202.04],
-      ['structure', 'เหล็กกล่อง GI 1¼" × 1¼" หนา 1.5 มม.', 'GI square tube 1¼" × 1.5 mm', 12, 'length', 2460],
-      ['structure', 'เหล็กกล่อง GI 1" × 1" หนา 1.5 มม.', 'GI square tube 1" × 1.5 mm', 3, 'length', 450],
-      ['hw', 'สกรูปลายสว่าน 2" หัวสีขาว Inno-cons', 'Self-drilling screws 2", white head (Inno-cons)', 1, 'bag', 200],
-      ['hw', 'สกรูยึดแผ่น 16×20 หัวสีครีม', 'Sheet screws 16×20, cream head', 2, 'bag', 310],
-      ['hw', 'สกรูปลายสว่านหัวบัททอน 8×½" (100 ตัว)', 'Wafer-head self-drilling screws 8×½" (100)', 1, 'bag', 95],
-      ['roof', 'ขาบานเกล็ด', 'Louvre brackets', 40, 'pc', 240],
-      ['delivery', 'ค่าขนส่งในพื้นที่ รถกระบะ', 'Local delivery by pickup', 40, 'km', 400],
-      ['structure', 'ส่วนลดปัดเศษ', 'Rounding discount', null, null, -0.57, true]
-    ]},
     { id: 'qt2610-0801', date: '2026-10-17', v: 'mss', no: 'QT2610-0801', kind: 'quote', total: 1115, lines: [
       ['structure', 'เหล็กกล่อง GI 4" × 4" หนา 2.3 มม. (35–36 กก.) ตัด 3 ม.', 'GI square tube 4" × 4" × 2.3 mm (35–36 kg), cut to 3 m', 1, 'length', 1115]
     ]},
@@ -528,6 +514,30 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ]}
     ]
   }, {
+    id: 'water',
+    name: { th: 'กันสาดและผนังอาคารกรองน้ำ + บานเกล็ดระบายอากาศ', en: 'Water-filtration building canopy & walls + ventilation louvres' },
+    sub: { th: 'ค่าแรงช่างธีรพงศ์ · วัสดุจากเมทัล สตีล สเตชั่น QT2610-0340', en: 'Labour by Teerapong · materials on Metal Steel Station QT2610-0340' },
+    docs: [
+      { id: 'qt2610-0340', date: '2026-10-07', v: 'mss', no: 'QT2610-0340', kind: 'quote', total: 10847, lines: [
+        ['roof', 'หลังคาเมทัลชีท 760 มม. Asian White 0.35 ยาว 1.20 ม.', 'Roof sheet 760 mm, Asian White 0.35, 1.20 m', 7, 'sheet', 1302],
+        ['roof', 'แผ่นผนังลอน 860 มม. Asian White 0.35 ยาว 2.60 ม.', 'Wall sheet 860 mm, Asian White 0.35, 2.60 m', 8, 'sheet', 3224],
+        ['roof', 'บานเกล็ด 304 มม. สีครีม Peanut Butter ยาว 2.10 ม.', 'Louvre 304 mm, Peanut Butter cream, 2.10 m', 6, 'sheet', 964.53],
+        ['roof', 'ครอบพับตามแบบ 304 มม. Peanut Butter ยาว 2.10 ม.', 'Custom-bent flashing 304 mm, Peanut Butter, 2.10 m', 8, 'sheet', 1202.04],
+        ['structure', 'เหล็กกล่อง GI 1¼" × 1¼" หนา 1.5 มม.', 'GI square tube 1¼" × 1.5 mm', 12, 'length', 2460],
+        ['structure', 'เหล็กกล่อง GI 1" × 1" หนา 1.5 มม.', 'GI square tube 1" × 1.5 mm', 3, 'length', 450],
+        ['hw', 'สกรูปลายสว่าน 2" หัวสีขาว Inno-cons', 'Self-drilling screws 2", white head (Inno-cons)', 1, 'bag', 200],
+        ['hw', 'สกรูยึดแผ่น 16×20 หัวสีครีม', 'Sheet screws 16×20, cream head', 2, 'bag', 310],
+        ['hw', 'สกรูปลายสว่านหัวบัททอน 8×½" (100 ตัว)', 'Wafer-head self-drilling screws 8×½" (100)', 1, 'bag', 95],
+        ['roof', 'ขาบานเกล็ด', 'Louvre brackets', 40, 'pc', 240],
+        ['delivery', 'ค่าขนส่งในพื้นที่ รถกระบะ', 'Local delivery by pickup', 40, 'km', 400],
+        ['structure', 'ส่วนลดปัดเศษ', 'Rounding discount', null, null, -0.57, true]
+      ]},
+      { id: 'labor-water', date: '2026-10-07', v: 'tp', no: '—', kind: 'labor', total: 11500, lines: [
+        ['labor', 'ค่าแรงติดตั้งบานเกล็ดพร้อมครอบข้าง ขนาด 1 × 0.80 ม.', 'Labour to install louvres with side flashing, 1 × 0.80 m', 4, 'set', 7000],
+        ['labor', 'ค่าแรงติดตั้งกันสาด 5.3 × 1.2 ม. พร้อมปิดกั้นแผ่นกันสาด 45.6 × 26.4 และ 26.4 × 16.5 (อย่างละ 1 ชุด)', 'Labour to install a 5.3 × 1.2 m canopy with closing panels 45.6 × 26.4 and 26.4 × 16.5 (one each)', 1, 'set', 4500]
+      ]}
+    ]
+  }, {
     id: 'store', afterOffice: true, status: 'doing',
     name: { th: 'ห้องเก็บของน็อกดาวน์ 3 × 6 ม.', en: 'Knock-down storeroom, 3 × 6 m' },
     sub: { th: 'วัสดุจ่ายครบแล้ว · รอติดตั้งและทำหลังคาหลังออฟฟิศเสร็จ', en: 'Materials paid in full · installation and roof wait until the office is finished' },
@@ -562,6 +572,15 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         { id: 'concrete', th: 'เทคอนกรีตหนา 10 ซม. + ไวร์เมช', en: '10 cm concrete slab + wire mesh', p: 650 },
         { id: 'raised', th: 'พื้นยกโครงเหล็ก + ไฟเบอร์ซีเมนต์ 20 มม.', en: 'Raised steel floor + 20 mm fibre-cement board', p: 950 }
       ]},
+    { id: 'roof', grp: 'shell', unit: 'm2', def: 'sheet', q: function (g) { return g.roof; },
+      name: { th: 'หลังคา', en: 'Roof' },
+      hint: { th: 'อิงราคาที่จ่ายจริง: เมทัลชีท 155 บาท/ม. และค่าแรงต่อโครง+มุง 550 บาท/ตร.ม.', en: 'Based on prices actually paid: metal sheet 155 baht/m and 550 baht/m² for frame + roofing labour' },
+      opts: [
+        { id: 'none', th: 'ไม่ต้องทำ / มีแล้ว', en: 'Not needed / already done', p: 0 },
+        { id: 'sheet', th: 'เมทัลชีท 0.35 มม. + แป สกรู ครอบ (รวมค่าแรง)', en: 'Metal sheet 0.35 mm + purlins, screws, flashing (with labour)', p: 850 },
+        { id: 'sheetpu', th: 'เมทัลชีทบุโฟม PU 1 นิ้ว (รวมค่าแรง)', en: 'PU-foam-backed metal sheet 1" (with labour)', p: 1150 },
+        { id: 'sandwich', th: 'แซนด์วิชพาเนลหลังคา PU 50 มม. (รวมค่าแรง)', en: 'PU roof sandwich panel 50 mm (with labour)', p: 1450 }
+      ]},
     { id: 'floor', grp: 'shell', unit: 'm2', def: 'spc', q: function (g) { return g.floor; },
       name: { th: 'วัสดุปูพื้น', en: 'Floor finish' },
       opts: [
@@ -573,7 +592,6 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ]},
     { id: 'wall', grp: 'shell', unit: 'm2', def: 'sheetboard', q: function (g) { return g.wallNet; },
       name: { th: 'ผนังภายนอก', en: 'External walls' },
-      hint: { th: 'จ่ายแล้ว: แผ่นผนังลอน 860 มม. 8 แผ่น ยาว 2.60 ม. (QT2610-0340)', en: 'Already bought: 8 wall sheets 860 mm × 2.60 m (QT2610-0340)' },
       opts: [
         { id: 'sheet', th: 'เมทัลชีทชั้นเดียว ไม่มีฉนวน', en: 'Metal sheet only, no insulation', p: 380 },
         { id: 'sheetboard', th: 'เมทัลชีท + ฉนวนใยแก้ว + สมาร์ทบอร์ดด้านใน', en: 'Metal sheet + glass wool + inner smart board', p: 950 },
@@ -657,7 +675,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ]}
   ];
   var SECS = [
-    { id: 'shell', cats: ['slab', 'floor', 'wall', 'roofins', 'ceil', 'part', 'paint'] },
+    { id: 'shell', cats: ['slab', 'roof', 'floor', 'wall', 'roofins', 'ceil', 'part', 'paint'] },
     { id: 'open', cats: ['win', 'door', 'idoor'] },
     { id: 'sys', cats: ['elec', 'ac', 'plumb'] }
   ];
@@ -733,7 +751,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       st_done: 'เสร็จแล้ว', st_doing: 'กำลังทำ', st_plan: 'วางแผน', status: 'สถานะ',
       showDocs: 'ดูเอกสาร {n} รายการ', showDoc1: 'ดูเอกสาร 1 รายการ', restH: 'งานที่ยังเหลือ (ประมาณการ ปรับได้)', noDate: 'ไม่ระบุวันที่', officeName: 'ออฟฟิศใหม่', officeSub: 'โครงเหล็กสำเร็จรูป 3 ชุด · ปรับตัวเลือกได้ด้านล่าง', goOffice: 'ไปปรับตัวเลือก ↓',
       addProj: 'เพิ่มโครงการ', projName: 'ชื่องานปรับปรุง', newProj: 'งานปรับปรุงใหม่', est: 'ประมาณการ',
-      spec: ['โครงกัลวาไนซ์ 3 ชุด', '3 × 6 × 3.15 ม. ต่อชุด', 'หลังคา Bluescope Zacs Cool AZ90'],
+      spec: ['โครงกัลวาไนซ์ 3 ชุด', '3 × 6 × 3.15 ม. ต่อชุด', 'โครงจาก FrameFAST'],
       total: 'รวมงานออฟฟิศ', perSqm: 'เฉลี่ย {v} ต่อ ตร.ม. ({a} ตร.ม.)',
       paid: 'จ่ายแล้ว', planned: 'งานที่ยังเหลือ', cont: 'เผื่อเหลือเผื่อขาด', toSpend: 'ต้องจ่ายอีก',
       budget: 'งบที่ตั้งไว้ (บาท)', budgetPh: 'เช่น 800000', under: 'เหลือในงบ {v}', over: 'เกินงบ {v}',
@@ -764,7 +782,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'แผนทั้งปี = ยอดจ่ายจริงของงานที่เสร็จแล้ว + ยอดรวมออฟฟิศตามตัวเลือกด้านล่าง (รวมเงินเผื่อ) + ประมาณการของโครงการที่เพิ่มเอง',
         'ราคางานที่ยังเหลือเป็นราคาประเมินตลาดภาคใต้ ปี 2569 รวมค่าวัสดุและค่าแรง ใช้วางงบเท่านั้น ควรขอใบเสนอราคาจริงก่อนสั่งงาน',
         'ผนังสุทธิ = เส้นรอบรูป × ความสูง หักหน้าต่าง 1.32 ตร.ม./ชุด และประตูหลัก 2.0 ตร.ม./บาน',
-        'ฉนวนหลังคาคิด 1.1 เท่าของพื้นที่พื้น เผื่อชายคาและความลาด',
+        'หลังคาและฉนวนหลังคาคิด 1.1 เท่าของพื้นที่พื้น เผื่อชายคาและความลาด',
         'แอร์คิด 800 BTU ต่อ ตร.ม. เหมาะกับออฟฟิศหลังคาเหล็กในภาคใต้',
         'สีภายในคิดผนังภายนอกด้านใน 1 ด้าน + ผนังกั้นห้อง 2 ด้าน',
         'ยอด FrameFAST รวม VAT และส่วนลด 10% ค่าขนส่ง 8,000 บาทส่งโครงออฟฟิศพร้อมห้องเก็บของ จึงแบ่งครึ่ง นับในออฟฟิศ 4,000 และห้องเก็บของ 4,000',
@@ -785,7 +803,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       st_done: 'Done', st_doing: 'In progress', st_plan: 'Planned', status: 'Status',
       showDocs: 'Show {n} records', showDoc1: 'Show 1 record', restH: 'Work still to do (estimates you can edit)', noDate: 'No date', officeName: 'New office', officeSub: '3 prefab steel frames · adjust the options below', goOffice: 'Adjust options ↓',
       addProj: 'Add project', projName: 'Project name', newProj: 'New project', est: 'Estimate',
-      spec: ['3 galvanised frames', '3 × 6 × 3.15 m each', 'Bluescope Zacs Cool AZ90 roof'],
+      spec: ['3 galvanised frames', '3 × 6 × 3.15 m each', 'Frames by FrameFAST'],
       total: 'Office total', perSqm: '{v} per m² ({a} m²)',
       paid: 'Paid', planned: 'Still to build', cont: 'Contingency', toSpend: 'Left to spend',
       budget: 'Budget (THB)', budgetPh: 'e.g. 800000', under: '{v} under budget', over: '{v} over budget',
@@ -816,7 +834,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'Year plan = actual spend on finished work + the office total from the options below (with contingency) + the estimates you enter for other projects.',
         'Prices for the remaining work are 2026 southern-Thailand market estimates including materials and labour. Use them to plan, and get real quotations before ordering.',
         'Net wall area = perimeter × height, less 1.32 m² per window and 2.0 m² per main door.',
-        'Roof insulation is 1.1 × the floor area to cover eaves and pitch.',
+        'The roof and roof insulation are 1.1 × the floor area to cover eaves and pitch.',
         'A/C is sized at 800 BTU per m², suited to a steel-roofed office in the south.',
         'Interior paint covers the inside face of the external walls plus both faces of the partitions.',
         'The FrameFAST amount includes VAT and the 10% discount. The 8,000 baht delivery brought the office frames and the storeroom kit together, so it is split 4,000 / 4,000.',
