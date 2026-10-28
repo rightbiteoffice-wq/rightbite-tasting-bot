@@ -125,6 +125,9 @@ h1 .pb { color: var(--pb-ink); }
 .chip.plan { color: var(--muted); }
 .linkbtn { border: 0; background: transparent; padding: 0; color: var(--pb-ink); font-weight: 600; font-size: 12.5px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .pdocs { padding: 0 14px 12px; }
+.rest { margin: 0 14px 12px; border: 1px solid var(--line); border-radius: 4px; }
+.rest-h { display: flex; justify-content: space-between; gap: 12px; font-size: 12.5px; font-weight: 600; color: var(--ink-2); padding: 8px 14px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.rest .xrow { padding-block: 7px; }
 .pdocs > summary { cursor: pointer; font-size: 13px; color: var(--pb-ink); font-weight: 600; padding: 2px 0 8px; width: max-content; max-width: 100%; }
 @media (max-width: 760px) {
   .ov-head { display: none; }
@@ -362,7 +365,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   /* ================= data: what has been paid (from the attached documents) ================= */
   var VENDORS = {
     mss: { th: 'บจก. เมทัล สตีล สเตชั่น', en: 'Metal Steel Station Co., Ltd.' },
-    ff:  { th: 'FrameFAST โครงสร้างเหล็กสำเร็จรูป', en: 'FrameFAST prefab steel frames' },
+    ff:  { th: 'FrameFAST · บจก. สินทิศเมทัลเวิลด์', en: 'FrameFAST · Sinthit Metal World Co., Ltd.' },
     tw:  { th: 'ไทวัสดุ สาขาสุราษฎร์ธานี', en: 'Thai Watsadu, Surat Thani' },
     tp:  { th: 'ช่างธีรพงศ์ บุญขวัญ', en: 'Teerapong Boonkwan (contractor)' },
     ady: { th: 'หจก. อะเดยมี ดีไซน์ แอนด์ คอนสตรัคชั่น', en: 'Adaymy Design and Construction LP' },
@@ -513,7 +516,29 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         ['labor', 'ค่าติดตั้งมอเตอร์ประตูรั้ว', 'Gate motor installation', 1, 'lump', 3000]
       ]}
     ]
+  }, {
+    id: 'store', afterOffice: true, status: 'doing',
+    name: { th: 'ห้องเก็บของน็อกดาวน์ 3 × 6 ม.', en: 'Knock-down storeroom, 3 × 6 m' },
+    sub: { th: 'ซื้อวัสดุแล้ว · รอติดตั้งและทำหลังคาหลังออฟฟิศเสร็จ', en: 'Materials bought · installation and roof wait until the office is finished' },
+    docs: [
+      { id: 'qt6910120', date: '2026-10-07', v: 'ff', no: 'QT6910120', kind: 'quote', total: 48000.01, lines: [
+        ['structure', 'Modular Knock Down Home ครบชุด 3×6', 'Modular Knock Down Home, complete 3×6 set', 1, 'set', 46262],
+        ['structure', 'ส่วนลด', 'Discount', null, null, -1402.18, true],
+        ['structure', 'VAT 7%', 'VAT 7%', null, null, 3140.19, true]
+      ], note: { th: 'ชุดกล่อง 3×6 สำเร็จรูป ประกอบเอง · รับของที่คลังสมุทรสาคร · ชำระเงินสด', en: 'Self-assembly 3×6 box kit · collected from the Samut Sakhon warehouse · paid in cash' } }
+    ],
+    // work still to do, estimates the team can switch on/off and re-price
+    rest: [
+      { id: 'install', on: true, p: 3000, th: 'ค่าแรงประกอบโครงพร้อมฐานราก', en: 'Labour to assemble the frame with foundations', hint: { th: 'เทียบเรท 3,000 บาท/โครง ที่จ่ายช่างงานออฟฟิศ', en: 'Same 3,000 baht/frame rate paid for the office' } },
+      { id: 'roof', on: true, p: 6500, th: 'หลังคาเมทัลชีท 0.35 มม. ประมาณ 24 ตร.ม. + แป สกรู ครอบ', en: 'Metal roof 0.35 mm, about 24 m², with purlins, screws and flashing', hint: { th: 'คิดจากราคาแผ่นที่ซื้อจริง 155 บาท/ม. (แผ่น 760 มม.)', en: 'Based on the 155 baht/m paid for 760 mm sheets' } },
+      { id: 'roofLabor', on: true, p: 2500, th: 'ค่าแรงมุงหลังคา', en: 'Roofing labour' },
+      { id: 'ship', on: true, p: 400, th: 'ค่าขนส่งวัสดุหลังคา', en: 'Roofing material delivery' },
+      { id: 'insul', on: false, p: 4800, th: 'ฉนวนใยแก้วใต้หลังคา ประมาณ 24 ตร.ม.', en: 'Glass-wool insulation under the roof, about 24 m²' },
+      { id: 'power', on: false, p: 3500, th: 'ไฟส่องสว่าง + ปลั๊ก 2 จุด', en: 'Lighting + 2 sockets' }
+    ]
   }];
+  function restOn(pr, x) { var k = pr.id + '.' + x.id; return Object.prototype.hasOwnProperty.call(state.rest, k) ? state.rest[k] : x.on; }
+  function restSum(pr) { return (pr.rest || []).reduce(function (sum, x) { return sum + (restOn(pr, x) ? priceOf('rest.' + pr.id + '.' + x.id, x.p) : 0); }, 0); }
 
   var CATS = [
     { id: 'slab', grp: 'shell', unit: 'm2', def: 'concrete', q: function (g) { return g.floor; },
@@ -692,7 +717,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ovH: 'ภาพรวมทั้งปี', yTotal: 'แผนทั้งปี', yPaid: 'จ่ายแล้ว', yLeft: 'ต้องจ่ายอีก', yBudget: 'งบปรับปรุงทั้งปี (บาท)', yBudgetPh: 'เช่น 1200000', yCount: '{n} โครงการ · เสร็จแล้ว {d}',
       colProject: 'โครงการ', colPaid: 'จ่ายแล้ว', colLeft: 'ยังเหลือ', colTotal: 'รวม / ประมาณการ', tot: 'รวม',
       st_done: 'เสร็จแล้ว', st_doing: 'กำลังทำ', st_plan: 'วางแผน', status: 'สถานะ',
-      showDocs: 'ดูเอกสาร {n} รายการ', noDate: 'ไม่ระบุวันที่', officeName: 'ออฟฟิศใหม่', officeSub: 'โครงเหล็กสำเร็จรูป 3 ชุด · ปรับตัวเลือกได้ด้านล่าง', goOffice: 'ไปปรับตัวเลือก ↓',
+      showDocs: 'ดูเอกสาร {n} รายการ', showDoc1: 'ดูเอกสาร 1 รายการ', restH: 'งานที่ยังเหลือ (ประมาณการ ปรับได้)', noDate: 'ไม่ระบุวันที่', officeName: 'ออฟฟิศใหม่', officeSub: 'โครงเหล็กสำเร็จรูป 3 ชุด · ปรับตัวเลือกได้ด้านล่าง', goOffice: 'ไปปรับตัวเลือก ↓',
       addProj: 'เพิ่มโครงการ', projName: 'ชื่องานปรับปรุง', newProj: 'งานปรับปรุงใหม่', est: 'ประมาณการ',
       spec: ['โครงกัลวาไนซ์ 3 ชุด', '3 × 6 × 3.15 ม. ต่อชุด', 'หลังคา Bluescope Zacs Cool AZ90'],
       total: 'รวมงานออฟฟิศ', perSqm: 'เฉลี่ย {v} ต่อ ตร.ม. ({a} ตร.ม.)',
@@ -730,7 +755,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'สีภายในคิดผนังภายนอกด้านใน 1 ด้าน + ผนังกั้นห้อง 2 ด้าน',
         'ยอด FrameFAST รวม VAT ส่วนลด 10% และค่าขนส่ง 8,000 บาทที่เขียนเพิ่มบนใบเสนอราคา',
         'เผื่อเหลือเผื่อขาดคิดจากงานที่ยังเหลือเท่านั้น ไม่รวมยอดที่จ่ายแล้ว',
-        'คำสั่งซื้อ Shopee ใช้ยอดที่จ่ายจริงหลังส่วนลด ไม่ใช่ราคาป้าย ค่าติดตั้งมอเตอร์ประตู 3,000 บาทจ่ายแล้วแต่ไม่มีบิล'
+        'คำสั่งซื้อ Shopee ใช้ยอดที่จ่ายจริงหลังส่วนลด ไม่ใช่ราคาป้าย ค่าติดตั้งมอเตอร์ประตู 3,000 บาทจ่ายแล้วแต่ไม่มีบิล',
+        'ห้องเก็บของ: ค่าติดตั้งเทียบเรทค่าแรงโครงออฟฟิศ หลังคาคิดจากราคาเมทัลชีทที่ซื้อจริง ยังไม่รวมเงินเผื่อ'
       ],
       mTotal: 'แผนทั้งปี', mPaid: 'จ่ายแล้ว', mLeft: 'ต้องจ่ายอีก',
       csvHead: ['ส่วน', 'รายการ', 'ตัวเลือก', 'จำนวน', 'หน่วย', 'ราคา/หน่วย', 'จำนวนเงิน'],
@@ -743,7 +769,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ovH: 'The year at a glance', yTotal: 'Year plan', yPaid: 'Paid so far', yLeft: 'Still to pay', yBudget: 'Year budget (THB)', yBudgetPh: 'e.g. 1200000', yCount: '{n} projects · {d} done',
       colProject: 'Project', colPaid: 'Paid', colLeft: 'Left', colTotal: 'Total / estimate', tot: 'Total',
       st_done: 'Done', st_doing: 'In progress', st_plan: 'Planned', status: 'Status',
-      showDocs: 'Show {n} records', noDate: 'No date', officeName: 'New office', officeSub: '3 prefab steel frames · adjust the options below', goOffice: 'Adjust options ↓',
+      showDocs: 'Show {n} records', showDoc1: 'Show 1 record', restH: 'Work still to do (estimates you can edit)', noDate: 'No date', officeName: 'New office', officeSub: '3 prefab steel frames · adjust the options below', goOffice: 'Adjust options ↓',
       addProj: 'Add project', projName: 'Project name', newProj: 'New project', est: 'Estimate',
       spec: ['3 galvanised frames', '3 × 6 × 3.15 m each', 'Bluescope Zacs Cool AZ90 roof'],
       total: 'Office total', perSqm: '{v} per m² ({a} m²)',
@@ -781,7 +807,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'Interior paint covers the inside face of the external walls plus both faces of the partitions.',
         'The FrameFAST amount includes VAT, the 10% discount and the 8,000 baht delivery written on the quote.',
         'Contingency applies to the remaining work only, not to what is already paid.',
-        'Shopee orders use the amount actually paid after discounts, not the list price. The 3,000 baht gate motor installation was paid without a bill.'
+        'Shopee orders use the amount actually paid after discounts, not the list price. The 3,000 baht gate motor installation was paid without a bill.',
+        'Storeroom: installation uses the labour rate paid for the office frames, and the roof uses the metal-sheet price actually paid. No contingency is added.'
       ],
       mTotal: 'Year plan', mPaid: 'Paid', mLeft: 'Left',
       csvHead: ['Section', 'Item', 'Option', 'Qty', 'Unit', 'Unit price', 'Amount'],
@@ -800,7 +827,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     CATS.forEach(function (c) { pick[c.id] = c.def; });
     FURN.forEach(function (f) { furn[f.id] = { q: f.q, t: 'std' }; });
     EXTRAS.forEach(function (x) { extras[x.id] = !!x.on; });
-    return { v: 1, dims: { w: 9, l: 6, h: 3, part: 6, win: 6, door: 1, idoor: 2, ac: null }, pick: pick, price: {}, furn: furn, extras: extras, custom: [], paidExtra: [], cont: 10, budget: null, projects: [], officeStatus: 'doing', yearBudget: null };
+    return { v: 1, dims: { w: 9, l: 6, h: 3, part: 6, win: 6, door: 1, idoor: 2, ac: null }, pick: pick, price: {}, furn: furn, extras: extras, custom: [], paidExtra: [], cont: 10, budget: null, projects: [], officeStatus: 'doing', yearBudget: null, pstatus: {}, rest: {} };
   }
   function numOr(v, d, min, max) { v = Number(v); if (!isFinite(v)) return d; if (min != null && v < min) v = min; if (max != null && v > max) v = max; return v; }
   function normalize(s) {
@@ -824,6 +851,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     if (Array.isArray(s.projects)) o.projects = s.projects.slice(0, 50).map(function (p) { return { id: String(p.id || uid()), n: String(p.n || '').slice(0, 120), s: STATUSES.indexOf(p.s) >= 0 ? p.s : 'plan', est: numOr(p.est, 0, 0, 1e10), paid: numOr(p.paid, 0, 0, 1e10) }; });
     if (STATUSES.indexOf(s.officeStatus) >= 0) o.officeStatus = s.officeStatus;
     o.yearBudget = s.yearBudget == null || s.yearBudget === '' ? null : numOr(s.yearBudget, null, 0, 1e11);
+    if (s.pstatus && typeof s.pstatus === 'object') Object.keys(s.pstatus).forEach(function (k) { if (STATUSES.indexOf(s.pstatus[k]) >= 0) o.pstatus[k] = s.pstatus[k]; });
+    if (s.rest && typeof s.rest === 'object') Object.keys(s.rest).forEach(function (k) { if (typeof s.rest[k] === 'boolean') o.rest[k] = s.rest[k]; });
     return o;
   }
   function uid() { return Math.random().toString(36).slice(2, 10); }
@@ -952,8 +981,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   /* ---------- year overview ---------- */
   function projects(r) {
     var rows = [];
-    PROJECTS.forEach(function (pr) { var pd = r2(pr.docs.reduce(function (s, d) { return s + d.total; }, 0)); rows.push({ id: pr.id, name: L(pr.name), s: 'done', paid: pd, total: pd }); });
+    function fixed(pr) { var pd = r2(pr.docs.reduce(function (s, d) { return s + d.total; }, 0)); rows.push({ id: pr.id, name: L(pr.name), s: state.pstatus[pr.id] || pr.status || 'done', paid: pd, total: pd + restSum(pr) }); }
+    PROJECTS.filter(function (pr) { return !pr.afterOffice; }).forEach(fixed);
     rows.push({ id: 'office', name: t('officeName'), s: state.officeStatus, paid: r.paid, total: r.total });
+    PROJECTS.filter(function (pr) { return pr.afterOffice; }).forEach(fixed);
     state.projects.forEach(function (p) { rows.push({ id: p.id, name: p.n || t('newProj'), s: p.s, paid: p.paid, total: Math.max(p.est, p.paid) }); });
     var P = { rows: rows, paid: 0, total: 0, left: 0, done: 0 };
     rows.forEach(function (x) { x.left = Math.max(0, x.total - x.paid); P.paid += x.paid; P.total += x.total; P.left += x.left; if (x.s === 'done') P.done++; });
@@ -969,6 +1000,25 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       '<div class="p-num"><span class="k">' + t('colLeft') + '</span><span data-out="pl-' + esc(id) + '"></span></div>' +
       '<div class="p-num"><span class="k">' + t('colTotal') + '</span>' + totalHTML + '</div></div>';
   }
+  function fixedRowHTML(pr) {
+    var byc = paidByCat(pr.docs), cats = Object.keys(PAIDCAT).filter(function (k) { return byc[k]; }).sort(function (a, b) { return byc[b] - byc[a]; });
+    var st = state.pstatus[pr.id] || pr.status || 'done';
+    var ctl = pr.rest ? '<div class="p-ctl">' + statusSelect('pst-' + pr.id, 'data-pstatus="' + pr.id + '"', st) + '</div>' : chip(st);
+    var h = '<div class="prow">' + prowMain(pr.id, '<b>' + L(pr.name) + '</b><small>' + L(pr.sub) + '</small>' + ctl, '<span data-out="pp-' + pr.id + '"></span>', '<span data-out="pt-' + pr.id + '"></span>');
+    if (pr.rest) {
+      h += '<div class="rest"><div class="rest-h"><span>' + t('restH') + '</span><span data-out="rest-' + pr.id + '"></span></div>';
+      pr.rest.forEach(function (x) {
+        var key = pr.id + '.' + x.id, on = restOn(pr, x);
+        h += '<div class="xrow' + (on ? '' : ' off') + '" id="rr-' + key + '" data-rrow="' + key + '"><input type="checkbox" id="rs-' + key + '" data-rest="' + key + '"' + (on ? ' checked' : '') + '>' +
+          '<label for="rs-' + key + '">' + L(x) + (x.hint ? '<small class="hint" style="display:block">' + L(x.hint) + '</small>' : '') + '</label>' + priceInput('rest.' + key, x.p, '', L(x)) + '</div>';
+      });
+      h += '</div>';
+    }
+    h += '<details class="pdocs" data-doc="' + pr.id + '-docs"' + (openDocs[pr.id + '-docs'] ? ' open' : '') + '><summary>' + tf(pr.docs.length === 1 ? 'showDoc1' : 'showDocs', { n: pr.docs.length }) + '</summary>' +
+      (cats.length > 1 ? '<div class="paidcats">' + cats.map(function (k) { return '<div><div class="k">' + L(PAIDCAT[k]) + '</div><div class="v">' + baht(byc[k], true) + '</div></div>'; }).join('') + '</div>' : '') +
+      docsListHTML(pr.docs) + '</details>';
+    return h + '</div>';
+  }
   function overviewHTML() {
     var h = '<div class="sec-h"><h2 id="h-ov">' + t('ovH') + '</h2></div>';
     h += '<div class="ov-stats">' +
@@ -978,14 +1028,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       '<div class="bud"><label class="k" for="ybudget">' + t('yBudget') + '</label><input class="field" style="max-width:220px" type="number" min="0" step="10000" inputmode="numeric" id="ybudget" placeholder="' + esc(t('yBudgetPh')) + '" value="' + (state.yearBudget == null ? '' : state.yearBudget) + '"><span data-out="ybudget-status"></span></div>' +
       '</div>';
     h += '<div class="projects"><div class="ov-head"><span>' + t('colProject') + '</span><span class="lg"><span class="sw" style="background:var(--s-paid)"></span>' + t('colPaid') + '<span class="sw" style="background:var(--pb)"></span>' + t('colLeft') + '</span><span class="r">' + t('colPaid') + '</span><span class="r">' + t('colLeft') + '</span><span class="r">' + t('colTotal') + '</span></div>';
-    PROJECTS.forEach(function (pr) {
-      var byc = paidByCat(pr.docs), cats = Object.keys(PAIDCAT).filter(function (k) { return byc[k]; }).sort(function (a, b) { return byc[b] - byc[a]; });
-      h += '<div class="prow">' + prowMain(pr.id, '<b>' + L(pr.name) + '</b><small>' + L(pr.sub) + '</small>' + chip('done'), '<span data-out="pp-' + pr.id + '"></span>', '<span data-out="pt-' + pr.id + '"></span>') +
-        '<details class="pdocs" data-doc="' + pr.id + '-docs"' + (openDocs[pr.id + '-docs'] ? ' open' : '') + '><summary>' + tf('showDocs', { n: pr.docs.length }) + '</summary>' +
-        (cats.length > 1 ? '<div class="paidcats">' + cats.map(function (k) { return '<div><div class="k">' + L(PAIDCAT[k]) + '</div><div class="v">' + baht(byc[k], true) + '</div></div>'; }).join('') + '</div>' : '') +
-        docsListHTML(pr.docs) + '</details></div>';
-    });
+    PROJECTS.filter(function (pr) { return !pr.afterOffice; }).forEach(function (pr) { h += fixedRowHTML(pr); });
     h += '<div class="prow">' + prowMain('office', '<b>' + t('officeName') + '</b><small>' + t('officeSub') + '</small><div class="p-ctl">' + statusSelect('ost', 'data-ostatus="1"', state.officeStatus) + '<button type="button" class="linkbtn" data-goto="office">' + t('goOffice') + '</button></div>', '<span data-out="pp-office"></span>', '<span data-out="pt-office"></span>') + '</div>';
+    PROJECTS.filter(function (pr) { return pr.afterOffice; }).forEach(function (pr) { h += fixedRowHTML(pr); });
     state.projects.forEach(function (p) {
       var id = esc(p.id);
       h += '<div class="prow">' + prowMain(p.id,
@@ -1160,6 +1205,11 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     for (var i = 0; i < radios.length; i++) { var inp = radios[i].querySelector('input[type="radio"]'); radios[i].classList.toggle('on', inp.checked); }
     var xr = document.querySelectorAll('[data-xrow]');
     for (var j = 0; j < xr.length; j++) xr[j].classList.toggle('off', !state.extras[xr[j].getAttribute('data-xrow')]);
+    PROJECTS.forEach(function (pr) {
+      if (!pr.rest) return;
+      out('rest-' + pr.id, baht(restSum(pr)));
+      pr.rest.forEach(function (x) { var row = document.getElementById('rr-' + pr.id + '.' + x.id); if (row) row.classList.toggle('off', !restOn(pr, x)); });
+    });
     out('cont-pct', state.cont + '%');
 
     // stacked bar + legend
@@ -1268,6 +1318,12 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     lines.push(t('yTotal') + ' ' + baht(P.total) + ' · ' + t('yPaid') + ' ' + baht(P.paid) + ' · ' + t('yLeft') + ' ' + baht(P.left));
     if (state.yearBudget) { var yd = state.yearBudget - P.total; lines.push(t('yBudget') + ': ' + baht(state.yearBudget) + ' (' + tf(yd >= 0 ? 'under' : 'over', { v: baht(Math.abs(yd)) }) + ')'); }
     lines.push('');
+    PROJECTS.forEach(function (pr) {
+      if (!pr.rest) return;
+      lines.push('== ' + L(pr.name) + ' · ' + t('restH') + ' ==');
+      pr.rest.forEach(function (x) { if (restOn(pr, x)) lines.push('• ' + L(x) + ': ' + baht(priceOf('rest.' + pr.id + '.' + x.id, x.p))); });
+      lines.push('');
+    });
     lines.push('== ' + t('officeName') + ' ==');
     lines.push(t('size') + ' ' + nfmt(state.dims.w, 1) + ' × ' + nfmt(state.dims.l, 1) + ' ' + U('m') + ' = ' + fq(r.g.floor, 'm2'));
     lines.push('');
@@ -1289,6 +1345,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     rows.push([t('yTotal'), '', P.paid.toFixed(2), P.left.toFixed(2), P.total.toFixed(2)]);
     rows.push([]);
     rows.push(t('csvHead'));
+    PROJECTS.forEach(function (pr) { (pr.rest || []).forEach(function (x) { if (!restOn(pr, x)) return; var rp = priceOf('rest.' + pr.id + '.' + x.id, x.p); rows.push([L(pr.name), L(x), t('restH'), 1, U('lump', 1), rp, rp.toFixed(2)]); }); });
     PROJECTS.forEach(function (pr) { pr.docs.forEach(function (d) { rows.push([L(pr.name), L(VENDORS[d.v]) + (d.no !== '—' ? ' ' + d.no : '') + ' · ' + (lang === 'th' ? d.lines[0][1] : d.lines[0][2]), d.date ? fdate(d.date) : t('noDate'), 1, U('lump', 1), d.total.toFixed(2), d.total.toFixed(2)]); }); });
     paidDocs().forEach(function (d) { rows.push([L(GROUPS.paid), d.mine ? d.n : L(VENDORS[d.v]) + ' ' + d.no, fdate(d.date), 1, U('lump', 1), d.total.toFixed(2), d.total.toFixed(2)]); });
     r.lines.forEach(function (l) {
@@ -1339,6 +1396,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     var el = e.target, ds = el.dataset || {};
     if (ds.pick) { state.pick[ds.pick] = el.value; changed(); return; }
     if (ds.ex) { state.extras[ds.ex] = el.checked; changed(); return; }
+    if (ds.rest) { state.rest[ds.rest] = el.checked; changed(); return; }
+    if (ds.pstatus) { state.pstatus[ds.pstatus] = el.value; changed(); render(); return; }
     if (ds.ft) { state.furn[ds.ft].t = el.value; changed(); render(); return; }
     if (ds.ostatus) { state.officeStatus = el.value; changed(); render(); return; }
     if (ds.pj && ds.f === 's') { var ps = state.projects.filter(function (x) { return x.id === ds.pj; })[0]; if (ps) { ps.s = el.value; changed(); render(); } return; }
@@ -1349,11 +1408,12 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   });
 
   document.addEventListener('click', function (e) {
-    var el = e.target.closest ? e.target.closest('button, [data-optrow], [data-xrow]') : null;
+    var el = e.target.closest ? e.target.closest('button, [data-optrow], [data-xrow], [data-rrow]') : null;
     if (!el) return;
     var ds = el.dataset;
     if (ds.lang) { lang = ds.lang; try { localStorage.setItem(LANGKEY, lang); } catch (x) {} render(); return; }
     if (ds.optrow && e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL' && e.target.tagName !== 'BUTTON') { var r = el.querySelector('input[type="radio"]'); if (r && !r.checked) { r.checked = true; state.pick[ds.optrow] = r.value; changed(); } return; }
+    if (ds.rrow && e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'SMALL') { var rc = el.querySelector('input[type="checkbox"]'); if (rc) { rc.checked = !rc.checked; state.rest[ds.rrow] = rc.checked; changed(); } return; }
     if (ds.xrow && e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL' && e.target.tagName !== 'BUTTON') { var c = el.querySelector('input[type="checkbox"]'); if (c) { c.checked = !c.checked; state.extras[ds.xrow] = c.checked; changed(); } return; }
     if (ds.unprice) { delete state.price[ds.unprice]; changed(); render(); return; }
     if (ds.step) { var f = state.furn[ds.step]; f.q = Math.max(0, f.q + (+ds.d)); var inp = document.getElementById('fq-' + ds.step); if (inp) inp.value = f.q; changed(); return; }
@@ -1378,7 +1438,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     }
     if (el.id === 'reset') { resetArmed = true; document.getElementById('reset-wrap').innerHTML = resetHTML(); var y = document.getElementById('reset-no'); if (y) y.focus(); clearTimeout(resetTimer); resetTimer = setTimeout(function () { resetArmed = false; var w = document.getElementById('reset-wrap'); if (w) w.innerHTML = resetHTML(); }, 8000); return; }
     if (el.id === 'reset-no') { resetArmed = false; document.getElementById('reset-wrap').innerHTML = resetHTML(); return; }
-    if (el.id === 'reset-yes') { resetArmed = false; var keep = state; state = defaults(); state.paidExtra = keep.paidExtra; state.projects = keep.projects; state.officeStatus = keep.officeStatus; state.yearBudget = keep.yearBudget; changed(); render(); return; }
+    if (el.id === 'reset-yes') { resetArmed = false; var keep = state; state = defaults(); state.paidExtra = keep.paidExtra; state.projects = keep.projects; state.officeStatus = keep.officeStatus; state.yearBudget = keep.yearBudget; state.pstatus = keep.pstatus; state.rest = keep.rest; Object.keys(keep.price).forEach(function (k) { if (k.indexOf('rest.') === 0) state.price[k] = keep.price[k]; }); changed(); render(); return; }
   });
 
   document.addEventListener('submit', function (e) {
