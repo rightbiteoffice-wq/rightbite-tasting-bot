@@ -707,31 +707,73 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     { id: 'pantry', th: 'แพนทรี', en: 'Pantry' },
     { id: 'equip', th: 'อุปกรณ์และของตกแต่ง', en: 'Equipment & decor' }
   ];
-  // p: [budget, standard, premium]
+  // p: [budget, standard, premium] in THB. ik: the IKEA Thailand product behind each tier
+  // (null = IKEA has nothing at that tier, false = IKEA does not sell it). Prices from ikea.com/th, Oct 2026.
+  var IKEA_URL = 'https://www.ikea.com/th/en/p/', IKEA_SHIP = 2000;
+  function ikp(n, th, en, slug) { return { n: n, d: { th: th, en: en }, u: IKEA_URL + slug }; }
   var FURN = [
-    { id: 'desk', g: 'work', q: 4, p: [2500, 4500, 9000], th: 'โต๊ะทำงาน 120×60 ซม.', en: 'Desk 120×60 cm' },
-    { id: 'chair', g: 'work', q: 4, p: [1500, 3500, 9500], th: 'เก้าอี้สำนักงาน', en: 'Office chair' },
-    { id: 'execdesk', g: 'work', q: 1, p: [6500, 12000, 28000], th: 'โต๊ะผู้บริหาร + ตู้ข้าง', en: 'Manager desk + return' },
-    { id: 'execchair', g: 'work', q: 1, p: [3500, 6500, 16000], th: 'เก้าอี้ผู้บริหาร', en: 'Manager chair' },
-    { id: 'mtable', g: 'meet', q: 1, p: [6500, 13000, 28000], th: 'โต๊ะประชุม 8 ที่นั่ง', en: 'Meeting table, 8 seats' },
-    { id: 'mchair', g: 'meet', q: 8, p: [900, 1900, 4500], th: 'เก้าอี้ประชุม', en: 'Meeting chair' },
-    { id: 'tv', g: 'meet', q: 1, p: [9500, 14000, 26000], th: 'จอทีวี 55 นิ้ว + ขาแขวน', en: '55" screen + wall mount' },
-    { id: 'board', g: 'meet', q: 1, p: [1200, 2200, 4500], th: 'ไวท์บอร์ด 90×180 ซม.', en: 'Whiteboard 90×180 cm' },
-    { id: 'reception', g: 'lounge', q: 0, p: [8000, 16000, 38000], th: 'เคาน์เตอร์ต้อนรับ', en: 'Reception counter' },
-    { id: 'sofa', g: 'lounge', q: 1, p: [5500, 12000, 28000], th: 'โซฟารับแขก 3 ที่นั่ง', en: '3-seat guest sofa' },
-    { id: 'ctable', g: 'lounge', q: 1, p: [1200, 2500, 6500], th: 'โต๊ะกลาง', en: 'Coffee table' },
-    { id: 'filing', g: 'store', q: 2, p: [3300, 4800, 8000], th: 'ตู้เอกสารเหล็ก 4 ลิ้นชัก', en: 'Steel filing cabinet, 4 drawers' },
-    { id: 'shelf', g: 'store', q: 2, p: [1800, 3500, 7500], th: 'ชั้นวาง / ตู้โชว์สินค้า', en: 'Shelving / product display' },
-    { id: 'locker', g: 'store', q: 0, p: [3500, 5500, 9000], th: 'ล็อกเกอร์พนักงาน', en: 'Staff lockers' },
-    { id: 'fridge', g: 'pantry', q: 1, p: [6900, 9900, 17000], th: 'ตู้เย็น 2 ประตู', en: 'Two-door fridge' },
-    { id: 'micro', g: 'pantry', q: 1, p: [2300, 3500, 6500], th: 'ไมโครเวฟ', en: 'Microwave' },
-    { id: 'water', g: 'pantry', q: 1, p: [3900, 5900, 9900], th: 'ตู้กดน้ำร้อน-เย็น', en: 'Hot & cold water dispenser' },
-    { id: 'pcab', g: 'pantry', q: 1, p: [8000, 16000, 32000], th: 'ตู้ครัว + ท็อปเคาน์เตอร์', en: 'Pantry cabinets + worktop' },
-    { id: 'coffee', g: 'pantry', q: 0, p: [2500, 6500, 18000], th: 'เครื่องชงกาแฟ', en: 'Coffee machine' },
-    { id: 'printer', g: 'equip', q: 1, p: [4500, 8900, 19000], th: 'ปริ้นเตอร์มัลติฟังก์ชัน', en: 'Multifunction printer' },
-    { id: 'pc', g: 'equip', q: 0, p: [13000, 22000, 42000], th: 'คอมพิวเตอร์ / โน้ตบุ๊ก', en: 'Computer / laptop' },
-    { id: 'blinds', g: 'equip', q: 6, p: [900, 1600, 3200], th: 'ม่านม้วนกันแสง (ต่อบาน)', en: 'Roller blind (per window)' },
-    { id: 'decor', g: 'equip', q: 1, p: [1500, 4000, 10000], th: 'ต้นไม้และของตกแต่ง (เหมา)', en: 'Plants & decor (lot)' }
+    { id: 'desk', g: 'work', q: 4, p: [1090, 2980, 5490], th: 'โต๊ะทำงาน 120×60 ซม.', en: 'Work desk, 120×60 cm', ik: [
+      ikp('LAGKAPTEN / ADILS', '120×60 ขาว · ลดจาก 1,290', '120×60 white · was 1,290', 'lagkapten-adils-desk-white-s09416759/'),
+      ikp('LAGKAPTEN / ALEX', '120×60 ขาว มีลิ้นชัก', '120×60 white, with drawers', 'lagkapten-alex-desk-white-s79521436'),
+      ikp('TROTTEN', 'ปรับยืน-นั่งแบบมือหมุน 120×70 · ลดจาก 6,990', 'manual sit/stand 120×70 · was 6,990', 'trotten-desk-sit-stand-white-s79429579')] },
+    { id: 'chair', g: 'work', q: 4, p: [2290, 4990, 9990], th: 'เก้าอี้สำนักงาน', en: 'Office chair', ik: [
+      ikp('FLINTAN', 'ดำ ไม่มีที่วางแขน (ซื้อเพิ่ม 500)', 'black, no armrests (add 500)', 'flintan-office-chair-black-30489032'),
+      ikp('MARKUS', 'ผ้า Vissle เทาอ่อน', 'Vissle light grey', 'markus-office-chair-vissle-light-grey-90521859'),
+      ikp('HATTEFJÄLL', 'มีที่วางแขน Smidig ดำ', 'with armrests, Smidig black', 'hattefjaell-office-chair-with-armrests-smidig-black-black-30538966')] },
+    { id: 'execdesk', g: 'work', q: 1, p: [3190, 6700, 14490], th: 'โต๊ะผู้บริหาร 140–160 ซม.', en: 'Manager desk, 140–160 cm', ik: [
+      ikp('TROTTEN', '160×80 ขาว', '160×80 white', 'trotten-desk-white-s59621922/'),
+      ikp('MITTZON', '140×80 ขาว · ลดจาก 7,990', '140×80 white · was 7,990', 'mittzon-desk-white-s39528114/'),
+      ikp('IDÅSEN', 'ปรับระดับไฟฟ้า 160×80 · อีกหน้าแสดง 25,990 ควรเช็ก', 'electric sit/stand 160×80 · another listing shows 25,990, check', 'idasen-desk-sit-stand-brown-beige-s19280977')] },
+    { id: 'execchair', g: 'work', q: 1, p: [4990, 5780, 9990], th: 'เก้าอี้ผู้บริหาร', en: 'Manager chair', ik: [
+      ikp('MARKUS', 'ผ้า Vissle เทาอ่อน', 'Vissle light grey', 'markus-office-chair-vissle-light-grey-90521859'),
+      ikp('MARKUS', 'มีที่วางแขน + แผ่นรองพื้น เทาเข้ม', 'with armrests + floor protector, dark grey', 'markus-office-chair-with-armrests-with-floor-protector-dark-grey-s79628036'),
+      ikp('ALEFJÄLL', 'หนัง Glose ดำ', 'Glose black leather', 'alefjaell-office-chair-glose-black-50367459/')] },
+    { id: 'mtable', g: 'meet', q: 1, p: [7550, 8550, 28000], th: 'โต๊ะประชุม 6–8 ที่นั่ง', en: 'Meeting table, 6–8 seats', ik: [
+      ikp('MITTZON', 'โต๊ะประชุม 140×108 ขาว/ดำ · ลดจาก 8,990', 'conference table 140×108 white/black · was 8,990', 'mittzon-conference-table-white-black-s39533380/'),
+      ikp('LISABO', '200×78 วีเนียร์แอช · ลดจาก 9,990', '200×78 ash veneer · was 9,990', 'lisabo-table-ash-veneer-30563772/'),
+      null] },
+    { id: 'mchair', g: 'meet', q: 8, p: [750, 2990, 4990], th: 'เก้าอี้ประชุม', en: 'Meeting chair', ik: [
+      ikp('TEODORES', 'ขาว', 'white', 'teodores-chair-white-70350938'),
+      ikp('LÄKTARE', 'เบจอ่อน/ดำ', 'light beige/black', 'laektare-conference-chair-light-beige-black-s89503210'),
+      ikp('LÅNGFJÄLL', 'Gunnared น้ำเงิน/ดำ (มีที่วางแขน 5,990)', 'Gunnared blue/black (with armrests 5,990)', 'langfjaell-conference-chair-gunnared-blue-black-s39177578')] },
+    { id: 'tv', g: 'meet', q: 1, p: [9500, 14000, 26000], th: 'จอทีวี 55 นิ้ว + ขาแขวน', en: '55" screen + wall mount', ik: false },
+    { id: 'board', g: 'meet', q: 1, p: [1200, 2200, 4500], th: 'ไวท์บอร์ด 90×180 ซม.', en: 'Whiteboard 90×180 cm', ik: false },
+    { id: 'reception', g: 'lounge', q: 0, p: [8000, 16000, 38000], th: 'เคาน์เตอร์ต้อนรับ', en: 'Reception counter', ik: false },
+    { id: 'sofa', g: 'lounge', q: 1, p: [2290, 5990, 13990], th: 'โซฟารับแขก', en: 'Guest sofa', ik: [
+      ikp('GLOSTAD', '2 ที่นั่ง Knisa เทาเข้ม', '2-seat, Knisa dark grey', 'glostad-2-seat-sofa-knisa-dark-grey-10489009/'),
+      ikp('KLIPPAN', '2 ที่นั่ง Vissle เทา', '2-seat, Vissle grey', 'klippan-2-seat-sofa-vissle-grey-s49010615'),
+      ikp('KIVIK', '3 ที่นั่ง Kelinge เทาอมฟ้า', '3-seat, Kelinge grey-turquoise', 'kivik-3-seat-sofa-kelinge-grey-turquoise-s19443050')] },
+    { id: 'ctable', g: 'lounge', q: 1, p: [790, 1590, 1990], th: 'โต๊ะกลาง', en: 'Coffee table', ik: [
+      ikp('LACK', '90×55 ดำน้ำตาล', '90×55 black-brown', 'lack-coffee-table-black-brown-20352987'),
+      ikp('VITTSJÖ', 'Ø75 ดำน้ำตาล/กระจก', 'Ø75 black-brown/glass', 'vittsjoe-coffee-table-black-brown-glass-00213313'),
+      ikp('LISABO', '70×70 วีเนียร์แอช', '70×70 ash veneer', 'lisabo-coffee-table-ash-veneer-90353064')] },
+    { id: 'filing', g: 'store', q: 2, p: [1790, 2490, 4590], th: 'ตู้ลิ้นชักเอกสาร มีล้อ', en: 'Drawer unit on castors', ik: [
+      ikp('HELMER', '28×69 ขาว', '28×69 white', 'helmer-drawer-unit-on-castors-white-90251046'),
+      ikp('TROTTEN', '3 ลิ้นชัก ขาว · ลดจาก 2,990', '3 drawers, white · was 2,990', 'trotten-drawer-unit-w-3-drawers-on-castors-white-60485099'),
+      ikp('IDÅSEN', '42×61 เทาเข้ม', '42×61 dark grey', 'idasen-drawer-unit-on-castors-dark-grey-10360983')] },
+    { id: 'shelf', g: 'store', q: 2, p: [1990, 3290, 7990], th: 'ชั้นวาง / ตู้โชว์สินค้า', en: 'Shelving / product display', ik: [
+      ikp('KALLAX', 'ชั้นเปิด 77×147 ขาว · ลดจาก 2,290', 'open shelving 77×147 white · was 2,290', 'kallax-shelving-unit-white-20351884/'),
+      ikp('FABRIKÖR', 'ตู้กระจก 57×150 เทาเข้ม ล็อกได้ · ลดจาก 3,990', 'glass-door cabinet 57×150 dark grey, lockable · was 3,990', 'fabrikoer-glass-door-cabinet-dark-grey-40242295/'),
+      ikp('MILSBO', 'ตู้กระจก 73×175 แอนทราไซต์', 'glass-door cabinet 73×175 anthracite', 'milsbo-glass-door-cabinet-anthracite-10396449/')] },
+    { id: 'locker', g: 'store', q: 0, p: [3500, 5500, 9000], th: 'ล็อกเกอร์พนักงาน', en: 'Staff lockers', ik: false },
+    { id: 'fridge', g: 'pantry', q: 1, p: [6900, 9900, 17000], th: 'ตู้เย็น 2 ประตู', en: 'Two-door fridge', ik: false },
+    { id: 'micro', g: 'pantry', q: 1, p: [2300, 3500, 6500], th: 'ไมโครเวฟ', en: 'Microwave', ik: false },
+    { id: 'water', g: 'pantry', q: 1, p: [3900, 5900, 9900], th: 'ตู้กดน้ำร้อน-เย็น', en: 'Hot & cold water dispenser', ik: false },
+    { id: 'pcab', g: 'pantry', q: 1, p: [6500, 10400, 20893], th: 'ชุดครัวแพนทรี (ซิงก์และก๊อกซื้อแยก)', en: 'Pantry kitchen (sink and tap extra)', ik: [
+      ikp('KNOXHULT', 'ตู้ล่าง 120 ซม. พร้อมท็อป 4,150 + ตู้แขวน 120 ซม. 2,350', '120 cm base cabinet with worktop 4,150 + 120 cm wall cabinet 2,350', 'knoxhult-base-cabinet-with-doors-and-drawer-white-70334236'),
+      ikp('KNOXHULT', 'ชุดครัว 204 ซม. ขาว · อีกรหัสแสดง 8,050', 'kitchen 204 cm white · another article shows 8,050', 'knoxhult-kitchen-white-s69202411'),
+      ikp('ENHET', 'ชุดครัว 163 ซม. แอนทราไซต์/ขาว', 'kitchen 163 cm anthracite/white', 'enhet-kitchen-anthracite-white-s19416042')] },
+    { id: 'coffee', g: 'pantry', q: 0, p: [2500, 6500, 18000], th: 'เครื่องชงกาแฟ', en: 'Coffee machine', ik: false },
+    { id: 'printer', g: 'equip', q: 1, p: [4500, 8900, 19000], th: 'ปริ้นเตอร์มัลติฟังก์ชัน', en: 'Multifunction printer', ik: false },
+    { id: 'pc', g: 'equip', q: 0, p: [13000, 22000, 42000], th: 'คอมพิวเตอร์ / โน้ตบุ๊ก', en: 'Computer / laptop', ik: false },
+    { id: 'blinds', g: 'equip', q: 6, p: [1290, 1590, 1890], th: 'ม่านหน้าต่าง (ต่อบาน)', en: 'Window blind (per window)', ik: [
+      ikp('FRIDANS', 'ม่านม้วนทึบแสง 140×195 เทา', 'block-out roller blind 140×195 grey', 'fridans-block-out-roller-blind-grey-90396921'),
+      ikp('HOPPVALS', 'ม่านรังผึ้ง 120×155 ขาว (ก้านดึงซื้อแยก)', 'cellular blind 120×155 white (draw rod extra)', 'hoppvals-cellular-blind-white-80290623/'),
+      ikp('TRETUR', 'ม่านม้วนทึบแสงไร้สาย 120×195', 'cordless block-out roller blind 120×195', 'tretur-block-out-roller-blind-white-30491092')] },
+    { id: 'decor', g: 'equip', q: 3, p: [399, 1990, 3500], th: 'ต้นไม้ตกแต่ง (ต่อต้น)', en: 'Decor plant (each)', ik: [
+      ikp('FEJKA', 'เฟิร์นแขวนปลอม กระถาง 12 ซม.', 'artificial hanging fern, 12 cm pot', 'fejka-artificial-potted-plant-in-outdoor-hanging-fern-90548632'),
+      ikp('FEJKA', 'ไทรใบสักปลอม กระถาง 19 ซม.', 'artificial fiddle-leaf fig, 19 cm pot', 'fejka-artificial-potted-plant-in-outdoor-fiddle-leaf-fig-60568891/'),
+      null] }
   ];
 
   var EXTRAS = [
@@ -785,7 +827,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       secShell: 'งานอาคารและตกแต่ง', secOpen: 'ประตูและหน้าต่าง', secSys: 'ไฟฟ้า แอร์ ประปา',
       secShellSub: 'ราคาประเมินรวมวัสดุและค่าแรง ต่อหน่วย แก้ตัวเลขได้',
       acCount: 'จำนวนเครื่อง', acAuto: 'อัตโนมัติ', acRec: 'แนะนำ {n} เครื่อง สำหรับ {b} BTU',
-      secFurn: 'เฟอร์นิเจอร์และอุปกรณ์', secFurnSub: 'เฟอร์นิเจอร์ใช้ IKEA ราคาอ้างอิงจาก ikea.com/th เลือกระดับและจำนวนแต่ละรายการ ใส่ 0 ถ้าไม่ซื้อ', ikeaSee: 'ดูที่ IKEA ↗', notIkea: 'ไม่มีขายที่ IKEA ซื้อร้านอื่น', ikeaNoTier: 'IKEA ไม่มีรุ่นในระดับนี้ ราคาอ้างอิงร้านอื่น', allTier: 'ปรับทุกรายการเป็น',
+      secFurn: 'เฟอร์นิเจอร์และอุปกรณ์', secFurnSub: 'เฟอร์นิเจอร์ใช้ IKEA ราคาอ้างอิงจาก ikea.com/th เลือกระดับและจำนวนแต่ละรายการ ใส่ 0 ถ้าไม่ซื้อ', ikeaSee: 'ดูที่ IKEA ↗', notIkea: 'ไม่มีขายที่ IKEA ซื้อร้านอื่น', ikeaNoTier: 'IKEA ไม่มีรุ่นในระดับนี้ ราคาอ้างอิงร้านอื่น',
+      ikeaSvc: 'บริการ IKEA', ikeaShip: 'ค่าจัดส่ง IKEA ถึงสุราษฎร์ธานี (ประมาณการ)', ikeaShipHint: 'IKEA แจ้งค่าส่งรถบรรทุกเริ่ม 290–299 บาท แล้วแต่พื้นที่และปริมาตร ยังไม่ทราบยอดจริงของสุราษฎร์ธานี · สาขาใกล้สุด IKEA ภูเก็ต',
+      ikeaAsm: 'ค่าประกอบโดย IKEA (7% ของราคาสินค้า IKEA)', ikeaAsmHint: 'ใช้ผู้ให้บริการภายนอกของ IKEA ยังไม่ยืนยันว่าให้บริการถึงสุราษฎร์ธานี ปิดไว้ถ้าประกอบเอง', allTier: 'ปรับทุกรายการเป็น',
       tier: 'ระดับ', less: 'ลด', more: 'เพิ่ม',
       secExtra: 'งานเพิ่มเติม', secExtraSub: 'ติ๊กเฉพาะที่ต้องทำ ราคาเหมาต่อรายการ',
       secCustom: 'รายการเพิ่มเอง', secCustomSub: 'ของที่ไม่มีในรายการด้านบน', customEmpty: 'ยังไม่มีรายการ กด “เพิ่มรายการ” เพื่อใส่สิ่งที่ต้องซื้อหรือจ้างเพิ่ม',
@@ -801,6 +845,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'สีภายในคิดผนังภายนอกด้านใน 1 ด้าน + ผนังกั้นห้อง 2 ด้าน',
         'ยอด FrameFAST รวม VAT และส่วนลด 10% ค่าขนส่ง 8,000 บาทส่งโครงออฟฟิศพร้อมห้องเก็บของ จึงแบ่งครึ่ง นับในออฟฟิศ 4,000 และห้องเก็บของ 4,000',
         'เผื่อเหลือเผื่อขาดคิดจากงานที่ยังเหลือเท่านั้น ไม่รวมยอดที่จ่ายแล้ว',
+        'ราคาเฟอร์นิเจอร์ IKEA อ้างอิง ikea.com/th ช่วง ต.ค. 2569 บางรายการเป็นราคาลด ควรเช็กอีกครั้งก่อนสั่ง ของที่ IKEA ไม่ขาย (ทีวี ตู้เย็น ปริ้นเตอร์ ฯลฯ) ใช้ราคาร้านทั่วไป',
         'คำสั่งซื้อ Shopee ใช้ยอดที่จ่ายจริงหลังส่วนลด ไม่ใช่ราคาป้าย ค่าติดตั้งมอเตอร์ประตู 3,000 บาทจ่ายแล้วแต่ไม่มีบิล',
         'ห้องเก็บของ: ค่าติดตั้งเทียบเรทค่าแรงโครงออฟฟิศ หลังคาคิดจากราคาเมทัลชีทที่ซื้อจริง ยังไม่รวมเงินเผื่อ'
       ],
@@ -837,7 +882,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       secShell: 'Building & finishes', secOpen: 'Doors & windows', secSys: 'Power, A/C, plumbing',
       secShellSub: 'Estimated unit prices include materials and labour. Edit any number.',
       acCount: 'Units', acAuto: 'Auto', acRec: '{n} units suggested for {b} BTU',
-      secFurn: 'Furniture & equipment', secFurnSub: 'Furniture comes from IKEA, priced from ikea.com/th. Choose a tier and quantity per item; set 0 to skip.', ikeaSee: 'View at IKEA ↗', notIkea: 'Not sold by IKEA, buy elsewhere', ikeaNoTier: 'IKEA has no model at this tier; price from another shop', allTier: 'Set every item to',
+      secFurn: 'Furniture & equipment', secFurnSub: 'Furniture comes from IKEA, priced from ikea.com/th. Choose a tier and quantity per item; set 0 to skip.', ikeaSee: 'View at IKEA ↗', notIkea: 'Not sold by IKEA, buy elsewhere', ikeaNoTier: 'IKEA has no model at this tier; price from another shop',
+      ikeaSvc: 'IKEA services', ikeaShip: 'IKEA delivery to Surat Thani (estimate)', ikeaShipHint: 'IKEA quotes truck delivery from 290–299 baht depending on area and volume; the Surat Thani fee is not known yet · nearest store: IKEA Phuket',
+      ikeaAsm: 'IKEA assembly (7% of the IKEA items)', ikeaAsmHint: 'Done by a third-party provider for IKEA; not yet confirmed for Surat Thani. Leave it off if you assemble yourselves.', allTier: 'Set every item to',
       tier: 'Tier', less: 'Fewer', more: 'More',
       secExtra: 'Extras', secExtraSub: 'Tick only what you need. Each is a lump sum.',
       secCustom: 'Your own items', secCustomSub: 'Anything not listed above.', customEmpty: 'Nothing here yet. Use “Add item” for anything else you need to buy or hire.',
@@ -853,6 +900,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'Interior paint covers the inside face of the external walls plus both faces of the partitions.',
         'The FrameFAST amount includes VAT and the 10% discount. The 8,000 baht delivery brought the office frames and the storeroom kit together, so it is split 4,000 / 4,000.',
         'Contingency applies to the remaining work only, not to what is already paid.',
+        'IKEA furniture prices come from ikea.com/th in October 2026; some are sale prices, so check again before ordering. Items IKEA does not sell (TV, fridge, printer and so on) use regular-shop prices.',
         'Shopee orders use the amount actually paid after discounts, not the list price. The 3,000 baht gate motor installation was paid without a bill.',
         'Storeroom: installation uses the labour rate paid for the office frames, and the roof uses the metal-sheet price actually paid. No contingency is added.'
       ],
@@ -873,7 +921,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     CATS.forEach(function (c) { pick[c.id] = c.def; });
     FURN.forEach(function (f) { furn[f.id] = { q: f.q, t: 'std' }; });
     EXTRAS.forEach(function (x) { extras[x.id] = !!x.on; });
-    return { v: 1, dims: { w: 9, l: 6, h: 3, part: 6, win: 6, door: 1, idoor: 2, ac: null }, pick: pick, price: {}, furn: furn, extras: extras, custom: [], paidExtra: [], cont: 10, budget: null, projects: [], officeStatus: 'doing', yearBudget: null, pstatus: {}, rest: {} };
+    return { v: 1, dims: { w: 9, l: 6, h: 3, part: 6, win: 6, door: 1, idoor: 2, ac: null }, pick: pick, price: {}, furn: furn, extras: extras, custom: [], paidExtra: [], cont: 10, budget: null, projects: [], officeStatus: 'doing', yearBudget: null, pstatus: {}, rest: {}, ikea: { ship: true, asm: false } };
   }
   function numOr(v, d, min, max) { v = Number(v); if (!isFinite(v)) return d; if (min != null && v < min) v = min; if (max != null && v > max) v = max; return v; }
   function normalize(s) {
@@ -898,6 +946,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     if (STATUSES.indexOf(s.officeStatus) >= 0) o.officeStatus = s.officeStatus;
     o.yearBudget = s.yearBudget == null || s.yearBudget === '' ? null : numOr(s.yearBudget, null, 0, 1e11);
     if (s.pstatus && typeof s.pstatus === 'object') Object.keys(s.pstatus).forEach(function (k) { if (STATUSES.indexOf(s.pstatus[k]) >= 0) o.pstatus[k] = s.pstatus[k]; });
+    if (s.ikea && typeof s.ikea === 'object') ['ship', 'asm'].forEach(function (k) { if (typeof s.ikea[k] === 'boolean') o.ikea[k] = s.ikea[k]; });
     if (s.rest && typeof s.rest === 'object') Object.keys(s.rest).forEach(function (k) { if (typeof s.rest[k] === 'boolean') o.rest[k] = s.rest[k]; });
     return o;
   }
@@ -954,6 +1003,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       var st = state.furn[f.id], ti = ['eco', 'std', 'pro'].indexOf(st.t), p = priceOf('furn.' + f.id + '.' + st.t, f.p[ti]);
       lines.push({ grp: 'furn', kind: 'furn', f: f, q: st.q, u: 'pc', p: p, a: st.q * p });
     });
+    var ikeaSum = lines.reduce(function (sum, l) { return sum + (l.kind === 'furn' && l.f.ik && l.f.ik[['eco', 'std', 'pro'].indexOf(state.furn[l.f.id].t)] ? l.a : 0); }, 0);
+    var asm = Math.round(ikeaSum * 0.07);
+    if (state.ikea.ship) { var shp = priceOf('ikea.ship', IKEA_SHIP); lines.push({ grp: 'furn', kind: 'ikea', id: 'ship', q: 1, u: 'lump', p: shp, a: shp }); }
+    if (state.ikea.asm) lines.push({ grp: 'furn', kind: 'ikea', id: 'asm', q: 1, u: 'lump', p: asm, a: asm });
     EXTRAS.forEach(function (x) {
       if (!state.extras[x.id]) return;
       var p = priceOf('extra.' + x.id, x.p);
@@ -966,7 +1019,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     var cont = Math.round(planned * state.cont / 100);
     var paid = r2(paidDocs().reduce(function (s, d) { return s + d.total; }, 0));
     var toSpend = planned + cont, total = paid + toSpend;
-    return { g: g, lines: lines, by: by, planned: planned, cont: cont, paid: paid, toSpend: toSpend, total: total, perSqm: g.floor ? total / g.floor : 0 };
+    return { g: g, lines: lines, asm: asm, by: by, planned: planned, cont: cont, paid: paid, toSpend: toSpend, total: total, perSqm: g.floor ? total / g.floor : 0 };
   }
 
   /* ================= rendering ================= */
@@ -1164,6 +1217,14 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       });
       h += '</div>';
     });
+    function svc(k, label, hint, right) {
+      var on = state.ikea[k];
+      return '<div class="xrow' + (on ? '' : ' off') + '" data-irow="' + k + '"><input type="checkbox" id="ik-' + k + '" data-ikea="' + k + '"' + (on ? ' checked' : '') + '>' +
+        '<label for="ik-' + k + '">' + label + '<small class="hint" style="display:block">' + hint + '</small></label>' + right + '</div>';
+    }
+    h += '<div class="fgroup"><h3><span>' + t('ikeaSvc') + '</span><span data-out="fg-ikea"></span></h3>' +
+      svc('ship', t('ikeaShip'), t('ikeaShipHint'), priceInput('ikea.ship', IKEA_SHIP, '', t('ikeaShip'))) +
+      svc('asm', t('ikeaAsm'), t('ikeaAsmHint'), '<span class="f-sum" data-out="ikea-asm"></span>') + '</div>';
     return h + '</section>';
   }
 
@@ -1252,6 +1313,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         out('cu-' + l.cu.id, baht(l.a));
       }
     });
+    out('fg-ikea', baht(r.lines.filter(function (l) { return l.kind === 'ikea'; }).reduce(function (sum, l) { return sum + l.a; }, 0)));
+    out('ikea-asm', baht(r.asm));
+    var irs = document.querySelectorAll('[data-irow]');
+    for (var ii = 0; ii < irs.length; ii++) irs[ii].classList.toggle('off', !state.ikea[irs[ii].getAttribute('data-irow')]);
     FGROUPS.forEach(function (fg) { out('fg-' + fg.id, baht(r.lines.filter(function (l) { return l.kind === 'furn' && l.f.g === fg.id; }).reduce(function (s, l) { return s + l.a; }, 0))); });
     out('custom-total', baht(r.lines.filter(function (l) { return l.kind === 'custom'; }).reduce(function (s, l) { return s + l.a; }, 0)));
     var acO = CATS.filter(function (c) { return c.id === 'ac'; })[0].opts.filter(function (o) { return o.id === state.pick.ac; })[0];
@@ -1405,7 +1470,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     paidDocs().forEach(function (d) { rows.push([L(GROUPS.paid), d.mine ? d.n : L(VENDORS[d.v]) + ' ' + d.no, fdate(d.date), 1, U('lump', 1), d.total.toFixed(2), d.total.toFixed(2)]); });
     r.lines.forEach(function (l) {
       if (!l.a && l.kind !== 'cat') return;
-      var name = l.kind === 'cat' ? L(l.c.name) : l.kind === 'furn' ? L(l.f) : l.kind === 'extra' ? L(l.x) : l.cu.n;
+      var name = l.kind === 'cat' ? L(l.c.name) : l.kind === 'furn' ? L(l.f) : l.kind === 'extra' ? L(l.x) : l.kind === 'ikea' ? t(l.id === 'ship' ? 'ikeaShip' : 'ikeaAsm') : l.cu.n;
       var fti = l.kind === 'furn' ? ['eco', 'std', 'pro'].indexOf(state.furn[l.f.id].t) : -1, fik = fti >= 0 && l.f.ik && l.f.ik[fti];
       var opt = l.kind === 'cat' ? L(l.o) : l.kind === 'furn' ? L(TIERS[fti]) + (fik ? ' · IKEA ' + fik.n : '') : '';
       rows.push([L(GROUPS[l.grp]), name, opt, r2(l.q), U(l.u, l.q), l.p, l.a.toFixed(2)]);
@@ -1453,6 +1518,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     if (ds.pick) { state.pick[ds.pick] = el.value; changed(); return; }
     if (ds.ex) { state.extras[ds.ex] = el.checked; changed(); return; }
     if (ds.rest) { state.rest[ds.rest] = el.checked; changed(); return; }
+    if (ds.ikea) { state.ikea[ds.ikea] = el.checked; changed(); return; }
     if (ds.pstatus) { state.pstatus[ds.pstatus] = el.value; changed(); render(); return; }
     if (ds.ft) { state.furn[ds.ft].t = el.value; changed(); render(); return; }
     if (ds.ostatus) { state.officeStatus = el.value; changed(); render(); return; }
@@ -1464,11 +1530,12 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   });
 
   document.addEventListener('click', function (e) {
-    var el = e.target.closest ? e.target.closest('button, [data-optrow], [data-xrow], [data-rrow]') : null;
+    var el = e.target.closest ? e.target.closest('button, [data-optrow], [data-xrow], [data-rrow], [data-irow]') : null;
     if (!el) return;
     var ds = el.dataset;
     if (ds.lang) { lang = ds.lang; try { localStorage.setItem(LANGKEY, lang); } catch (x) {} render(); return; }
     if (ds.optrow && e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL' && e.target.tagName !== 'BUTTON') { var r = el.querySelector('input[type="radio"]'); if (r && !r.checked) { r.checked = true; state.pick[ds.optrow] = r.value; changed(); } return; }
+    if (ds.irow && e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'SMALL') { var ic = el.querySelector('input[type="checkbox"]'); if (ic) { ic.checked = !ic.checked; state.ikea[ds.irow] = ic.checked; changed(); } return; }
     if (ds.rrow && e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL' && e.target.tagName !== 'BUTTON' && e.target.tagName !== 'SMALL') { var rc = el.querySelector('input[type="checkbox"]'); if (rc) { rc.checked = !rc.checked; state.rest[ds.rrow] = rc.checked; changed(); } return; }
     if (ds.xrow && e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL' && e.target.tagName !== 'BUTTON') { var c = el.querySelector('input[type="checkbox"]'); if (c) { c.checked = !c.checked; state.extras[ds.xrow] = c.checked; changed(); } return; }
     if (ds.unprice) { delete state.price[ds.unprice]; changed(); render(); return; }
