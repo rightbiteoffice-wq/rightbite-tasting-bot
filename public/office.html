@@ -365,12 +365,19 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     ff:  { th: 'FrameFAST โครงสร้างเหล็กสำเร็จรูป', en: 'FrameFAST prefab steel frames' },
     tw:  { th: 'ไทวัสดุ สาขาสุราษฎร์ธานี', en: 'Thai Watsadu, Surat Thani' },
     tp:  { th: 'ช่างธีรพงศ์ บุญขวัญ', en: 'Teerapong Boonkwan (contractor)' },
-    ady: { th: 'หจก. อะเดยมี ดีไซน์ แอนด์ คอนสตรัคชั่น', en: 'Adaymy Design and Construction LP' }
+    ady: { th: 'หจก. อะเดยมี ดีไซน์ แอนด์ คอนสตรัคชั่น', en: 'Adaymy Design and Construction LP' },
+    sp_cmd: { th: 'Shopee · COMMANDO Shop', en: 'Shopee · COMMANDO Shop' },
+    sp_tdss: { th: 'Shopee · TDSS_SHOP', en: 'Shopee · TDSS_SHOP' },
+    sp_meegoo: { th: 'Shopee · MeeGoo Smart Home', en: 'Shopee · MeeGoo Smart Home' },
+    sp_ag: { th: 'Shopee · A&G2018shop', en: 'Shopee · A&G2018shop' },
+    gate_inst: { th: 'ช่างติดตั้งมอเตอร์ประตู', en: 'Gate motor installer' }
   };
   var DOCKIND = {
     quote: { th: 'ใบเสนอราคา', en: 'Quotation' },
     tax:   { th: 'ใบกำกับภาษี/ใบเสร็จ', en: 'Tax invoice / receipt' },
-    labor: { th: 'ใบเสนอราคาค่าแรง', en: 'Labour quotation' }
+    labor: { th: 'ใบเสนอราคาค่าแรง', en: 'Labour quotation' },
+    shopee: { th: 'คำสั่งซื้อ Shopee', en: 'Shopee order' },
+    cash: { th: 'จ่ายแล้ว ไม่มีบิล', en: 'Paid, no bill' }
   };
   var PAIDCAT = {
     structure: { th: 'โครงสร้างเหล็ก', en: 'Steel structure' },
@@ -380,6 +387,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     labor:     { th: 'ค่าแรง', en: 'Labour' },
     delivery:  { th: 'ค่าขนส่ง', en: 'Delivery' },
     concrete:  { th: 'งานคอนกรีต', en: 'Concrete works' },
+    fence:     { th: 'งานรั้วและประตูรั้ว', en: 'Fence & gate works' },
+    gear:      { th: 'มอเตอร์และอุปกรณ์ไฟฟ้า', en: 'Motor & electronics' },
     other:     { th: 'อื่น ๆ', en: 'Other' }
   };
   // line: [category, thai, english, qty, unit, amount, isAdjustment]
@@ -461,7 +470,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
   /* ================= other factory projects this year ================= */
   var STATUSES = ['plan', 'doing', 'done'];
-  var FLOOR = {
+  var PROJECTS = [{
+    id: 'floor',
     name: { th: 'เทพื้นคอนกรีตรอบโรงงาน', en: 'Concrete paving around the factory' },
     sub: { th: 'หจก. อะเดยมี ดีไซน์ แอนด์ คอนสตรัคชั่น · 2 งวด จ่ายครบแล้ว', en: 'Adaymy Design and Construction LP · 2 instalments, paid in full' },
     docs: [
@@ -474,7 +484,36 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         ['concrete', 'VAT 7%', 'VAT 7%', null, null, 11767.77, true]
       ]}
     ]
-  };
+  }, {
+    id: 'fence',
+    name: { th: 'รั้วและประตูรั้วไฟฟ้า', en: 'Fence & motorised gate' },
+    sub: { th: 'หจก. อะเดยมี 2 งวด · มอเตอร์และอุปกรณ์จาก Shopee · ค่าติดตั้ง', en: 'Adaymy, 2 instalments · motor and parts from Shopee · installation' },
+    docs: [
+      { id: 'adaymy-02-003', date: '2026-08-10', v: 'ady', no: '02-003', kind: 'tax', total: 21170.49, lines: [
+        ['fence', 'งวด 1 งานรั้วและประตูรั้ว', 'Instalment 1: fence and gate', 1, 'inst', 19785.5],
+        ['fence', 'VAT 7%', 'VAT 7%', null, null, 1384.99, true]
+      ]},
+      { id: 'adaymy-02-004', date: '2026-08-20', v: 'ady', no: '02-004', kind: 'tax', total: 66281.44, lines: [
+        ['fence', 'งวด 2 งานรั้วและประตูรั้ว', 'Instalment 2: fence and gate', 1, 'inst', 61945.27],
+        ['fence', 'VAT 7%', 'VAT 7%', null, null, 4336.17, true]
+      ]},
+      { id: 'sp-way-motor', date: null, v: 'sp_cmd', no: '—', kind: 'shopee', total: 7098, lines: [
+        ['gear', 'มอเตอร์ประตูรีโมท Way ระบบ DC ไฟดับใช้ได้ (ชุด S.11) และสินค้าอีก 1 รายการในคำสั่งซื้อเดียวกัน', 'Way DC remote gate motor with battery backup (set S.11), plus 1 more item in the same order', 1, 'set', 7098]
+      ], note: { th: 'ราคาป้ายมอเตอร์ ฿10,918 ยอดที่จ่ายจริงทั้งคำสั่งซื้อหลังส่วนลด ฿7,098', en: 'Motor list price ฿10,918; the whole order came to ฿7,098 after discounts' } },
+      { id: 'sp-wifi-board', date: null, v: 'sp_tdss', no: '—', kind: 'shopee', total: 342, lines: [
+        ['gear', 'บอร์ด WiFi แบบเสียบ สั่งเปิดประตูผ่านมือถือ', 'Plug-in Wi-Fi board to open the gate from a phone', 1, 'pc', 342]
+      ], note: { th: 'ราคาป้าย ฿428 จ่ายจริงหลังส่วนลด ฿342', en: 'List price ฿428; paid ฿342 after discounts' } },
+      { id: 'sp-meegoo', date: '2026-10-09', v: 'sp_meegoo', no: '—', kind: 'shopee', total: 719, lines: [
+        ['gear', 'MeeGoo ออดวิดีโอไร้สาย จอ 4.3 นิ้ว (F006U-KP2)', 'MeeGoo wireless video doorbell, 4.3" screen (F006U-KP2)', 1, 'set', 719]
+      ], note: { th: 'ราคาป้าย ฿949 จ่ายจริงหลังส่วนลด ฿719 · วันที่ = วันที่ได้รับของ', en: 'List price ฿949; paid ฿719 after discounts · date is the delivery date' } },
+      { id: 'sp-usb', date: '2026-10-16', v: 'sp_ag', no: '—', kind: 'shopee', total: 99, lines: [
+        ['gear', 'ตัวแปลงไฟ DC 12V ออก USB 5V 3A', 'DC 12 V to USB 5 V 3 A converter', 1, 'pc', 99]
+      ], note: { th: 'ราคาป้าย ฿110 จ่ายจริงหลังส่วนลด ฿99 · วันที่ = วันที่ได้รับของ', en: 'List price ฿110; paid ฿99 after discounts · date is the delivery date' } },
+      { id: 'gate-install', date: null, v: 'gate_inst', no: '—', kind: 'cash', total: 3000, lines: [
+        ['labor', 'ค่าติดตั้งมอเตอร์ประตูรั้ว', 'Gate motor installation', 1, 'lump', 3000]
+      ]}
+    ]
+  }];
 
   var CATS = [
     { id: 'slab', grp: 'shell', unit: 'm2', def: 'concrete', q: function (g) { return g.floor; },
@@ -653,7 +692,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ovH: 'ภาพรวมทั้งปี', yTotal: 'แผนทั้งปี', yPaid: 'จ่ายแล้ว', yLeft: 'ต้องจ่ายอีก', yBudget: 'งบปรับปรุงทั้งปี (บาท)', yBudgetPh: 'เช่น 1200000', yCount: '{n} โครงการ · เสร็จแล้ว {d}',
       colProject: 'โครงการ', colPaid: 'จ่ายแล้ว', colLeft: 'ยังเหลือ', colTotal: 'รวม / ประมาณการ', tot: 'รวม',
       st_done: 'เสร็จแล้ว', st_doing: 'กำลังทำ', st_plan: 'วางแผน', status: 'สถานะ',
-      floorDocs: 'ดูใบกำกับภาษี 2 ฉบับ', officeName: 'ออฟฟิศใหม่', officeSub: 'โครงเหล็กสำเร็จรูป 3 ชุด · ปรับตัวเลือกได้ด้านล่าง', goOffice: 'ไปปรับตัวเลือก ↓',
+      showDocs: 'ดูเอกสาร {n} รายการ', noDate: 'ไม่ระบุวันที่', officeName: 'ออฟฟิศใหม่', officeSub: 'โครงเหล็กสำเร็จรูป 3 ชุด · ปรับตัวเลือกได้ด้านล่าง', goOffice: 'ไปปรับตัวเลือก ↓',
       addProj: 'เพิ่มโครงการ', projName: 'ชื่องานปรับปรุง', newProj: 'งานปรับปรุงใหม่', est: 'ประมาณการ',
       spec: ['โครงกัลวาไนซ์ 3 ชุด', '3 × 6 × 3.15 ม. ต่อชุด', 'หลังคา Bluescope Zacs Cool AZ90'],
       total: 'รวมงานออฟฟิศ', perSqm: 'เฉลี่ย {v} ต่อ ตร.ม. ({a} ตร.ม.)',
@@ -690,7 +729,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'แอร์คิด 800 BTU ต่อ ตร.ม. เหมาะกับออฟฟิศหลังคาเหล็กในภาคใต้',
         'สีภายในคิดผนังภายนอกด้านใน 1 ด้าน + ผนังกั้นห้อง 2 ด้าน',
         'ยอด FrameFAST รวม VAT ส่วนลด 10% และค่าขนส่ง 8,000 บาทที่เขียนเพิ่มบนใบเสนอราคา',
-        'เผื่อเหลือเผื่อขาดคิดจากงานที่ยังเหลือเท่านั้น ไม่รวมยอดที่จ่ายแล้ว'
+        'เผื่อเหลือเผื่อขาดคิดจากงานที่ยังเหลือเท่านั้น ไม่รวมยอดที่จ่ายแล้ว',
+        'คำสั่งซื้อ Shopee ใช้ยอดที่จ่ายจริงหลังส่วนลด ไม่ใช่ราคาป้าย ค่าติดตั้งมอเตอร์ประตู 3,000 บาทจ่ายแล้วแต่ไม่มีบิล'
       ],
       mTotal: 'แผนทั้งปี', mPaid: 'จ่ายแล้ว', mLeft: 'ต้องจ่ายอีก',
       csvHead: ['ส่วน', 'รายการ', 'ตัวเลือก', 'จำนวน', 'หน่วย', 'ราคา/หน่วย', 'จำนวนเงิน'],
@@ -703,7 +743,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ovH: 'The year at a glance', yTotal: 'Year plan', yPaid: 'Paid so far', yLeft: 'Still to pay', yBudget: 'Year budget (THB)', yBudgetPh: 'e.g. 1200000', yCount: '{n} projects · {d} done',
       colProject: 'Project', colPaid: 'Paid', colLeft: 'Left', colTotal: 'Total / estimate', tot: 'Total',
       st_done: 'Done', st_doing: 'In progress', st_plan: 'Planned', status: 'Status',
-      floorDocs: 'Show the 2 tax invoices', officeName: 'New office', officeSub: '3 prefab steel frames · adjust the options below', goOffice: 'Adjust options ↓',
+      showDocs: 'Show {n} records', noDate: 'No date', officeName: 'New office', officeSub: '3 prefab steel frames · adjust the options below', goOffice: 'Adjust options ↓',
       addProj: 'Add project', projName: 'Project name', newProj: 'New project', est: 'Estimate',
       spec: ['3 galvanised frames', '3 × 6 × 3.15 m each', 'Bluescope Zacs Cool AZ90 roof'],
       total: 'Office total', perSqm: '{v} per m² ({a} m²)',
@@ -740,7 +780,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'A/C is sized at 800 BTU per m², suited to a steel-roofed office in the south.',
         'Interior paint covers the inside face of the external walls plus both faces of the partitions.',
         'The FrameFAST amount includes VAT, the 10% discount and the 8,000 baht delivery written on the quote.',
-        'Contingency applies to the remaining work only, not to what is already paid.'
+        'Contingency applies to the remaining work only, not to what is already paid.',
+        'Shopee orders use the amount actually paid after discounts, not the list price. The 3,000 baht gate motor installation was paid without a bill.'
       ],
       mTotal: 'Year plan', mPaid: 'Paid', mLeft: 'Left',
       csvHead: ['Section', 'Item', 'Option', 'Qty', 'Unit', 'Unit price', 'Amount'],
@@ -817,9 +858,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     var extra = state.paidExtra.map(function (p) { return { id: p.id, mine: true, date: p.d, n: p.n, total: p.a, lines: [[p.c, p.n, p.n, null, null, p.a]] }; });
     return PAID.concat(extra).sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
   }
-  function paidByCat() {
+  function paidByCat(docs) {
     var by = {};
-    paidDocs().forEach(function (d) {
+    (docs || paidDocs()).forEach(function (d) {
       var sum = d.lines.reduce(function (s, l) { return s + l[5]; }, 0) || 1;
       var k = d.total / sum;
       d.lines.forEach(function (l) { by[l[0]] = (by[l[0]] || 0) + l[5] * k; });
@@ -868,7 +909,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   }
 
   function paidHTML() {
-    var docs = paidDocs(), byc = paidByCat();
+    var docs = paidDocs(), byc = paidByCat(docs);
     var cats = Object.keys(PAIDCAT).filter(function (k) { return byc[k]; });
     var h = '<section aria-labelledby="h-paid">' + secHead('paid', t('secPaid'), t('secPaidSub'), 'paid-total');
     h += '<div class="paidcats">' + cats.map(function (k) { return '<div><div class="k">' + L(PAIDCAT[k]) + '</div><div class="v">' + baht(byc[k], true) + '</div></div>'; }).join('') + '</div>';
@@ -887,9 +928,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     var h = '<div class="docs">';
     docs.forEach(function (d) {
       var vend = d.mine ? esc(d.n) : L(VENDORS[d.v]);
-      var sub = d.mine ? t('mine') + ' · ' + L(PAIDCAT[d.lines[0][0]]) : '<span class="mono">' + esc(d.no) + '</span> · ' + L(DOCKIND[d.kind]);
+      var sub = d.mine ? t('mine') + ' · ' + L(PAIDCAT[d.lines[0][0]]) : (d.no && d.no !== '—' ? '<span class="mono">' + esc(d.no) + '</span> · ' : '') + L(DOCKIND[d.kind]);
       h += '<details class="doc' + (d.mine ? ' mine' : '') + '" data-doc="' + esc(d.id) + '"' + (openDocs[d.id] ? ' open' : '') + '>' +
-        '<summary><span class="d-date">' + fdate(d.date) + '</span><span class="d-what"><b>' + vend + '</b><small>' + sub + '</small></span><span class="d-amt">' + baht(d.total, true) + '</span></summary><div class="doc-body">';
+        '<summary><span class="d-date">' + (d.date ? fdate(d.date) : t('noDate')) + '</span><span class="d-what"><b>' + vend + '</b><small>' + sub + '</small></span><span class="d-amt">' + baht(d.total, true) + '</span></summary><div class="doc-body">';
       if (d.mine) {
         h += '<button type="button" class="del" data-delpay="' + esc(d.id) + '">' + t('del') + '</button>';
       } else {
@@ -910,8 +951,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
   /* ---------- year overview ---------- */
   function projects(r) {
-    var rows = [], fPaid = r2(FLOOR.docs.reduce(function (s, d) { return s + d.total; }, 0));
-    rows.push({ id: 'floor', name: L(FLOOR.name), s: 'done', paid: fPaid, total: fPaid });
+    var rows = [];
+    PROJECTS.forEach(function (pr) { var pd = r2(pr.docs.reduce(function (s, d) { return s + d.total; }, 0)); rows.push({ id: pr.id, name: L(pr.name), s: 'done', paid: pd, total: pd }); });
     rows.push({ id: 'office', name: t('officeName'), s: state.officeStatus, paid: r.paid, total: r.total });
     state.projects.forEach(function (p) { rows.push({ id: p.id, name: p.n || t('newProj'), s: p.s, paid: p.paid, total: Math.max(p.est, p.paid) }); });
     var P = { rows: rows, paid: 0, total: 0, left: 0, done: 0 };
@@ -937,8 +978,13 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       '<div class="bud"><label class="k" for="ybudget">' + t('yBudget') + '</label><input class="field" style="max-width:220px" type="number" min="0" step="10000" inputmode="numeric" id="ybudget" placeholder="' + esc(t('yBudgetPh')) + '" value="' + (state.yearBudget == null ? '' : state.yearBudget) + '"><span data-out="ybudget-status"></span></div>' +
       '</div>';
     h += '<div class="projects"><div class="ov-head"><span>' + t('colProject') + '</span><span class="lg"><span class="sw" style="background:var(--s-paid)"></span>' + t('colPaid') + '<span class="sw" style="background:var(--pb)"></span>' + t('colLeft') + '</span><span class="r">' + t('colPaid') + '</span><span class="r">' + t('colLeft') + '</span><span class="r">' + t('colTotal') + '</span></div>';
-    h += '<div class="prow">' + prowMain('floor', '<b>' + L(FLOOR.name) + '</b><small>' + L(FLOOR.sub) + '</small>' + chip('done'), '<span data-out="pp-floor"></span>', '<span data-out="pt-floor"></span>') +
-      '<details class="pdocs" data-doc="floor-docs"' + (openDocs['floor-docs'] ? ' open' : '') + '><summary>' + t('floorDocs') + '</summary>' + docsListHTML(FLOOR.docs) + '</details></div>';
+    PROJECTS.forEach(function (pr) {
+      var byc = paidByCat(pr.docs), cats = Object.keys(PAIDCAT).filter(function (k) { return byc[k]; }).sort(function (a, b) { return byc[b] - byc[a]; });
+      h += '<div class="prow">' + prowMain(pr.id, '<b>' + L(pr.name) + '</b><small>' + L(pr.sub) + '</small>' + chip('done'), '<span data-out="pp-' + pr.id + '"></span>', '<span data-out="pt-' + pr.id + '"></span>') +
+        '<details class="pdocs" data-doc="' + pr.id + '-docs"' + (openDocs[pr.id + '-docs'] ? ' open' : '') + '><summary>' + tf('showDocs', { n: pr.docs.length }) + '</summary>' +
+        (cats.length > 1 ? '<div class="paidcats">' + cats.map(function (k) { return '<div><div class="k">' + L(PAIDCAT[k]) + '</div><div class="v">' + baht(byc[k], true) + '</div></div>'; }).join('') + '</div>' : '') +
+        docsListHTML(pr.docs) + '</details></div>';
+    });
     h += '<div class="prow">' + prowMain('office', '<b>' + t('officeName') + '</b><small>' + t('officeSub') + '</small><div class="p-ctl">' + statusSelect('ost', 'data-ostatus="1"', state.officeStatus) + '<button type="button" class="linkbtn" data-goto="office">' + t('goOffice') + '</button></div>', '<span data-out="pp-office"></span>', '<span data-out="pt-office"></span>') + '</div>';
     state.projects.forEach(function (p) {
       var id = esc(p.id);
@@ -1243,7 +1289,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     rows.push([t('yTotal'), '', P.paid.toFixed(2), P.left.toFixed(2), P.total.toFixed(2)]);
     rows.push([]);
     rows.push(t('csvHead'));
-    FLOOR.docs.forEach(function (d) { rows.push([L(FLOOR.name), L(VENDORS[d.v]) + ' ' + d.no, fdate(d.date), 1, U('lump', 1), d.total.toFixed(2), d.total.toFixed(2)]); });
+    PROJECTS.forEach(function (pr) { pr.docs.forEach(function (d) { rows.push([L(pr.name), L(VENDORS[d.v]) + (d.no !== '—' ? ' ' + d.no : '') + ' · ' + (lang === 'th' ? d.lines[0][1] : d.lines[0][2]), d.date ? fdate(d.date) : t('noDate'), 1, U('lump', 1), d.total.toFixed(2), d.total.toFixed(2)]); }); });
     paidDocs().forEach(function (d) { rows.push([L(GROUPS.paid), d.mine ? d.n : L(VENDORS[d.v]) + ' ' + d.no, fdate(d.date), 1, U('lump', 1), d.total.toFixed(2), d.total.toFixed(2)]); });
     r.lines.forEach(function (l) {
       if (!l.a && l.kind !== 'cat') return;
