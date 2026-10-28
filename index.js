@@ -1,6 +1,8 @@
 const express = require('express');
 const axios   = require('axios');
 const { google } = require('googleapis');
+const fs      = require('fs');
+const path    = require('path');
 const app = express();
 app.use(express.json());
 
@@ -410,6 +412,23 @@ app.post('/webhook', async (req, res) => {
 });
 
 app.get('/', (req, res) => res.send('Right Bite Tasting Bot is running!'));
+
+// ============================================================
+//  หน้าเว็บงบสร้างออฟฟิศ (TH/EN)  →  /office
+// ============================================================
+const OFFICE_PAGE = path.join(__dirname, 'public', 'office.html');
+app.get('/office', (req, res) => {
+  fs.readFile(OFFICE_PAGE, 'utf8', (err, body) => {
+    if (err) return res.status(500).send('Office budget page not found');
+    res.type('html').send(
+      '<!doctype html><html lang="th"><head><meta charset="utf-8">' +
+      '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' +
+      '<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}' +
+      'body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>' +
+      '</head><body>' + body + '</body></html>'
+    );
+  });
+});
 
 // ============================================================
 //  แจ้งเตือน 10 โมงเช้าถ้ายังไม่เริ่มชิม
