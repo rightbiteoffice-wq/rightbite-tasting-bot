@@ -380,7 +380,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     tax:   { th: 'ใบกำกับภาษี/ใบเสร็จ', en: 'Tax invoice / receipt' },
     labor: { th: 'ใบเสนอราคาค่าแรง', en: 'Labour quotation' },
     shopee: { th: 'คำสั่งซื้อ Shopee', en: 'Shopee order' },
-    cash: { th: 'จ่ายแล้ว ไม่มีบิล', en: 'Paid, no bill' }
+    cash: { th: 'จ่ายแล้ว ไม่มีบิล', en: 'Paid, no bill' },
+    share: { th: 'ส่วนแบ่งค่าส่งจากใบเสนอราคาโครงออฟฟิศ', en: 'Share of the office frame delivery' }
   };
   var PAIDCAT = {
     structure: { th: 'โครงสร้างเหล็ก', en: 'Steel structure' },
@@ -414,8 +415,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ['roof', 'หลังคาเมทัลชีท 760 มม. Asian White 0.35 ยาว 2.20 ม.', 'Roof sheet 760 mm, Asian White 0.35, 2.20 m', 4, 'sheet', 1364],
       ['structure', 'เหล็กตัวซี GI 3" × 3.2 มม. (24–25 กก.)', 'GI C-channel 3" × 3.2 mm (24–25 kg)', 1, 'length', 680]
     ]},
-    { id: 'framefast', date: '2026-10-06', v: 'ff', no: 'Q20261006-0002', kind: 'quote', total: 57678,
-      note: { th: 'โครงกัลวาไนซ์ 3 ชุด ขนาด 3 × 6 × 3.15 ม. · จ่าย 2 งวด: มัดจำสั่งผลิต 28,839 + ก่อนส่งสินค้า 28,839', en: 'Three galvanised frames, 3 × 6 × 3.15 m each · paid in 2 instalments: 28,839 deposit + 28,839 before delivery' },
+    { id: 'framefast', date: '2026-10-06', v: 'ff', no: 'Q20261006-0002', kind: 'quote', total: 53678,
+      note: { th: 'โครงกัลวาไนซ์ 3 ชุด ขนาด 3 × 6 × 3.15 ม. · โอน 2 งวด รวม 57,678 (มัดจำสั่งผลิต 28,839 + ก่อนส่งสินค้า 28,839) · ค่าส่ง 8,000 ส่งพร้อมห้องเก็บของ จึงนับที่นี่ 4,000 และที่ห้องเก็บของ 4,000', en: 'Three galvanised frames, 3 × 6 × 3.15 m each · 57,678 transferred in 2 instalments (28,839 deposit + 28,839 before delivery) · the 8,000 delivery also brought the storeroom kit, so 4,000 is counted here and 4,000 under the storeroom' },
       lines: [
       ['structure', 'เสากัลวาไนซ์ ยาว 2.83 ม.', 'Galvanised post, 2.83 m', 12, 'pc', 12157.68],
       ['structure', 'คานกัลวาไนซ์ ยาว 5.68 ม.', 'Galvanised beam, 5.68 m', 12, 'pc', 18880.32],
@@ -423,7 +424,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ['structure', 'ข้อต่อมุม 90° กัลวาไนซ์ (น็อต 8 ตัว)', '90° galvanised corner joint (8 bolts)', 24, 'pc', 11640],
       ['structure', 'ส่วนลด 10%', 'Discount 10%', null, null, -5158.63, true],
       ['structure', 'VAT 7%', 'VAT 7%', null, null, 3249.94, true],
-      ['delivery', 'ค่าขนส่ง (เขียนเพิ่มบนใบเสนอราคา)', 'Delivery (added by hand on the quote)', 1, 'trip', 8000],
+      ['delivery', 'ค่าขนส่งครึ่งหนึ่งของ 8,000 (อีกครึ่งอยู่ที่ห้องเก็บของ)', 'Half of the 8,000 delivery (the other half is under the storeroom)', 1, 'trip', 4000],
       ['structure', 'ปัดเศษตามยอดโอน', 'Rounded to the amount transferred', null, null, 0.37, true]
     ]},
     { id: 'qt2610-0340', date: '2026-10-07', v: 'mss', no: 'QT2610-0340', kind: 'quote', total: 10847, lines: [
@@ -519,13 +520,16 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   }, {
     id: 'store', afterOffice: true, status: 'doing',
     name: { th: 'ห้องเก็บของน็อกดาวน์ 3 × 6 ม.', en: 'Knock-down storeroom, 3 × 6 m' },
-    sub: { th: 'ซื้อวัสดุแล้ว · รอติดตั้งและทำหลังคาหลังออฟฟิศเสร็จ', en: 'Materials bought · installation and roof wait until the office is finished' },
+    sub: { th: 'วัสดุจ่ายครบแล้ว · รอติดตั้งและทำหลังคาหลังออฟฟิศเสร็จ', en: 'Materials paid in full · installation and roof wait until the office is finished' },
     docs: [
       { id: 'qt6910120', date: '2026-10-07', v: 'ff', no: 'QT6910120', kind: 'quote', total: 48000.01, lines: [
         ['structure', 'Modular Knock Down Home ครบชุด 3×6', 'Modular Knock Down Home, complete 3×6 set', 1, 'set', 46262],
         ['structure', 'ส่วนลด', 'Discount', null, null, -1402.18, true],
         ['structure', 'VAT 7%', 'VAT 7%', null, null, 3140.19, true]
-      ], note: { th: 'ชุดกล่อง 3×6 สำเร็จรูป ประกอบเอง · รับของที่คลังสมุทรสาคร · ชำระเงินสด', en: 'Self-assembly 3×6 box kit · collected from the Samut Sakhon warehouse · paid in cash' } }
+      ], note: { th: 'ชุดกล่อง 3×6 สำเร็จรูป ประกอบเอง · ส่งจากคลังสมุทรสาคร มาพร้อมโครงออฟฟิศ · จ่ายครบแล้ว', en: 'Self-assembly 3×6 box kit · shipped from the Samut Sakhon warehouse with the office frames · paid in full' } },
+      { id: 'ff-ship-share', date: '2026-10-06', v: 'ff', no: 'Q20261006-0002', kind: 'share', total: 4000, lines: [
+        ['delivery', 'ค่าขนส่งครึ่งหนึ่งของ 8,000 (ส่งมาพร้อมโครงออฟฟิศ)', 'Half of the 8,000 delivery (shipped with the office frames)', 1, 'trip', 4000]
+      ], note: { th: 'ค่าส่ง 8,000 บาทเขียนไว้บนใบเสนอราคาโครงออฟฟิศ แบ่งครึ่งระหว่างออฟฟิศกับห้องเก็บของ', en: 'The 8,000 baht delivery is written on the office frame quote and split evenly between the office and the storeroom' } }
     ],
     // work still to do, estimates the team can switch on/off and re-price
     rest: [
@@ -753,7 +757,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'ฉนวนหลังคาคิด 1.1 เท่าของพื้นที่พื้น เผื่อชายคาและความลาด',
         'แอร์คิด 800 BTU ต่อ ตร.ม. เหมาะกับออฟฟิศหลังคาเหล็กในภาคใต้',
         'สีภายในคิดผนังภายนอกด้านใน 1 ด้าน + ผนังกั้นห้อง 2 ด้าน',
-        'ยอด FrameFAST รวม VAT ส่วนลด 10% และค่าขนส่ง 8,000 บาทที่เขียนเพิ่มบนใบเสนอราคา',
+        'ยอด FrameFAST รวม VAT และส่วนลด 10% ค่าขนส่ง 8,000 บาทส่งโครงออฟฟิศพร้อมห้องเก็บของ จึงแบ่งครึ่ง นับในออฟฟิศ 4,000 และห้องเก็บของ 4,000',
         'เผื่อเหลือเผื่อขาดคิดจากงานที่ยังเหลือเท่านั้น ไม่รวมยอดที่จ่ายแล้ว',
         'คำสั่งซื้อ Shopee ใช้ยอดที่จ่ายจริงหลังส่วนลด ไม่ใช่ราคาป้าย ค่าติดตั้งมอเตอร์ประตู 3,000 บาทจ่ายแล้วแต่ไม่มีบิล',
         'ห้องเก็บของ: ค่าติดตั้งเทียบเรทค่าแรงโครงออฟฟิศ หลังคาคิดจากราคาเมทัลชีทที่ซื้อจริง ยังไม่รวมเงินเผื่อ'
@@ -805,7 +809,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'Roof insulation is 1.1 × the floor area to cover eaves and pitch.',
         'A/C is sized at 800 BTU per m², suited to a steel-roofed office in the south.',
         'Interior paint covers the inside face of the external walls plus both faces of the partitions.',
-        'The FrameFAST amount includes VAT, the 10% discount and the 8,000 baht delivery written on the quote.',
+        'The FrameFAST amount includes VAT and the 10% discount. The 8,000 baht delivery brought the office frames and the storeroom kit together, so it is split 4,000 / 4,000.',
         'Contingency applies to the remaining work only, not to what is already paid.',
         'Shopee orders use the amount actually paid after discounts, not the list price. The 3,000 baht gate motor installation was paid without a bill.',
         'Storeroom: installation uses the labour rate paid for the office frames, and the roof uses the metal-sheet price actually paid. No contingency is added.'
