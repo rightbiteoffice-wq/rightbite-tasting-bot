@@ -1,4 +1,4 @@
-<title>Right Bite Office Budget</title>
+<title>Right Bite Factory Improvements</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,8 +84,61 @@ h1 .pb { color: var(--pb-ink); }
 .sync[data-s="saving"]::before, .sync[data-s="pending"]::before { background: var(--pb); }
 .sync[data-s="error"]::before, .sync[data-s="readonly"]::before { background: var(--bad); }
 
+/* ---------- year overview ---------- */
+.ov { margin-top: 28px; }
+.ov-stats { display: grid; grid-template-columns: minmax(0, 1.35fr) repeat(2, minmax(0, 1fr)) minmax(0, 1.25fr); gap: 1px; background: var(--surface); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; box-shadow: var(--shadow); margin-bottom: 14px; }
+.ov-stats > div { padding: 16px 18px; box-shadow: 0 0 0 1px var(--line); display: grid; gap: 4px; align-content: start; min-width: 0; }
+.ov-stats .k { font-size: 13px; color: var(--ink-2); font-weight: 500; }
+.ov-stats .v { font-family: var(--f-display); font-weight: 700; font-size: clamp(22px, 3vw, 30px); line-height: 1.1; font-variant-numeric: tabular-nums; }
+.ov-stats .big .v { font-size: clamp(30px, 4.4vw, 42px); }
+.ov-stats .per { font-size: 13px; color: var(--muted); }
+.ov-stats .bud { gap: 6px; }
+@media (max-width: 900px) { .ov-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ov-stats .big, .ov-stats .bud { grid-column: 1 / -1; } }
+.projects { background: var(--surface); border: 1px solid var(--line); border-radius: 4px; }
+.ov-head, .prow-main { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(110px, 1fr) 128px 118px 140px; gap: 6px 16px; align-items: center; padding: 10px 14px; }
+.ov-head { font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--line); padding-block: 8px; }
+.ov-head .lg { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.ov-head .r { text-align: right; }
+.prow + .prow { border-top: 1px solid var(--line); }
+.p-name { min-width: 0; display: grid; gap: 3px; justify-items: start; }
+.p-name b { font-weight: 600; font-size: 15px; }
+.p-name small { color: var(--muted); font-size: 12.5px; }
+.p-name .field { font-weight: 600; }
+.p-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.p-ctl select { border: 1px solid var(--line-2); border-radius: 3px; background: var(--surface); padding: 2px 6px; font-size: 12.5px; font-weight: 600; }
+.p-ctl select.st-done { color: var(--good); border-color: var(--good); }
+.p-ctl select.st-doing { color: var(--pb-ink); border-color: var(--pb); }
+.p-ctl select.st-plan { color: var(--muted); }
+.p-num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; min-width: 0; }
+.p-num .k { display: none; }
+.p-num input.num { width: 100%; max-width: 9em; }
+.meter { display: flex; gap: 2px; height: 10px; background: var(--raise); border-radius: 4px; }
+.meter span { height: 100%; }
+.meter span:first-child { border-radius: 4px 0 0 4px; }
+.meter span:last-child { border-radius: 0 4px 4px 0; }
+.meter span:only-child { border-radius: 4px; }
+.m-paid { background: var(--s-paid); }
+.m-left { background: var(--pb); }
+.chip { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 0 7px; border-radius: 3px; border: 1px solid currentColor; white-space: nowrap; line-height: 1.6; }
+.chip.done { color: var(--good); }
+.chip.doing { color: var(--pb-ink); }
+.chip.plan { color: var(--muted); }
+.linkbtn { border: 0; background: transparent; padding: 0; color: var(--pb-ink); font-weight: 600; font-size: 12.5px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.pdocs { padding: 0 14px 12px; }
+.pdocs > summary { cursor: pointer; font-size: 13px; color: var(--pb-ink); font-weight: 600; padding: 2px 0 8px; width: max-content; max-width: 100%; }
+@media (max-width: 760px) {
+  .ov-head { display: none; }
+  .prow-main { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 12px; }
+  .prow-main .p-name, .prow-main .meter { grid-column: 1 / -1; }
+  .p-num .k { display: block; font-size: 11.5px; color: var(--muted); font-weight: 400; }
+}
+.band { margin-top: 48px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); display: flex; flex-direction: column; gap: 4px; scroll-margin-top: 12px; }
+.band-h { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.band h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(26px, 4vw, 34px); line-height: 1.1; margin: 0; }
+.band .spec { margin-top: 4px; }
+
 /* ---------- layout ---------- */
-.layout { display: grid; grid-template-columns: minmax(0, 1fr) 372px; gap: 32px; margin-top: 28px; align-items: start; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 372px; gap: 32px; margin-top: 24px; align-items: start; }
 .main { min-width: 0; display: flex; flex-direction: column; gap: 40px; }
 .aside { position: sticky; top: calc(16px + env(safe-area-inset-top, 0px)); min-width: 0; }
 @media (max-width: 1020px) {
@@ -283,7 +336,6 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       <p class="eyebrow" id="t-eyebrow">Right Bite · ปากฉลุย ท่าฉาง สุราษฎร์ธานี</p>
       <h1 id="t-title">งบสร้าง<span class="pb">ออฟฟิศ</span></h1>
       <p class="lede" id="t-lede"></p>
-      <div class="spec" id="t-spec"></div>
     </div>
     <div class="top-tools">
       <div class="lang" role="group" aria-label="Language">
@@ -294,6 +346,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     </div>
   </header>
 
+  <section class="ov" id="overview" aria-labelledby="h-ov"></section>
+  <div class="band" id="office"></div>
   <div class="layout">
     <div class="main" id="main"></div>
     <aside class="aside" id="aside"></aside>
@@ -310,7 +364,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     mss: { th: 'บจก. เมทัล สตีล สเตชั่น', en: 'Metal Steel Station Co., Ltd.' },
     ff:  { th: 'FrameFAST โครงสร้างเหล็กสำเร็จรูป', en: 'FrameFAST prefab steel frames' },
     tw:  { th: 'ไทวัสดุ สาขาสุราษฎร์ธานี', en: 'Thai Watsadu, Surat Thani' },
-    tp:  { th: 'ช่างธีรพงศ์ บุญขวัญ', en: 'Teerapong Boonkwan (contractor)' }
+    tp:  { th: 'ช่างธีรพงศ์ บุญขวัญ', en: 'Teerapong Boonkwan (contractor)' },
+    ady: { th: 'หจก. อะเดยมี ดีไซน์ แอนด์ คอนสตรัคชั่น', en: 'Adaymy Design and Construction LP' }
   };
   var DOCKIND = {
     quote: { th: 'ใบเสนอราคา', en: 'Quotation' },
@@ -324,6 +379,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     site:      { th: 'งานภายนอก', en: 'Site works' },
     labor:     { th: 'ค่าแรง', en: 'Labour' },
     delivery:  { th: 'ค่าขนส่ง', en: 'Delivery' },
+    concrete:  { th: 'งานคอนกรีต', en: 'Concrete works' },
     other:     { th: 'อื่น ๆ', en: 'Other' }
   };
   // line: [category, thai, english, qty, unit, amount, isAdjustment]
@@ -402,6 +458,23 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     cont:  { th: 'เผื่อเหลือเผื่อขาด', en: 'Contingency', c: '--s-cont', hatch: true }
   };
   var ORDER = ['paid', 'shell', 'open', 'sys', 'furn', 'extra', 'cont'];
+
+  /* ================= other factory projects this year ================= */
+  var STATUSES = ['plan', 'doing', 'done'];
+  var FLOOR = {
+    name: { th: 'เทพื้นคอนกรีตรอบโรงงาน', en: 'Concrete paving around the factory' },
+    sub: { th: 'หจก. อะเดยมี ดีไซน์ แอนด์ คอนสตรัคชั่น · 2 งวด จ่ายครบแล้ว', en: 'Adaymy Design and Construction LP · 2 instalments, paid in full' },
+    docs: [
+      { id: 'adaymy-02-001', date: '2026-07-07', v: 'ady', no: '02-001', kind: 'tax', total: 25721.15, lines: [
+        ['concrete', 'งวด 1 งานเทพื้นคอนกรีตเสริมเหล็ก', 'Instalment 1: reinforced concrete paving', 1, 'inst', 24038.46],
+        ['concrete', 'VAT 7%', 'VAT 7%', null, null, 1682.69, true]
+      ]},
+      { id: 'adaymy-02-002', date: '2026-07-15', v: 'ady', no: '02-002', kind: 'tax', total: 179878.84, lines: [
+        ['concrete', 'งวด 2 งานเทพื้นคอนกรีตเสริมเหล็ก', 'Instalment 2: reinforced concrete paving', 1, 'inst', 168111.07],
+        ['concrete', 'VAT 7%', 'VAT 7%', null, null, 11767.77, true]
+      ]}
+    ]
+  };
 
   var CATS = [
     { id: 'slab', grp: 'shell', unit: 'm2', def: 'concrete', q: function (g) { return g.floor; },
@@ -569,21 +642,26 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     m2: { th: 'ตร.ม.', en: 'm²' }, m: { th: 'ม.', en: 'm' }, set: { th: 'ชุด', en: 'set' }, door: { th: 'บาน', en: 'door' },
     unit: { th: 'เครื่อง', en: 'unit' }, lump: { th: 'เหมา', en: 'lot' }, pc: { th: 'ชิ้น', en: 'pc' }, sheet: { th: 'แผ่น', en: 'sheet' },
     length: { th: 'เส้น', en: 'length' }, bag: { th: 'ถุง', en: 'bag' }, can: { th: 'กระป๋อง', en: 'can' }, km: { th: 'กม.', en: 'km' },
-    trip: { th: 'เที่ยว', en: 'trip' }, frame: { th: 'โครง', en: 'frame' }, pack: { th: 'แพ็ค', en: 'pack' }, tube: { th: 'หลอด', en: 'tube' }
+    trip: { th: 'เที่ยว', en: 'trip' }, frame: { th: 'โครง', en: 'frame' }, pack: { th: 'แพ็ค', en: 'pack' }, tube: { th: 'หลอด', en: 'tube' }, inst: { th: 'งวด', en: 'instalment' }
   };
 
   var STR = {
     th: {
       eyebrow: 'Right Bite · ปากฉลุย ท่าฉาง สุราษฎร์ธานี',
-      title: 'งบสร้าง<span class="pb">ออฟฟิศ</span>',
-      lede: 'ยอดที่จ่ายไปแล้วจากใบเสนอราคาและใบเสร็จ รวมกับงานที่ยังเหลือ เลือกวัสดุ ระบบ และเฟอร์นิเจอร์ แก้ราคาได้ทุกช่อง ยอดรวมคำนวณใหม่ทันที',
+      title: 'แผนปรับปรุงโรงงาน <span class="pb">2569</span>',
+      lede: 'รวมงานปรับปรุงโรงงานทุกส่วนในปีนี้ ทั้งยอดที่จ่ายไปแล้วตามใบเสร็จและงานที่ยังเหลือ ส่วนออฟฟิศใหม่เลือกวัสดุ ระบบ และเฟอร์นิเจอร์ได้ แก้ราคาได้ทุกช่อง ยอดคำนวณใหม่ทันที',
+      ovH: 'ภาพรวมทั้งปี', yTotal: 'แผนทั้งปี', yPaid: 'จ่ายแล้ว', yLeft: 'ต้องจ่ายอีก', yBudget: 'งบปรับปรุงทั้งปี (บาท)', yBudgetPh: 'เช่น 1200000', yCount: '{n} โครงการ · เสร็จแล้ว {d}',
+      colProject: 'โครงการ', colPaid: 'จ่ายแล้ว', colLeft: 'ยังเหลือ', colTotal: 'รวม / ประมาณการ', tot: 'รวม',
+      st_done: 'เสร็จแล้ว', st_doing: 'กำลังทำ', st_plan: 'วางแผน', status: 'สถานะ',
+      floorDocs: 'ดูใบกำกับภาษี 2 ฉบับ', officeName: 'ออฟฟิศใหม่', officeSub: 'โครงเหล็กสำเร็จรูป 3 ชุด · ปรับตัวเลือกได้ด้านล่าง', goOffice: 'ไปปรับตัวเลือก ↓',
+      addProj: 'เพิ่มโครงการ', projName: 'ชื่องานปรับปรุง', newProj: 'งานปรับปรุงใหม่', est: 'ประมาณการ',
       spec: ['โครงกัลวาไนซ์ 3 ชุด', '3 × 6 × 3.15 ม. ต่อชุด', 'หลังคา Bluescope Zacs Cool AZ90'],
-      total: 'รวมทั้งโครงการ', perSqm: 'เฉลี่ย {v} ต่อ ตร.ม. ({a} ตร.ม.)',
+      total: 'รวมงานออฟฟิศ', perSqm: 'เฉลี่ย {v} ต่อ ตร.ม. ({a} ตร.ม.)',
       paid: 'จ่ายแล้ว', planned: 'งานที่ยังเหลือ', cont: 'เผื่อเหลือเผื่อขาด', toSpend: 'ต้องจ่ายอีก',
       budget: 'งบที่ตั้งไว้ (บาท)', budgetPh: 'เช่น 800000', under: 'เหลือในงบ {v}', over: 'เกินงบ {v}',
       contLbl: 'เผื่อ', copy: 'คัดลอกสรุป', copied: 'คัดลอกแล้ว วางใน LINE ได้เลย', copyFail: 'คัดลอกอัตโนมัติไม่ได้ เลือกข้อความด้านล่างแล้วคัดลอกเอง',
       csv: 'ดาวน์โหลด CSV', csvDone: 'บันทึกไฟล์แล้ว', csvFail: 'ไม่ได้บันทึกไฟล์',
-      reset: 'คืนค่าเริ่มต้น', resetQ: 'ล้างทุกตัวเลือกที่ปรับไว้?', resetYes: 'คืนค่า', cancel: 'ยกเลิก',
+      reset: 'คืนค่าเริ่มต้น', resetQ: 'ล้างตัวเลือกออฟฟิศที่ปรับไว้?', resetYes: 'คืนค่า', cancel: 'ยกเลิก',
       sLocal: 'บันทึกในเบราว์เซอร์นี้', sPending: 'มีการแก้ไข…', sSaving: 'กำลังบันทึก…', sSaved: 'บันทึกแล้ว ทุกคนที่เปิดลิงก์เห็นตรงกัน',
       sError: 'บันทึกไม่สำเร็จ จะลองใหม่เมื่อแก้ครั้งถัดไป', sReadonly: 'ดูอย่างเดียว การแก้ไขของคุณไม่ถูกบันทึก',
       secPaid: 'จ่ายแล้ว', secPaidSub: 'จากเอกสาร 8 ฉบับที่แนบมา กดแต่ละรายการเพื่อดูรายละเอียด ยอดรวม VAT แล้ว',
@@ -605,6 +683,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       resetPrice: 'กลับเป็นราคาเริ่มต้น', priceOf: 'ราคาต่อหน่วยของ {n}',
       notesH: 'สมมติฐานที่ใช้คำนวณ',
       notes: [
+        'แผนทั้งปี = ยอดจ่ายจริงของงานที่เสร็จแล้ว + ยอดรวมออฟฟิศตามตัวเลือกด้านล่าง (รวมเงินเผื่อ) + ประมาณการของโครงการที่เพิ่มเอง',
         'ราคางานที่ยังเหลือเป็นราคาประเมินตลาดภาคใต้ ปี 2569 รวมค่าวัสดุและค่าแรง ใช้วางงบเท่านั้น ควรขอใบเสนอราคาจริงก่อนสั่งงาน',
         'ผนังสุทธิ = เส้นรอบรูป × ความสูง หักหน้าต่าง 1.32 ตร.ม./ชุด และประตูหลัก 2.0 ตร.ม./บาน',
         'ฉนวนหลังคาคิด 1.1 เท่าของพื้นที่พื้น เผื่อชายคาและความลาด',
@@ -613,21 +692,26 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'ยอด FrameFAST รวม VAT ส่วนลด 10% และค่าขนส่ง 8,000 บาทที่เขียนเพิ่มบนใบเสนอราคา',
         'เผื่อเหลือเผื่อขาดคิดจากงานที่ยังเหลือเท่านั้น ไม่รวมยอดที่จ่ายแล้ว'
       ],
-      mTotal: 'รวมทั้งโครงการ', mPaid: 'จ่ายแล้ว', mLeft: 'ต้องจ่ายอีก',
+      mTotal: 'แผนทั้งปี', mPaid: 'จ่ายแล้ว', mLeft: 'ต้องจ่ายอีก',
       csvHead: ['ส่วน', 'รายการ', 'ตัวเลือก', 'จำนวน', 'หน่วย', 'ราคา/หน่วย', 'จำนวนเงิน'],
-      copyTitle: 'งบสร้างออฟฟิศ Right Bite', size: 'ขนาด'
+      copyTitle: 'แผนปรับปรุงโรงงาน Right Bite', size: 'ขนาด', csvProjHead: ['โครงการ', 'สถานะ', 'จ่ายแล้ว', 'ยังเหลือ', 'รวม']
     },
     en: {
       eyebrow: 'Right Bite · Pak Chalui, Tha Chang, Surat Thani',
-      title: 'Office <span class="pb">build</span> budget',
-      lede: 'What has already been paid, from the quotations and receipts, plus the work still to do. Pick materials, systems and furniture and edit any price; the totals update straight away.',
+      title: 'Factory improvements <span class="pb">2026</span>',
+      lede: 'Every improvement planned for the factory this year: what has been paid, from the receipts, and what is still to come. For the new office, pick materials, systems and furniture and edit any price; the totals update straight away.',
+      ovH: 'The year at a glance', yTotal: 'Year plan', yPaid: 'Paid so far', yLeft: 'Still to pay', yBudget: 'Year budget (THB)', yBudgetPh: 'e.g. 1200000', yCount: '{n} projects · {d} done',
+      colProject: 'Project', colPaid: 'Paid', colLeft: 'Left', colTotal: 'Total / estimate', tot: 'Total',
+      st_done: 'Done', st_doing: 'In progress', st_plan: 'Planned', status: 'Status',
+      floorDocs: 'Show the 2 tax invoices', officeName: 'New office', officeSub: '3 prefab steel frames · adjust the options below', goOffice: 'Adjust options ↓',
+      addProj: 'Add project', projName: 'Project name', newProj: 'New project', est: 'Estimate',
       spec: ['3 galvanised frames', '3 × 6 × 3.15 m each', 'Bluescope Zacs Cool AZ90 roof'],
-      total: 'Project total', perSqm: '{v} per m² ({a} m²)',
+      total: 'Office total', perSqm: '{v} per m² ({a} m²)',
       paid: 'Paid', planned: 'Still to build', cont: 'Contingency', toSpend: 'Left to spend',
       budget: 'Budget (THB)', budgetPh: 'e.g. 800000', under: '{v} under budget', over: '{v} over budget',
       contLbl: 'Buffer', copy: 'Copy summary', copied: 'Copied. Paste it into LINE.', copyFail: 'Copying was blocked. Select the text below and copy it.',
       csv: 'Download CSV', csvDone: 'File saved', csvFail: 'File not saved',
-      reset: 'Reset to defaults', resetQ: 'Clear every change you made?', resetYes: 'Reset', cancel: 'Cancel',
+      reset: 'Reset to defaults', resetQ: 'Clear every office option you changed?', resetYes: 'Reset', cancel: 'Cancel',
       sLocal: 'Saved in this browser', sPending: 'Unsaved changes…', sSaving: 'Saving…', sSaved: 'Saved. Everyone with the link sees the same plan',
       sError: 'Could not save. It will retry on your next change', sReadonly: 'View only. Your edits are not saved',
       secPaid: 'Already paid', secPaidSub: 'From the 8 attached documents. Open a row for its line items. Amounts include VAT.',
@@ -649,6 +733,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       resetPrice: 'Back to the default price', priceOf: 'Unit price for {n}',
       notesH: 'How the numbers are worked out',
       notes: [
+        'Year plan = actual spend on finished work + the office total from the options below (with contingency) + the estimates you enter for other projects.',
         'Prices for the remaining work are 2026 southern-Thailand market estimates including materials and labour. Use them to plan, and get real quotations before ordering.',
         'Net wall area = perimeter × height, less 1.32 m² per window and 2.0 m² per main door.',
         'Roof insulation is 1.1 × the floor area to cover eaves and pitch.',
@@ -657,9 +742,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'The FrameFAST amount includes VAT, the 10% discount and the 8,000 baht delivery written on the quote.',
         'Contingency applies to the remaining work only, not to what is already paid.'
       ],
-      mTotal: 'Project total', mPaid: 'Paid', mLeft: 'Left',
+      mTotal: 'Year plan', mPaid: 'Paid', mLeft: 'Left',
       csvHead: ['Section', 'Item', 'Option', 'Qty', 'Unit', 'Unit price', 'Amount'],
-      copyTitle: 'Right Bite office build budget', size: 'Size'
+      copyTitle: 'Right Bite factory improvements', size: 'Size', csvProjHead: ['Project', 'Status', 'Paid', 'Left', 'Total']
     }
   };
 
@@ -674,7 +759,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     CATS.forEach(function (c) { pick[c.id] = c.def; });
     FURN.forEach(function (f) { furn[f.id] = { q: f.q, t: 'std' }; });
     EXTRAS.forEach(function (x) { extras[x.id] = !!x.on; });
-    return { v: 1, dims: { w: 9, l: 6, h: 3, part: 6, win: 6, door: 1, idoor: 2, ac: null }, pick: pick, price: {}, furn: furn, extras: extras, custom: [], paidExtra: [], cont: 10, budget: null };
+    return { v: 1, dims: { w: 9, l: 6, h: 3, part: 6, win: 6, door: 1, idoor: 2, ac: null }, pick: pick, price: {}, furn: furn, extras: extras, custom: [], paidExtra: [], cont: 10, budget: null, projects: [], officeStatus: 'doing', yearBudget: null };
   }
   function numOr(v, d, min, max) { v = Number(v); if (!isFinite(v)) return d; if (min != null && v < min) v = min; if (max != null && v > max) v = max; return v; }
   function normalize(s) {
@@ -695,6 +780,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     if (Array.isArray(s.paidExtra)) o.paidExtra = s.paidExtra.slice(0, 200).map(function (p) { return { id: String(p.id || uid()), d: /^\d{4}-\d{2}-\d{2}$/.test(p.d) ? p.d : todayISO(), n: String(p.n || '').slice(0, 160), c: PAIDCAT[p.c] ? p.c : 'other', a: numOr(p.a, 0, 0, 1e9) }; });
     o.cont = numOr(s.cont, 10, 0, 50);
     o.budget = s.budget == null || s.budget === '' ? null : numOr(s.budget, null, 0, 1e10);
+    if (Array.isArray(s.projects)) o.projects = s.projects.slice(0, 50).map(function (p) { return { id: String(p.id || uid()), n: String(p.n || '').slice(0, 120), s: STATUSES.indexOf(p.s) >= 0 ? p.s : 'plan', est: numOr(p.est, 0, 0, 1e10), paid: numOr(p.paid, 0, 0, 1e10) }; });
+    if (STATUSES.indexOf(s.officeStatus) >= 0) o.officeStatus = s.officeStatus;
+    o.yearBudget = s.yearBudget == null || s.yearBudget === '' ? null : numOr(s.yearBudget, null, 0, 1e11);
     return o;
   }
   function uid() { return Math.random().toString(36).slice(2, 10); }
@@ -712,7 +800,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   function baht(n, dec) { return '฿' + new Intl.NumberFormat(loc(), dec ? { minimumFractionDigits: 2, maximumFractionDigits: 2 } : { maximumFractionDigits: 0 }).format(n); }
   function nfmt(n, dec) { return new Intl.NumberFormat(loc(), { maximumFractionDigits: dec || 0, minimumFractionDigits: 0 }).format(n); }
   function fdate(iso) { var p = iso.split('-'); var d = new Date(+p[0], +p[1] - 1, +p[2]); return new Intl.DateTimeFormat(lang === 'th' ? 'th-TH' : 'en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(d); }
-  function U(u, n) { var x = UNITS[u]; if (!x) return ''; if (lang === 'en' && n !== 1 && ['set', 'door', 'unit', 'sheet', 'length', 'bag', 'can', 'trip', 'frame', 'pack', 'tube'].indexOf(u) >= 0) return x.en + 's'; return x[lang]; }
+  function U(u, n) { var x = UNITS[u]; if (!x) return ''; if (lang === 'en' && n !== 1 && ['set', 'door', 'unit', 'sheet', 'length', 'bag', 'can', 'trip', 'frame', 'pack', 'tube', 'inst'].indexOf(u) >= 0) return x.en + 's'; return x[lang]; }
   function fq(q, u) { return nfmt(q, u === 'm2' || u === 'm' ? 1 : 0) + ' ' + U(u, q); }
   function priceOf(key, def) { return Object.prototype.hasOwnProperty.call(state.price, key) ? state.price[key] : def; }
   function r2(n) { return Math.round(n * 100) / 100; }
@@ -784,7 +872,19 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     var cats = Object.keys(PAIDCAT).filter(function (k) { return byc[k]; });
     var h = '<section aria-labelledby="h-paid">' + secHead('paid', t('secPaid'), t('secPaidSub'), 'paid-total');
     h += '<div class="paidcats">' + cats.map(function (k) { return '<div><div class="k">' + L(PAIDCAT[k]) + '</div><div class="v">' + baht(byc[k], true) + '</div></div>'; }).join('') + '</div>';
-    h += '<div class="docs">';
+    h += docsListHTML(docs);
+    h += '<form class="addpay" id="addpay" novalidate>' +
+      '<label class="lbl">' + t('date') + '<input class="field" type="date" id="pay-d" value="' + todayISO() + '"></label>' +
+      '<label class="lbl wide">' + t('payDesc') + '<input class="field" type="text" id="pay-n" maxlength="160"></label>' +
+      '<label class="lbl">' + t('cat') + '<select class="field" id="pay-c">' + Object.keys(PAIDCAT).map(function (k) { return '<option value="' + k + '"' + (k === 'other' ? ' selected' : '') + '>' + L(PAIDCAT[k]) + '</option>'; }).join('') + '</select></label>' +
+      '<label class="lbl">' + t('payAmt') + '<input class="field" type="number" min="0" step="any" inputmode="decimal" id="pay-a"></label>' +
+      '<button class="btn" type="submit" id="pay-add">' + t('addPay') + '</button></form>' +
+      '<div class="toast" id="pay-msg" aria-live="polite"></div>';
+    return h + '</section>';
+  }
+
+  function docsListHTML(docs) {
+    var h = '<div class="docs">';
     docs.forEach(function (d) {
       var vend = d.mine ? esc(d.n) : L(VENDORS[d.v]);
       var sub = d.mine ? t('mine') + ' · ' + L(PAIDCAT[d.lines[0][0]]) : '<span class="mono">' + esc(d.no) + '</span> · ' + L(DOCKIND[d.kind]);
@@ -805,15 +905,54 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       }
       h += '</div></details>';
     });
-    h += '</div>';
-    h += '<form class="addpay" id="addpay" novalidate>' +
-      '<label class="lbl">' + t('date') + '<input class="field" type="date" id="pay-d" value="' + todayISO() + '"></label>' +
-      '<label class="lbl wide">' + t('payDesc') + '<input class="field" type="text" id="pay-n" maxlength="160"></label>' +
-      '<label class="lbl">' + t('cat') + '<select class="field" id="pay-c">' + Object.keys(PAIDCAT).map(function (k) { return '<option value="' + k + '"' + (k === 'other' ? ' selected' : '') + '>' + L(PAIDCAT[k]) + '</option>'; }).join('') + '</select></label>' +
-      '<label class="lbl">' + t('payAmt') + '<input class="field" type="number" min="0" step="any" inputmode="decimal" id="pay-a"></label>' +
-      '<button class="btn" type="submit" id="pay-add">' + t('addPay') + '</button></form>' +
-      '<div class="toast" id="pay-msg" aria-live="polite"></div>';
-    return h + '</section>';
+    return h + '</div>';
+  }
+
+  /* ---------- year overview ---------- */
+  function projects(r) {
+    var rows = [], fPaid = r2(FLOOR.docs.reduce(function (s, d) { return s + d.total; }, 0));
+    rows.push({ id: 'floor', name: L(FLOOR.name), s: 'done', paid: fPaid, total: fPaid });
+    rows.push({ id: 'office', name: t('officeName'), s: state.officeStatus, paid: r.paid, total: r.total });
+    state.projects.forEach(function (p) { rows.push({ id: p.id, name: p.n || t('newProj'), s: p.s, paid: p.paid, total: Math.max(p.est, p.paid) }); });
+    var P = { rows: rows, paid: 0, total: 0, left: 0, done: 0 };
+    rows.forEach(function (x) { x.left = Math.max(0, x.total - x.paid); P.paid += x.paid; P.total += x.total; P.left += x.left; if (x.s === 'done') P.done++; });
+    return P;
+  }
+  function chip(s) { return '<span class="chip ' + s + '">' + { done: '✓', doing: '●', plan: '○' }[s] + ' ' + t('st_' + s) + '</span>'; }
+  function statusSelect(id, attrs, cur) {
+    return '<select class="st-' + cur + '" id="' + id + '" ' + attrs + ' aria-label="' + esc(t('status')) + '">' + STATUSES.map(function (s) { return '<option value="' + s + '"' + (s === cur ? ' selected' : '') + '>' + t('st_' + s) + '</option>'; }).join('') + '</select>';
+  }
+  function prowMain(id, nameHTML, paidHTML, totalHTML) {
+    return '<div class="prow-main"><div class="p-name">' + nameHTML + '</div><div class="meter" data-meter="' + esc(id) + '" role="img"></div>' +
+      '<div class="p-num"><span class="k">' + t('colPaid') + '</span>' + paidHTML + '</div>' +
+      '<div class="p-num"><span class="k">' + t('colLeft') + '</span><span data-out="pl-' + esc(id) + '"></span></div>' +
+      '<div class="p-num"><span class="k">' + t('colTotal') + '</span>' + totalHTML + '</div></div>';
+  }
+  function overviewHTML() {
+    var h = '<div class="sec-h"><h2 id="h-ov">' + t('ovH') + '</h2></div>';
+    h += '<div class="ov-stats">' +
+      '<div class="big"><span class="k">' + t('yTotal') + '</span><span class="v" data-out="y-total"></span><span class="per" data-out="y-count"></span></div>' +
+      '<div><span class="k">' + t('yPaid') + '</span><span class="v" data-out="y-paid"></span></div>' +
+      '<div><span class="k">' + t('yLeft') + '</span><span class="v" data-out="y-left"></span></div>' +
+      '<div class="bud"><label class="k" for="ybudget">' + t('yBudget') + '</label><input class="field" style="max-width:220px" type="number" min="0" step="10000" inputmode="numeric" id="ybudget" placeholder="' + esc(t('yBudgetPh')) + '" value="' + (state.yearBudget == null ? '' : state.yearBudget) + '"><span data-out="ybudget-status"></span></div>' +
+      '</div>';
+    h += '<div class="projects"><div class="ov-head"><span>' + t('colProject') + '</span><span class="lg"><span class="sw" style="background:var(--s-paid)"></span>' + t('colPaid') + '<span class="sw" style="background:var(--pb)"></span>' + t('colLeft') + '</span><span class="r">' + t('colPaid') + '</span><span class="r">' + t('colLeft') + '</span><span class="r">' + t('colTotal') + '</span></div>';
+    h += '<div class="prow">' + prowMain('floor', '<b>' + L(FLOOR.name) + '</b><small>' + L(FLOOR.sub) + '</small>' + chip('done'), '<span data-out="pp-floor"></span>', '<span data-out="pt-floor"></span>') +
+      '<details class="pdocs" data-doc="floor-docs"' + (openDocs['floor-docs'] ? ' open' : '') + '><summary>' + t('floorDocs') + '</summary>' + docsListHTML(FLOOR.docs) + '</details></div>';
+    h += '<div class="prow">' + prowMain('office', '<b>' + t('officeName') + '</b><small>' + t('officeSub') + '</small><div class="p-ctl">' + statusSelect('ost', 'data-ostatus="1"', state.officeStatus) + '<button type="button" class="linkbtn" data-goto="office">' + t('goOffice') + '</button></div>', '<span data-out="pp-office"></span>', '<span data-out="pt-office"></span>') + '</div>';
+    state.projects.forEach(function (p) {
+      var id = esc(p.id);
+      h += '<div class="prow">' + prowMain(p.id,
+        '<input class="field" type="text" id="pjn-' + id + '" data-pj="' + id + '" data-f="n" value="' + esc(p.n) + '" placeholder="' + esc(t('projName')) + '" aria-label="' + esc(t('projName')) + '" maxlength="120"><div class="p-ctl">' + statusSelect('pjs-' + id, 'data-pj="' + id + '" data-f="s"', p.s) + '<button type="button" class="del" data-delpj="' + id + '">' + t('del') + '</button></div>',
+        '<input class="num" type="number" min="0" step="any" inputmode="decimal" id="pjp-' + id + '" data-pj="' + id + '" data-f="paid" value="' + p.paid + '" aria-label="' + esc(t('colPaid')) + '">',
+        '<input class="num" type="number" min="0" step="any" inputmode="decimal" id="pje-' + id + '" data-pj="' + id + '" data-f="est" value="' + p.est + '" aria-label="' + esc(t('est')) + '">') + '</div>';
+    });
+    h += '<div class="addrow"><button type="button" class="btn" id="pj-add" data-addpj="1">+ ' + t('addProj') + '</button></div></div>';
+    return h;
+  }
+  function bandHTML() {
+    return '<div class="band-h"><h2 id="h-office">' + t('officeName') + '</h2>' + chip(state.officeStatus) + '</div>' +
+      '<div class="spec">' + t('spec').map(function (s) { return '<span>' + s + '</span>'; }).join('<span aria-hidden="true">·</span>') + '</div>';
   }
 
   function sizeHTML() {
@@ -933,7 +1072,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     document.getElementById('t-eyebrow').textContent = t('eyebrow');
     document.getElementById('t-title').innerHTML = t('title');
     document.getElementById('t-lede').textContent = t('lede');
-    document.getElementById('t-spec').innerHTML = t('spec').map(function (s) { return '<span>' + s + '</span>'; }).join('<span aria-hidden="true">·</span>');
+    document.getElementById('overview').innerHTML = overviewHTML();
+    document.getElementById('office').innerHTML = bandHTML();
     ['th', 'en'].forEach(function (l) { document.getElementById('lang-' + l).setAttribute('aria-pressed', String(l === lang)); });
     main.innerHTML = paidHTML() + sizeHTML() + secCats(SECS[0], 'secShell', 'secShellSub') + secCats(SECS[1], 'secOpen') + secCats(SECS[2], 'secSys') + furnHTML() + extrasHTML() + customHTML() + notesHTML();
     aside.innerHTML = asideHTML();
@@ -999,7 +1139,24 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       if (state.budget == null || !state.budget) bs.innerHTML = '';
       else { var diff = state.budget - r.total; bs.innerHTML = '<span class="status ' + (diff >= 0 ? 'ok' : 'no') + '">' + (diff >= 0 ? '✓ ' : '! ') + tf(diff >= 0 ? 'under' : 'over', { v: baht(Math.abs(diff)) }) + '</span>'; }
     }
-    document.getElementById('mbar').innerHTML = '<div><div class="k">' + t('mTotal') + '</div><div class="v">' + baht(r.total) + '</div></div><div class="r">' + t('mPaid') + ' ' + baht(r.paid) + '<br>' + t('mLeft') + ' ' + baht(r.toSpend) + '</div>';
+    // year overview
+    var P = projects(r);
+    out('y-total', baht(P.total)); out('y-paid', baht(P.paid)); out('y-left', baht(P.left));
+    out('y-count', tf('yCount', { n: P.rows.length, d: P.done }));
+    P.rows.forEach(function (x) {
+      out('pp-' + x.id, baht(x.paid)); out('pl-' + x.id, x.left ? baht(x.left) : '—'); out('pt-' + x.id, baht(x.total));
+      var m = document.querySelector('[data-meter="' + x.id + '"]');
+      if (m) {
+        m.innerHTML = (x.paid > 0 ? '<span class="m-paid" style="flex:' + x.paid + ' 1 0"></span>' : '') + (x.left > 0 ? '<span class="m-left" style="flex:' + x.left + ' 1 0"></span>' : '');
+        m.setAttribute('aria-label', t('colPaid') + ' ' + nfmt(x.total ? x.paid / x.total * 100 : 0) + '%');
+      }
+    });
+    var ys = document.querySelector('[data-out="ybudget-status"]');
+    if (ys) {
+      if (!state.yearBudget) ys.innerHTML = '';
+      else { var yd = state.yearBudget - P.total; ys.innerHTML = '<span class="status ' + (yd >= 0 ? 'ok' : 'no') + '">' + (yd >= 0 ? '✓ ' : '! ') + tf(yd >= 0 ? 'under' : 'over', { v: baht(Math.abs(yd)) }) + '</span>'; }
+    }
+    document.getElementById('mbar').innerHTML = '<div><div class="k">' + t('mTotal') + '</div><div class="v">' + baht(P.total) + '</div></div><div class="r">' + t('mPaid') + ' ' + baht(P.paid) + '<br>' + t('mLeft') + ' ' + baht(P.left) + '</div>';
   }
 
   /* ================= persistence: shared plan when published as an artifact, browser storage otherwise ================= */
@@ -1059,8 +1216,13 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
   /* ================= export ================= */
   function summaryText() {
-    var r = last || compute(), lines = [];
+    var r = last || compute(), P = projects(r), lines = [];
     lines.push(t('copyTitle') + ' · ' + fdate(todayISO()));
+    P.rows.forEach(function (x) { lines.push('• ' + x.name + ' [' + t('st_' + x.s) + ']: ' + t('colPaid') + ' ' + baht(x.paid) + ' / ' + t('colLeft') + ' ' + baht(x.left) + ' / ' + t('tot') + ' ' + baht(x.total)); });
+    lines.push(t('yTotal') + ' ' + baht(P.total) + ' · ' + t('yPaid') + ' ' + baht(P.paid) + ' · ' + t('yLeft') + ' ' + baht(P.left));
+    if (state.yearBudget) { var yd = state.yearBudget - P.total; lines.push(t('yBudget') + ': ' + baht(state.yearBudget) + ' (' + tf(yd >= 0 ? 'under' : 'over', { v: baht(Math.abs(yd)) }) + ')'); }
+    lines.push('');
+    lines.push('== ' + t('officeName') + ' ==');
     lines.push(t('size') + ' ' + nfmt(state.dims.w, 1) + ' × ' + nfmt(state.dims.l, 1) + ' ' + U('m') + ' = ' + fq(r.g.floor, 'm2'));
     lines.push('');
     lines.push(L(GROUPS.paid) + ': ' + baht(r.paid, true));
@@ -1075,8 +1237,13 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     return lines.join('\n');
   }
   function csvText() {
-    var r = last || compute(), rows = [t('csvHead')];
+    var r = last || compute(), P = projects(r), rows = [t('csvProjHead')];
     function q(v) { v = String(v == null ? '' : v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+    P.rows.forEach(function (x) { rows.push([x.name, t('st_' + x.s), x.paid.toFixed(2), x.left.toFixed(2), x.total.toFixed(2)]); });
+    rows.push([t('yTotal'), '', P.paid.toFixed(2), P.left.toFixed(2), P.total.toFixed(2)]);
+    rows.push([]);
+    rows.push(t('csvHead'));
+    FLOOR.docs.forEach(function (d) { rows.push([L(FLOOR.name), L(VENDORS[d.v]) + ' ' + d.no, fdate(d.date), 1, U('lump', 1), d.total.toFixed(2), d.total.toFixed(2)]); });
     paidDocs().forEach(function (d) { rows.push([L(GROUPS.paid), d.mine ? d.n : L(VENDORS[d.v]) + ' ' + d.no, fdate(d.date), 1, U('lump', 1), d.total.toFixed(2), d.total.toFixed(2)]); });
     r.lines.forEach(function (l) {
       if (!l.a && l.kind !== 'cat') return;
@@ -1111,6 +1278,14 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       changed(); return;
     }
     if (el.id === 'budget') { var b = num(el.value); state.budget = b == null ? null : Math.max(0, b); changed(); return; }
+    if (el.id === 'ybudget') { var yb = num(el.value); state.yearBudget = yb == null ? null : Math.max(0, yb); changed(); return; }
+    if (ds.pj) {
+      var pj = state.projects.filter(function (x) { return x.id === ds.pj; })[0]; if (!pj) return;
+      if (ds.f === 'n') pj.n = el.value.slice(0, 120);
+      else if (ds.f === 'paid' || ds.f === 'est') { var pv = num(el.value); if (pv == null || pv < 0) return; pj[ds.f] = pv; }
+      else return;
+      changed(); return;
+    }
     if (el.id === 'cont') { state.cont = Math.round(+el.value); changed(); return; }
   });
 
@@ -1119,6 +1294,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     if (ds.pick) { state.pick[ds.pick] = el.value; changed(); return; }
     if (ds.ex) { state.extras[ds.ex] = el.checked; changed(); return; }
     if (ds.ft) { state.furn[ds.ft].t = el.value; changed(); render(); return; }
+    if (ds.ostatus) { state.officeStatus = el.value; changed(); render(); return; }
+    if (ds.pj && ds.f === 's') { var ps = state.projects.filter(function (x) { return x.id === ds.pj; })[0]; if (ps) { ps.s = el.value; changed(); render(); } return; }
     if (ds.cu && ds.f === 'g') { var cu = state.custom.filter(function (x) { return x.id === ds.cu; })[0]; if (cu) { cu.g = el.value; changed(); } return; }
     if (ds.price && el.value === '') { delete state.price[ds.price]; changed(); render(); return; }
     if (ds.dim && ds.dim !== 'ac' && num(el.value) == null) { el.value = state.dims[ds.dim]; return; }
@@ -1135,6 +1312,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     if (ds.unprice) { delete state.price[ds.unprice]; changed(); render(); return; }
     if (ds.step) { var f = state.furn[ds.step]; f.q = Math.max(0, f.q + (+ds.d)); var inp = document.getElementById('fq-' + ds.step); if (inp) inp.value = f.q; changed(); return; }
     if (ds.alltier) { FURN.forEach(function (x) { state.furn[x.id].t = ds.alltier; }); changed(); render(); return; }
+    if (ds.addpj) { var pid = uid(); state.projects.push({ id: pid, n: '', s: 'plan', est: 0, paid: 0 }); changed(); render(); var pn = document.getElementById('pjn-' + pid); if (pn) pn.focus(); return; }
+    if (ds.delpj) { state.projects = state.projects.filter(function (x) { return x.id !== ds.delpj; }); changed(); render(); return; }
+    if (ds.goto) { var tg = document.getElementById(ds.goto); if (tg) tg.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); return; }
     if (ds.addcu) { var id = uid(); state.custom.push({ id: id, n: '', g: 'extra', q: 1, p: 0 }); changed(); render(); var n = document.getElementById('cn-' + id); if (n) n.focus(); return; }
     if (ds.delcu) { state.custom = state.custom.filter(function (x) { return x.id !== ds.delcu; }); changed(); render(); return; }
     if (ds.delpay) { state.paidExtra = state.paidExtra.filter(function (x) { return x.id !== ds.delpay; }); delete openDocs[ds.delpay]; changed(); render(); return; }
@@ -1152,7 +1332,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     }
     if (el.id === 'reset') { resetArmed = true; document.getElementById('reset-wrap').innerHTML = resetHTML(); var y = document.getElementById('reset-no'); if (y) y.focus(); clearTimeout(resetTimer); resetTimer = setTimeout(function () { resetArmed = false; var w = document.getElementById('reset-wrap'); if (w) w.innerHTML = resetHTML(); }, 8000); return; }
     if (el.id === 'reset-no') { resetArmed = false; document.getElementById('reset-wrap').innerHTML = resetHTML(); return; }
-    if (el.id === 'reset-yes') { resetArmed = false; var keepPaid = state.paidExtra; state = defaults(); state.paidExtra = keepPaid; changed(); render(); return; }
+    if (el.id === 'reset-yes') { resetArmed = false; var keep = state; state = defaults(); state.paidExtra = keep.paidExtra; state.projects = keep.projects; state.officeStatus = keep.officeStatus; state.yearBudget = keep.yearBudget; changed(); render(); return; }
   });
 
   document.addEventListener('submit', function (e) {
