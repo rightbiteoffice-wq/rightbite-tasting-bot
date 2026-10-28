@@ -369,6 +369,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     tw:  { th: 'ไทวัสดุ สาขาสุราษฎร์ธานี', en: 'Thai Watsadu, Surat Thani' },
     tp:  { th: 'ช่างธีรพงศ์ บุญขวัญ', en: 'Teerapong Boonkwan (contractor)' },
     ady: { th: 'หจก. อะเดยมี ดีไซน์ แอนด์ คอนสตรัคชั่น', en: 'Adaymy Design and Construction LP' },
+    tss: { th: 'บจก. ไทยสุราษฎร์สตีล', en: 'Thai Surat Steel Co., Ltd.' },
     sp_cmd: { th: 'Shopee · COMMANDO Shop', en: 'Shopee · COMMANDO Shop' },
     sp_tdss: { th: 'Shopee · TDSS_SHOP', en: 'Shopee · TDSS_SHOP' },
     sp_meegoo: { th: 'Shopee · MeeGoo Smart Home', en: 'Shopee · MeeGoo Smart Home' },
@@ -459,8 +460,18 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   }, {
     id: 'fence',
     name: { th: 'รั้วและประตูรั้วไฟฟ้า', en: 'Fence & motorised gate' },
-    sub: { th: 'หจก. อะเดยมี 2 งวด · มอเตอร์และอุปกรณ์จาก Shopee · ค่าติดตั้ง', en: 'Adaymy, 2 instalments · motor and parts from Shopee · installation' },
+    sub: { th: 'หจก. อะเดยมี 2 งวด · เมทัลชีทและครอบจากไทยสุราษฎร์สตีล · มอเตอร์และอุปกรณ์จาก Shopee · ค่าติดตั้ง', en: 'Adaymy, 2 instalments · metal sheet and flashing from Thai Surat Steel · motor and parts from Shopee · installation' },
     docs: [
+      { id: 'tss-qt2607023', date: '2026-07-15', v: 'tss', no: 'QT2607023', kind: 'quote', total: 19536.06, lines: [
+        ['roof', 'เมทัลชีท Twinline 760 Zacs Natural 0.35 Asian White AZ90 G550 ยาว 1.80 ม. (182 บาท/ม.)', 'Metal sheet Twinline 760 Zacs Natural 0.35, Asian White AZ90 G550, 1.80 m (182 baht/m)', 50, 'sheet', 16380],
+        ['hw', 'สกรู 10-16×16 ซิงค์ Class 3', 'Screws 10-16×16, zinc, Class 3', 400, 'pc', 728],
+        ['delivery', 'ค่าขนส่ง รถกระบะ', 'Delivery by pickup', 1, 'trip', 1150],
+        ['*', 'VAT 7%', 'VAT 7%', null, null, 1278.06, true]
+      ], note: { th: 'ใบนี้ออกในนาม "ลูกค้าเงินสด" ไม่ได้ระบุชื่อบริษัท', en: 'Issued to a "cash customer", not to the company by name' } },
+      { id: 'tss-qt2607031', date: '2026-07-21', v: 'tss', no: 'QT2607031', kind: 'quote', total: 4269.3, lines: [
+        ['roof', 'ครอบ Flashing G313 Zacs Natural 0.35 Asian White AZ90 G550 ยาว 4.20 ม. (95 บาท/ม.)', 'Flashing G313 Zacs Natural 0.35, Asian White AZ90 G550, 4.20 m (95 baht/m)', 10, 'sheet', 3990],
+        ['*', 'VAT 7%', 'VAT 7%', null, null, 279.3, true]
+      ]},
       { id: 'adaymy-02-003', date: '2026-08-10', v: 'ady', no: '02-003', kind: 'tax', total: 21170.49, lines: [
         ['fence', 'งวด 1 งานรั้วและประตูรั้ว', 'Instalment 1: fence and gate', 1, 'inst', 19785.5],
         ['fence', 'VAT 7%', 'VAT 7%', null, null, 1384.99, true]
@@ -922,9 +933,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   function paidByCat(docs) {
     var by = {};
     (docs || paidDocs()).forEach(function (d) {
-      var sum = d.lines.reduce(function (s, l) { return s + l[5]; }, 0) || 1;
+      var base = d.lines.filter(function (l) { return l[0] !== '*'; });
+      var sum = base.reduce(function (s, l) { return s + l[5]; }, 0) || 1;
       var k = d.total / sum;
-      d.lines.forEach(function (l) { by[l[0]] = (by[l[0]] || 0) + l[5] * k; });
+      base.forEach(function (l) { by[l[0]] = (by[l[0]] || 0) + l[5] * k; });
     });
     return by;
   }
