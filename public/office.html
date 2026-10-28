@@ -397,24 +397,6 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   };
   // line: [category, thai, english, qty, unit, amount, isAdjustment]
   var PAID = [
-    { id: 'qt2609-0763', date: '2026-09-22', v: 'mss', no: 'QT2609-0763', kind: 'quote', total: 15459, lines: [
-      ['roof', 'หลังคาเมทัลชีท 760 มม. Asian White 0.35 (Zacs Cool AZ90) ยาว 2.20 ม.', 'Roof sheet 760 mm, Asian White 0.35 (Zacs Cool AZ90), 2.20 m', 20, 'sheet', 6820],
-      ['roof', 'ครอบข้างตรง 304 มม. Asian White ยาว 2.10 ม.', 'Straight side flashing 304 mm, Asian White, 2.10 m', 2, 'sheet', 279.51],
-      ['structure', 'เหล็กตัวซี GI 3" × 3.2 มม. (24–25 กก.)', 'GI C-channel 3" × 3.2 mm (24–25 kg)', 6, 'length', 4080],
-      ['structure', 'ท่อพรีซิงค์ 3" (M) คาดน้ำเงิน', 'Pre-galvanised pipe 3" (M), blue band', 3, 'length', 2955],
-      ['hw', 'สี Maxzo เนื้อด้าน สีเงิน #8200', 'Maxzo matte paint, silver #8200', 1, 'can', 178],
-      ['hw', 'ซิลิโคน SX-2000 สีขาว', 'Silicone SX-2000, white', 1, 'pc', 120],
-      ['hw', 'สกรูปลายสว่าน 2" หัวสีขาว Inno-cons', 'Self-drilling screws 2", white head (Inno-cons)', 1, 'bag', 200],
-      ['hw', 'สกรูยึดแผ่น 16×20 หัวสีขาว', 'Sheet screws 16×20, white head', 1, 'bag', 155],
-      ['structure', 'เพลทเหล็ก 4"×4" หนา 6 มม. เจาะรู', 'Steel plate 4"×4", 6 mm, drilled', 4, 'pc', 160],
-      ['hw', 'พุ๊กเหล็ก 3/8" ยาว 75 มม.', 'Steel anchor 3/8", 75 mm', 16, 'pc', 112],
-      ['delivery', 'ค่าขนส่งในพื้นที่ รถกระบะ', 'Local delivery by pickup', 40, 'km', 400],
-      ['structure', 'ส่วนลดปัดเศษ', 'Rounding discount', null, null, -0.51, true]
-    ]},
-    { id: 'qt2609-0785', date: '2026-09-23', v: 'mss', no: 'QT2609-0785', kind: 'quote', total: 2044, lines: [
-      ['roof', 'หลังคาเมทัลชีท 760 มม. Asian White 0.35 ยาว 2.20 ม.', 'Roof sheet 760 mm, Asian White 0.35, 2.20 m', 4, 'sheet', 1364],
-      ['structure', 'เหล็กตัวซี GI 3" × 3.2 มม. (24–25 กก.)', 'GI C-channel 3" × 3.2 mm (24–25 kg)', 1, 'length', 680]
-    ]},
     { id: 'framefast', date: '2026-10-06', v: 'ff', no: 'Q20261006-0002', kind: 'quote', total: 53678,
       note: { th: 'โครงกัลวาไนซ์ 3 ชุด ขนาด 3 × 6 × 3.15 ม. · โอน 2 งวด รวม 57,678 (มัดจำสั่งผลิต 28,839 + ก่อนส่งสินค้า 28,839) · ค่าส่ง 8,000 ส่งพร้อมห้องเก็บของ จึงนับที่นี่ 4,000 และที่ห้องเก็บของ 4,000', en: 'Three galvanised frames, 3 × 6 × 3.15 m each · 57,678 transferred in 2 instalments (28,839 deposit + 28,839 before delivery) · the 8,000 delivery also brought the storeroom kit, so 4,000 is counted here and 4,000 under the storeroom' },
       lines: [
@@ -515,6 +497,34 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ], note: { th: 'ราคาป้าย ฿110 จ่ายจริงหลังส่วนลด ฿99 · วันที่ = วันที่ได้รับของ', en: 'List price ฿110; paid ฿99 after discounts · date is the delivery date' } },
       { id: 'gate-install', date: null, v: 'gate_inst', no: '—', kind: 'cash', total: 3000, lines: [
         ['labor', 'ค่าติดตั้งมอเตอร์ประตูรั้ว', 'Gate motor installation', 1, 'lump', 3000]
+      ]}
+    ]
+  }, {
+    id: 'canopy',
+    name: { th: 'ต่อเติมกันสาดหลังคาและรางน้ำ', en: 'Roof canopy extension & gutter' },
+    sub: { th: 'ค่าแรงช่างธีรพงศ์ · วัสดุจากเมทัล สตีล สเตชั่น 2 ใบ', en: 'Labour by Teerapong · materials on 2 Metal Steel Station quotes' },
+    docs: [
+      { id: 'qt2609-0763', date: '2026-09-22', v: 'mss', no: 'QT2609-0763', kind: 'quote', total: 15459, lines: [
+        ['roof', 'หลังคาเมทัลชีท 760 มม. Asian White 0.35 (Zacs Cool AZ90) ยาว 2.20 ม.', 'Roof sheet 760 mm, Asian White 0.35 (Zacs Cool AZ90), 2.20 m', 20, 'sheet', 6820],
+        ['roof', 'ครอบข้างตรง 304 มม. Asian White ยาว 2.10 ม.', 'Straight side flashing 304 mm, Asian White, 2.10 m', 2, 'sheet', 279.51],
+        ['structure', 'เหล็กตัวซี GI 3" × 3.2 มม. (24–25 กก.)', 'GI C-channel 3" × 3.2 mm (24–25 kg)', 6, 'length', 4080],
+        ['structure', 'ท่อพรีซิงค์ 3" (M) คาดน้ำเงิน', 'Pre-galvanised pipe 3" (M), blue band', 3, 'length', 2955],
+        ['hw', 'สี Maxzo เนื้อด้าน สีเงิน #8200', 'Maxzo matte paint, silver #8200', 1, 'can', 178],
+        ['hw', 'ซิลิโคน SX-2000 สีขาว', 'Silicone SX-2000, white', 1, 'pc', 120],
+        ['hw', 'สกรูปลายสว่าน 2" หัวสีขาว Inno-cons', 'Self-drilling screws 2", white head (Inno-cons)', 1, 'bag', 200],
+        ['hw', 'สกรูยึดแผ่น 16×20 หัวสีขาว', 'Sheet screws 16×20, white head', 1, 'bag', 155],
+        ['structure', 'เพลทเหล็ก 4"×4" หนา 6 มม. เจาะรู', 'Steel plate 4"×4", 6 mm, drilled', 4, 'pc', 160],
+        ['hw', 'พุ๊กเหล็ก 3/8" ยาว 75 มม.', 'Steel anchor 3/8", 75 mm', 16, 'pc', 112],
+        ['delivery', 'ค่าขนส่งในพื้นที่ รถกระบะ', 'Local delivery by pickup', 40, 'km', 400],
+        ['structure', 'ส่วนลดปัดเศษ', 'Rounding discount', null, null, -0.51, true]
+      ]},
+      { id: 'qt2609-0785', date: '2026-09-23', v: 'mss', no: 'QT2609-0785', kind: 'quote', total: 2044, lines: [
+        ['roof', 'หลังคาเมทัลชีท 760 มม. Asian White 0.35 ยาว 2.20 ม.', 'Roof sheet 760 mm, Asian White 0.35, 2.20 m', 4, 'sheet', 1364],
+        ['structure', 'เหล็กตัวซี GI 3" × 3.2 มม. (24–25 กก.)', 'GI C-channel 3" × 3.2 mm (24–25 kg)', 1, 'length', 680]
+      ]},
+      { id: 'labor-canopy', date: '2026-09-22', v: 'tp', no: '—', kind: 'labor', total: 22022, lines: [
+        ['labor', 'ค่าแรงต่อเติมโครงหลังคาและมุงแผ่นเมทัลชีท พร้อมครอบข้าง', 'Labour to extend the roof frame and lay metal sheet with side flashing', 30.8, 'm2', 16940],
+        ['labor', 'ค่าแรงรื้อถอนรางน้ำพร้อมติดตั้งใหม่', 'Labour to remove the gutter and reinstall it', 15.4, 'm2', 5082]
       ]}
     ]
   }, {
@@ -732,7 +742,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       reset: 'คืนค่าเริ่มต้น', resetQ: 'ล้างตัวเลือกออฟฟิศที่ปรับไว้?', resetYes: 'คืนค่า', cancel: 'ยกเลิก',
       sLocal: 'บันทึกในเบราว์เซอร์นี้', sPending: 'มีการแก้ไข…', sSaving: 'กำลังบันทึก…', sSaved: 'บันทึกแล้ว ทุกคนที่เปิดลิงก์เห็นตรงกัน',
       sError: 'บันทึกไม่สำเร็จ จะลองใหม่เมื่อแก้ครั้งถัดไป', sReadonly: 'ดูอย่างเดียว การแก้ไขของคุณไม่ถูกบันทึก',
-      secPaid: 'จ่ายแล้ว', secPaidSub: 'จากเอกสาร 8 ฉบับที่แนบมา กดแต่ละรายการเพื่อดูรายละเอียด ยอดรวม VAT แล้ว',
+      secPaid: 'จ่ายแล้ว', secPaidSub: 'จากเอกสาร {n} ฉบับที่แนบมา กดแต่ละรายการเพื่อดูรายละเอียด ยอดรวม VAT แล้ว',
       date: 'วันที่', item: 'รายการ', qty: 'จำนวน', unitPrice: 'ราคา/หน่วย', amount: 'จำนวนเงิน', cat: 'หมวด',
       addPay: 'บันทึกการจ่ายเพิ่ม', payDesc: 'รายละเอียด / ผู้ขาย', payAmt: 'จำนวนเงิน (บาท)', add: 'เพิ่ม', del: 'ลบ',
       mine: 'เพิ่มเอง', needAmt: 'ใส่รายละเอียดและจำนวนเงินก่อน',
@@ -784,7 +794,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       reset: 'Reset to defaults', resetQ: 'Clear every office option you changed?', resetYes: 'Reset', cancel: 'Cancel',
       sLocal: 'Saved in this browser', sPending: 'Unsaved changes…', sSaving: 'Saving…', sSaved: 'Saved. Everyone with the link sees the same plan',
       sError: 'Could not save. It will retry on your next change', sReadonly: 'View only. Your edits are not saved',
-      secPaid: 'Already paid', secPaidSub: 'From the 8 attached documents. Open a row for its line items. Amounts include VAT.',
+      secPaid: 'Already paid', secPaidSub: 'From the {n} attached documents. Open a row for its line items. Amounts include VAT.',
       date: 'Date', item: 'Item', qty: 'Qty', unitPrice: 'Unit price', amount: 'Amount', cat: 'Category',
       addPay: 'Record another payment', payDesc: 'Description / supplier', payAmt: 'Amount (THB)', add: 'Add', del: 'Delete',
       mine: 'Added here', needAmt: 'Enter a description and an amount first',
@@ -944,7 +954,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   function paidHTML() {
     var docs = paidDocs(), byc = paidByCat(docs);
     var cats = Object.keys(PAIDCAT).filter(function (k) { return byc[k]; });
-    var h = '<section aria-labelledby="h-paid">' + secHead('paid', t('secPaid'), t('secPaidSub'), 'paid-total');
+    var h = '<section aria-labelledby="h-paid">' + secHead('paid', t('secPaid'), tf('secPaidSub', { n: PAID.length }), 'paid-total');
     h += '<div class="paidcats">' + cats.map(function (k) { return '<div><div class="k">' + L(PAIDCAT[k]) + '</div><div class="v">' + baht(byc[k], true) + '</div></div>'; }).join('') + '</div>';
     h += docsListHTML(docs);
     h += '<form class="addpay" id="addpay" novalidate>' +
@@ -971,7 +981,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         d.lines.forEach(function (l) {
           var name = lang === 'th' ? l[1] : l[2];
           h += '<tr' + (l[6] ? ' class="adj"' : '') + '><td>' + esc(name) + '</td><td>' + (l[6] ? '' : '<span class="tag">' + L(PAIDCAT[l[0]]) + '</span>') + '</td>' +
-            '<td class="r">' + (l[3] != null ? nfmt(l[3]) + ' ' + U(l[4], l[3]) : '') + '</td>' +
+            '<td class="r">' + (l[3] != null ? nfmt(l[3], 2) + ' ' + U(l[4], l[3]) : '') + '</td>' +
             '<td class="r">' + (l[3] ? baht(l[5] / l[3], true) : '') + '</td><td class="r">' + baht(l[5], true) + '</td></tr>';
         });
         h += '</tbody></table></div>';
@@ -1020,7 +1030,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     }
     h += '<details class="pdocs" data-doc="' + pr.id + '-docs"' + (openDocs[pr.id + '-docs'] ? ' open' : '') + '><summary>' + tf(pr.docs.length === 1 ? 'showDoc1' : 'showDocs', { n: pr.docs.length }) + '</summary>' +
       (cats.length > 1 ? '<div class="paidcats">' + cats.map(function (k) { return '<div><div class="k">' + L(PAIDCAT[k]) + '</div><div class="v">' + baht(byc[k], true) + '</div></div>'; }).join('') + '</div>' : '') +
-      docsListHTML(pr.docs) + '</details>';
+      docsListHTML(pr.docs.slice().sort(function (a, b) { return !a.date ? (b.date ? 1 : 0) : !b.date ? -1 : a.date < b.date ? -1 : a.date > b.date ? 1 : 0; })) + '</details>';
     return h + '</div>';
   }
   function overviewHTML() {
