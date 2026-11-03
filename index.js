@@ -1,6 +1,7 @@
 const express = require('express');
 const axios   = require('axios');
 const { google } = require('googleapis');
+const createDehumidifier = require('./dehumidifier');
 const app = express();
 app.use(express.json());
 
@@ -131,19 +132,27 @@ function saveScore(userId, name, sku, sc, avg, passed, note) {
 // ============================================================
 //  LINE API
 // ============================================================
-async function replyMessage(replyToken, text) {
-  await axios.post('https://api.line.me/v2/bot/message/reply',
-    { replyToken, messages: [{ type:'text', text }] },
-    { headers: { Authorization: `Bearer ${CHANNEL_ACCESS_TOKEN}` } }
-  ).catch(e => console.error('replyMessage:', e.message));
+function lineError(e) {
+  return e.response && e.response.data ? JSON.stringify(e.response.data) : e.message;
 }
 
-async function pushMessage(userId, text) {
-  await axios.post('https://api.line.me/v2/bot/message/push',
-    { to: userId, messages: [{ type:'text', text }] },
+// ส่งได้หลายข้อความ (ข้อความ + ปุ่ม) ใน 1 ครั้ง — นับโควตา LINE เป็น 1 ข้อความ
+async function replyMessages(replyToken, messages) {
+  await axios.post('https://api.line.me/v2/bot/message/reply',
+    { replyToken, messages },
     { headers: { Authorization: `Bearer ${CHANNEL_ACCESS_TOKEN}` } }
-  ).catch(e => console.error('pushMessage:', e.message));
+  ).catch(e => console.error('replyMessages:', lineError(e)));
 }
+
+async function pushMessages(userId, messages) {
+  await axios.post('https://api.line.me/v2/bot/message/push',
+    { to: userId, messages },
+    { headers: { Authorization: `Bearer ${CHANNEL_ACCESS_TOKEN}` } }
+  ).catch(e => console.error('pushMessages:', lineError(e)));
+}
+
+async function replyMessage(replyToken, text) { await replyMessages(replyToken, [{ type:'text', text }]); }
+async function pushMessage(userId, text)      { await pushMessages(userId, [{ type:'text', text }]); }
 
 async function getProfile(userId) {
   try {
@@ -152,6 +161,15 @@ async function getProfile(userId) {
     return res.data;
   } catch(e) { return null; }
 }
+
+// ============================================================
+//  แจ้งเตือนเปิดเครื่องลดความชื้น (ผลิตพิสตาชิโอ้ข้ามคืน) — ดู dehumidifier.js
+// ============================================================
+const dehumid = createDehumidifier({
+  pushMessages, replyMessages, getSheetsClient, ensureSheet, loadAllUsers,
+  spreadsheetId: SPREADSHEET_ID,
+  producers: PRODUCERS,
+});
 
 // ============================================================
 //  Summarize
@@ -226,6 +244,9 @@ async function handleMessage(event) {
   const text   = event.message.text.trim();
   const token  = event.replyToken;
   const st     = getState(userId);
+
+  // ข้ามคืน / รับทราบ / เปิดเครื่องแล้ว / ลดความชื้น / ยกเลิกข้ามคืน
+  if (await dehumid.handleText(event, st)) return;
 
   // เริ่มชิม
   if (text.startsWith('เริ่มชิม')) {
@@ -404,8 +425,11 @@ app.post('/webhook', async (req, res) => {
   res.sendStatus(200);
   const events = req.body.events || [];
   for (const event of events) {
-    if (event.type === 'message' && event.message.type === 'text') await handleMessage(event);
-    else if (event.type === 'follow') await handleFollow(event);
+    try {
+      if (event.type === 'message' && event.message.type === 'text') await handleMessage(event);
+      else if (event.type === 'postback') await dehumid.handlePostback(event);
+      else if (event.type === 'follow') await handleFollow(event);
+    } catch (e) { console.error('webhook event:', e.message); }
   }
 });
 
@@ -433,6 +457,8 @@ async function checkMorningReminder() {
 
 // เช็คทุก 5 นาที
 setInterval(checkMorningReminder, 5 * 60 * 1000);
+// เครื่องลดความชื้น: โหลดรอบที่ค้างจากชีต + เช็คทุก 1 นาที
+dehumid.start();
 setInterval(() => {
   axios.get('https://rightbite-tasting-bot.onrender.com/')
     .catch(() => {});
