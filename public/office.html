@@ -375,6 +375,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     tss: { th: 'บจก. ไทยสุราษฎร์สตีล', en: 'Thai Surat Steel Co., Ltd.' },
     rs: { th: 'บจก. รวมสุราษฎร์', en: 'Ruam Surat Co., Ltd.' },
     rk: { th: 'ร้านรักสกุลการช่าง', en: 'Raksakul Kanchang' },
+    crew: { th: 'ช่าง (ค่าแรง)', en: 'Contractor (labour)' },
     sp_cmd: { th: 'Shopee · COMMANDO Shop', en: 'Shopee · COMMANDO Shop' },
     sp_tdss: { th: 'Shopee · TDSS_SHOP', en: 'Shopee · TDSS_SHOP' },
     sp_meegoo: { th: 'Shopee · MeeGoo Smart Home', en: 'Shopee · MeeGoo Smart Home' },
@@ -437,6 +438,12 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ['delivery', 'ค่าขนส่งในพื้นที่ รถกระบะ', 'Local delivery by pickup', 40, 'km', 400],
       ['roof', 'ส่วนลดปัดเศษ', 'Rounding discount', null, null, -0.6, true]
     ], note: { th: '38 แผ่น × 7.40 ม. × หน้ากว้าง 0.30 ม. ≈ 84.4 ตร.ม.', en: '38 sheets × 7.40 m × 0.30 m cover ≈ 84.4 m²' } },
+    { id: 'labor-floor', date: null, v: 'crew', no: '—', kind: 'cash', total: 20000, lines: [
+      ['labor', 'ค่าแรงทำพื้นยกโครงเหล็ก + เฌอร่าบอร์ด + โฟม (เหมา)', 'Labour for the raised steel floor, SHERA board and foam (lump sum)', 1, 'lump', 20000]
+    ]},
+    { id: 'labor-roof', date: null, v: 'crew', no: '—', kind: 'cash', total: 30000, lines: [
+      ['labor', 'ค่าแรงทำหลังคา (เหมา)', 'Roof labour (lump sum)', 1, 'lump', 30000]
+    ]},
     { id: 'rk-doors', date: '2026-11-07', v: 'rk', no: '—', kind: 'quote', total: 47080, lines: [
       ['doors', 'ประตูบานเลื่อนสลับยูโรพรีเมียร์ สีดำ 2.70 × 2.20 ม. กระจกเขียวใส 6 มม.', 'Euro Premier sliding door, black, 2.70 × 2.20 m, 6 mm clear green glass', 2, 'set', 44000],
       ['*', 'VAT 7%', 'VAT 7%', null, null, 3080, true]
@@ -635,21 +642,21 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   function restSum(pr) { return (pr.rest || []).reduce(function (sum, x) { return sum + (restOn(pr, x) ? priceOf('rest.' + pr.id + '.' + x.id, x.p) : 0); }, 0); }
 
   var CATS = [
-    { id: 'slab', grp: 'shell', unit: 'm2', def: 'labor', q: function (g) { return g.floor; },
+    { id: 'slab', grp: 'shell', unit: 'm2', def: 'paid', q: function (g) { return g.floor; },
       name: { th: 'พื้นโครงสร้าง', en: 'Floor structure' },
-      hint: { th: 'วัสดุจ่ายแล้ว: เหล็กโครงพื้น + เฌอร่าบอร์ด 22 แผ่น (QT2611-0448) และโฟม 75 แผ่น (รวมสุราษฎร์) เหลือค่าแรงทำพื้นเหมา 20,000 บาท', en: 'Materials paid: steel floor frame + 22 SHERA boards (QT2611-0448) and 75 foam boards (Ruam Surat); floor labour remains at a 20,000 baht lump sum' },
+      hint: { th: 'จ่ายครบแล้ว: วัสดุ (QT2611-0448 และโฟมจากรวมสุราษฎร์) และค่าแรง 20,000 บาท อยู่ในยอดจ่ายแล้วด้านบน', en: 'Paid in full: materials (QT2611-0448 and Ruam Surat foam) and 20,000 baht labour, in the paid total above' },
       opts: [
         { id: 'none', th: 'ไม่ทำ / มีพื้นอยู่แล้ว', en: 'None / already there', p: 0 },
-        { id: 'labor', th: 'พื้นยกโครงเหล็ก + เฌอร่าบอร์ด + โฟม: วัสดุซื้อแล้ว ค่าแรงเหมา', en: 'Raised steel floor + SHERA board + foam: materials bought, labour lump sum', p: 20000, lot: true },
+        { id: 'paid', th: 'จ่ายแล้ว: พื้นยกโครงเหล็ก + เฌอร่าบอร์ด + โฟม (วัสดุและค่าแรง)', en: 'Paid: raised steel floor + SHERA board + foam (materials and labour)', p: 0, lot: true, paid: true },
         { id: 'concrete', th: 'เทคอนกรีตหนา 10 ซม. + ไวร์เมช', en: '10 cm concrete slab + wire mesh', p: 650 },
         { id: 'raised', th: 'พื้นยกโครงเหล็ก + ไฟเบอร์ซีเมนต์ 20 มม.', en: 'Raised steel floor + 20 mm fibre-cement board', p: 950 }
       ]},
-    { id: 'roof', grp: 'shell', unit: 'm2', def: 'labor', q: function (g) { return g.roof; },
+    { id: 'roof', grp: 'shell', unit: 'm2', def: 'paid', q: function (g) { return g.roof; },
       name: { th: 'หลังคา', en: 'Roof' },
-      hint: { th: 'วัสดุจ่ายแล้ว (QT2611-0141 และ QT2611-0196) เหลือค่าแรงทำหลังคาเหมา 30,000 บาท ตัวเลือกอื่นไว้เทียบ', en: 'Materials paid (QT2611-0141 and QT2611-0196); roof labour remains at a 30,000 baht lump sum. Other options are for comparison.' },
+      hint: { th: 'จ่ายครบแล้ว: วัสดุ (QT2611-0141, QT2611-0196, QT2611-0358) และค่าแรง 30,000 บาท อยู่ในยอดจ่ายแล้วด้านบน ตัวเลือกอื่นไว้เทียบ', en: 'Paid in full: materials (QT2611-0141, QT2611-0196, QT2611-0358) and 30,000 baht labour, in the paid total above. Other options are for comparison.' },
       opts: [
         { id: 'none', th: 'ไม่ต้องทำ / มีแล้ว', en: 'Not needed / already done', p: 0 },
-        { id: 'labor', th: 'วัสดุซื้อแล้ว ค่าแรงทำหลังคาเหมา', en: 'Materials bought; roof labour, lump sum', p: 30000, lot: true },
+        { id: 'paid', th: 'จ่ายแล้ว: หลังคาสแนปล็อคบุ PU (วัสดุและค่าแรง)', en: 'Paid: PU-backed snap-lock roof (materials and labour)', p: 0, lot: true, paid: true },
         { id: 'sheet', th: 'เมทัลชีท 0.35 มม. + แป สกรู ครอบ (รวมค่าแรง)', en: 'Metal sheet 0.35 mm + purlins, screws, flashing (with labour)', p: 850 },
         { id: 'sheetpu', th: 'เมทัลชีทบุโฟม PU 1 นิ้ว (รวมค่าแรง)', en: 'PU-foam-backed metal sheet 1" (with labour)', p: 1150 },
         { id: 'sandwich', th: 'แซนด์วิชพาเนลหลังคา PU 50 มม. (รวมค่าแรง)', en: 'PU roof sandwich panel 50 mm (with labour)', p: 1450 }
@@ -984,7 +991,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     CATS.forEach(function (c) { pick[c.id] = c.def; });
     FURN.forEach(function (f) { furn[f.id] = { q: f.q, t: 'std' }; });
     EXTRAS.forEach(function (x) { extras[x.id] = !!x.on; });
-    return { v: 7, dims: { w: 9, l: 6, h: 3, part: 6, win: 6, door: 2, idoor: 2, ac: null }, pick: pick, price: {}, furn: furn, extras: extras, custom: [], paidExtra: [], cont: 10, budget: null, projects: [], officeStatus: 'doing', yearBudget: null, pstatus: {}, rest: {}, ikea: { ship: true, asm: false } };
+    return { v: 8, dims: { w: 9, l: 6, h: 3, part: 6, win: 6, door: 2, idoor: 2, ac: null }, pick: pick, price: {}, furn: furn, extras: extras, custom: [], paidExtra: [], cont: 10, budget: null, projects: [], officeStatus: 'doing', yearBudget: null, pstatus: {}, rest: {}, ikea: { ship: true, asm: false } };
   }
   function numOr(v, d, min, max) { v = Number(v); if (!isFinite(v)) return d; if (min != null && v < min) v = min; if (max != null && v > max) v = max; return v; }
   function normalize(s) {
@@ -1004,6 +1011,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     if (!(s.v >= 4)) { o.pick.roof = 'labor'; delete o.price['roof.labor']; }
     if (!(s.v >= 5)) { o.pick.slab = 'labor'; delete o.price['slab.labor']; }
     if (!(s.v >= 7)) o.pick.door = 'paid';
+    if (!(s.v >= 8)) { o.pick.roof = 'paid'; o.pick.slab = 'paid'; }
     if (s.furn) FURN.forEach(function (f) { var x = s.furn[f.id]; if (x) { o.furn[f.id] = { q: Math.round(numOr(x.q, f.q, 0, 999)), t: ['eco', 'std', 'pro'].indexOf(x.t) >= 0 ? x.t : 'std' }; } });
     if (s.extras) EXTRAS.forEach(function (x) { if (typeof s.extras[x.id] === 'boolean') o.extras[x.id] = s.extras[x.id]; });
     if (Array.isArray(s.custom)) o.custom = s.custom.slice(0, 100).map(function (c) { return { id: String(c.id || uid()), n: String(c.n || '').slice(0, 120), g: GROUPS[c.g] && c.g !== 'paid' && c.g !== 'cont' ? c.g : 'extra', q: numOr(c.q, 1, 0, 9999), p: numOr(c.p, 0, 0, 1e9) }; });
@@ -1050,7 +1058,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   }
   function paidDocs() {
     var extra = state.paidExtra.map(function (p) { return { id: p.id, mine: true, date: p.d, n: p.n, total: p.a, lines: [[p.c, p.n, p.n, null, null, p.a]] }; });
-    return PAID.concat(extra).sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
+    return PAID.concat(extra).sort(function (a, b) { return !a.date ? (b.date ? 1 : 0) : !b.date ? -1 : a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
   }
   function paidByCat(docs) {
     var by = {};
@@ -1537,7 +1545,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     rows.push(t('csvHead'));
     PROJECTS.forEach(function (pr) { (pr.rest || []).forEach(function (x) { if (!restOn(pr, x)) return; var rp = priceOf('rest.' + pr.id + '.' + x.id, x.p); rows.push([L(pr.name), L(x), t('restH'), 1, U('lump', 1), rp, rp.toFixed(2)]); }); });
     PROJECTS.forEach(function (pr) { pr.docs.forEach(function (d) { rows.push([L(pr.name), L(VENDORS[d.v]) + (d.no !== '—' ? ' ' + d.no : '') + ' · ' + (lang === 'th' ? d.lines[0][1] : d.lines[0][2]), d.date ? fdate(d.date) : t('noDate'), 1, U('lump', 1), d.total.toFixed(2), d.total.toFixed(2)]); }); });
-    paidDocs().forEach(function (d) { rows.push([L(GROUPS.paid), d.mine ? d.n : L(VENDORS[d.v]) + ' ' + d.no, fdate(d.date), 1, U('lump', 1), d.total.toFixed(2), d.total.toFixed(2)]); });
+    paidDocs().forEach(function (d) { rows.push([L(GROUPS.paid), d.mine ? d.n : L(VENDORS[d.v]) + (d.no !== '—' ? ' ' + d.no : ''), d.date ? fdate(d.date) : t('noDate'), 1, U('lump', 1), d.total.toFixed(2), d.total.toFixed(2)]); });
     r.lines.forEach(function (l) {
       if (!l.a && l.kind !== 'cat') return;
       var name = l.kind === 'cat' ? L(l.c.name) : l.kind === 'furn' ? L(l.f) : l.kind === 'extra' ? L(l.x) : l.kind === 'ikea' ? t(l.id === 'ship' ? 'ikeaShip' : 'ikeaAsm') : l.cu.n;
