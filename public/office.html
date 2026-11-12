@@ -634,10 +634,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     ],
     // work still to do, estimates the team can switch on/off and re-price
     rest: [
-      { id: 'install', on: true, p: 3000, th: 'ค่าแรงประกอบโครงพร้อมฐานราก', en: 'Labour to assemble the frame with foundations', hint: { th: 'เทียบเรท 3,000 บาท/โครง ที่จ่ายช่างงานออฟฟิศ', en: 'Same 3,000 baht/frame rate paid for the office' } },
-      { id: 'roof', on: true, p: 6500, th: 'หลังคาเมทัลชีท 0.35 มม. ประมาณ 24 ตร.ม. + แป สกรู ครอบ', en: 'Metal roof 0.35 mm, about 24 m², with purlins, screws and flashing', hint: { th: 'คิดจากราคาแผ่นที่ซื้อจริง 155 บาท/ม. (แผ่น 760 มม.)', en: 'Based on the 155 baht/m paid for 760 mm sheets' } },
-      { id: 'roofLabor', on: true, p: 2500, th: 'ค่าแรงมุงหลังคา', en: 'Roofing labour' },
-      { id: 'ship', on: true, p: 400, th: 'ค่าขนส่งวัสดุหลังคา', en: 'Roofing material delivery' },
+      { id: 'est', on: true, p: 30000, th: 'ติดตั้งโครงและมุงหลังคา รวมวัสดุหลังคาและค่าแรง (ประมาณการ)', en: 'Frame installation and roofing, roof materials and labour included (estimate)', hint: { th: 'ตัวเลขประมาณการจากทีม', en: 'The team\'s estimate' } },
       { id: 'insul', on: false, p: 4800, th: 'ฉนวนใยแก้วใต้หลังคา ประมาณ 24 ตร.ม.', en: 'Glass-wool insulation under the roof, about 24 m²' },
       { id: 'power', on: false, p: 3500, th: 'ไฟส่องสว่าง + ปลั๊ก 2 จุด', en: 'Lighting + 2 sockets' }
     ]
@@ -932,7 +929,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'เผื่อเหลือเผื่อขาดคิดจากงานที่ยังเหลือเท่านั้น ไม่รวมยอดที่จ่ายแล้ว',
         'ราคาเฟอร์นิเจอร์ IKEA อ้างอิง ikea.com/th ช่วง ต.ค. 2569 บางรายการเป็นราคาลด ควรเช็กอีกครั้งก่อนสั่ง ของที่ IKEA ไม่ขาย (ทีวี ตู้เย็น ปริ้นเตอร์ ฯลฯ) ใช้ราคาร้านทั่วไป',
         'คำสั่งซื้อ Shopee ใช้ยอดที่จ่ายจริงหลังส่วนลด ไม่ใช่ราคาป้าย ค่าติดตั้งมอเตอร์ประตู 3,000 บาทจ่ายแล้วแต่ไม่มีบิล',
-        'ห้องเก็บของ: ค่าติดตั้งเทียบเรทค่าแรงโครงออฟฟิศ หลังคาคิดจากราคาเมทัลชีทที่ซื้อจริง ยังไม่รวมเงินเผื่อ'
+        'ห้องเก็บของ: งานที่เหลือ (ติดตั้งโครงและมุงหลังคา) ประมาณ 30,000 บาทตามที่ทีมกำหนด ไม่ได้บวกเงินเผื่อ'
       ],
       mTotal: 'แผนทั้งปี', mPaid: 'จ่ายแล้ว', mLeft: 'ต้องจ่ายอีก',
       csvHead: ['ส่วน', 'รายการ', 'ตัวเลือก', 'จำนวน', 'หน่วย', 'ราคา/หน่วย', 'จำนวนเงิน'],
@@ -989,7 +986,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         'Contingency applies to the remaining work only, not to what is already paid.',
         'IKEA furniture prices come from ikea.com/th in October 2026; some are sale prices, so check again before ordering. Items IKEA does not sell (TV, fridge, printer and so on) use regular-shop prices.',
         'Shopee orders use the amount actually paid after discounts, not the list price. The 3,000 baht gate motor installation was paid without a bill.',
-        'Storeroom: installation uses the labour rate paid for the office frames, and the roof uses the metal-sheet price actually paid. No contingency is added.'
+        'Storeroom: the remaining work (frame installation and roofing) is the team\'s estimate of about 30,000 baht, with no contingency added.'
       ],
       mTotal: 'Year plan', mPaid: 'Paid', mLeft: 'Left',
       csvHead: ['Section', 'Item', 'Option', 'Qty', 'Unit', 'Unit price', 'Amount'],
