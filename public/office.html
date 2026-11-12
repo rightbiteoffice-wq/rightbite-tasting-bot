@@ -21,7 +21,7 @@
   --good: #1b743a;
   --bad: #b3261e;
   --s-paid: #3b444c;
-  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300; --s7: #6250d6;
   --s-cont: #aeb7bd;
   --shadow: 0 1px 0 rgba(20, 24, 28, .04), 0 8px 24px -16px rgba(20, 24, 28, .25);
   --f-display: "Chakra Petch", "IBM Plex Sans Thai", system-ui, sans-serif;
@@ -33,7 +33,7 @@
     --bg: #0e1114; --surface: #161a1d; --raise: #1c2125; --ink: #e8ecef; --ink-2: #b3bcc3; --muted: #94a0a9;
     --line: #2a3137; --line-2: #3a434a; --pb: #d6b277; --pb-ink: #e3c087; --pb-soft: #2f271a;
     --good: #52c47c; --bad: #f08a80; --s-paid: #c9d1d7;
-    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s-cont: #5b656d;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s-cont: #5b656d;
     --shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 10px 28px -18px rgba(0, 0, 0, .8);
     color-scheme: dark;
   }
@@ -42,7 +42,7 @@
   --bg: #0e1114; --surface: #161a1d; --raise: #1c2125; --ink: #e8ecef; --ink-2: #b3bcc3; --muted: #94a0a9;
   --line: #2a3137; --line-2: #3a434a; --pb: #d6b277; --pb-ink: #e3c087; --pb-soft: #2f271a;
   --good: #52c47c; --bad: #f08a80; --s-paid: #c9d1d7;
-  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s-cont: #5b656d;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #008300; --s7: #9085e9; --s-cont: #5b656d;
   --shadow: 0 1px 0 rgba(0, 0, 0, .3), 0 10px 28px -18px rgba(0, 0, 0, .8);
   color-scheme: dark;
 }
@@ -125,6 +125,7 @@ h1 .pb { color: var(--pb-ink); }
 .chip.plan { color: var(--muted); }
 .linkbtn { border: 0; background: transparent; padding: 0; color: var(--pb-ink); font-weight: 600; font-size: 12.5px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .pdocs { padding: 0 14px 12px; }
+.other-box > summary { cursor: pointer; font-size: 14px; font-weight: 600; color: var(--pb-ink); padding: 2px 0 12px; width: max-content; max-width: 100%; }
 .rest { margin: 0 14px 12px; border: 1px solid var(--line); border-radius: 4px; }
 .rest-h { display: flex; justify-content: space-between; gap: 12px; font-size: 12.5px; font-weight: 600; color: var(--ink-2); padding: 8px 14px; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
 .rest .xrow { padding-block: 7px; }
@@ -497,15 +498,18 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
   /* ================= data: what is still to build (editable estimates, THB incl. labour) ================= */
   var GROUPS = {
-    paid:  { th: 'จ่ายแล้ว', en: 'Paid', c: '--s-paid' },
-    shell: { th: 'งานอาคารและตกแต่ง', en: 'Building & finishes', c: '--s1' },
-    open:  { th: 'ประตูและหน้าต่าง', en: 'Doors & windows', c: '--s2' },
-    sys:   { th: 'ไฟฟ้า แอร์ ประปา', en: 'Power, A/C, plumbing', c: '--s3' },
-    furn:  { th: 'เฟอร์นิเจอร์และอุปกรณ์', en: 'Furniture & equipment', c: '--s4' },
-    extra: { th: 'งานเพิ่มเติม', en: 'Extras', c: '--s5' },
-    cont:  { th: 'เผื่อเหลือเผื่อขาด', en: 'Contingency', c: '--s-cont', hatch: true }
+    paid:    { th: 'จ่ายแล้ว', en: 'Paid', c: '--s-paid' },
+    wall:    { th: 'ผนัง (รวมค่าแรง)', en: 'Walls (with labour)', c: '--s1' },
+    terrace: { th: 'กันสาดและเทอเรส', en: 'Canopy & terrace', c: '--s2' },
+    elec:    { th: 'ไฟฟ้าและช่างไฟ', en: 'Electrical & electrician', c: '--s3' },
+    floor:   { th: 'พื้น SPC (รวมค่าแรง)', en: 'SPC floor (with labour)', c: '--s4' },
+    appl:    { th: 'เครื่องใช้ไฟฟ้าและแอร์', en: 'Appliances & A/C', c: '--s5' },
+    furn:    { th: 'เฟอร์นิเจอร์', en: 'Furniture', c: '--s6' },
+    extra:   { th: 'งานอื่น ๆ', en: 'Other work', c: '--s7' },
+    cont:    { th: 'เผื่อเหลือเผื่อขาด', en: 'Contingency', c: '--s-cont', hatch: true }
   };
-  var ORDER = ['paid', 'shell', 'open', 'sys', 'furn', 'extra', 'cont'];
+  var PLANNED = ['wall', 'terrace', 'elec', 'floor', 'appl', 'furn', 'extra'];
+  var ORDER = ['paid'].concat(PLANNED, ['cont']);
 
   /* ================= other factory projects this year ================= */
   var STATUSES = ['plan', 'doing', 'done'];
@@ -642,7 +646,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   function restSum(pr) { return (pr.rest || []).reduce(function (sum, x) { return sum + (restOn(pr, x) ? priceOf('rest.' + pr.id + '.' + x.id, x.p) : 0); }, 0); }
 
   var CATS = [
-    { id: 'slab', grp: 'shell', unit: 'm2', def: 'paid', q: function (g) { return g.floor; },
+    { id: 'slab', grp: 'extra', unit: 'm2', def: 'paid', q: function (g) { return g.floor; },
       name: { th: 'พื้นโครงสร้าง', en: 'Floor structure' },
       hint: { th: 'จ่ายครบแล้ว: วัสดุ (QT2611-0448 และโฟมจากรวมสุราษฎร์) และค่าแรง 20,000 บาท อยู่ในยอดจ่ายแล้วด้านบน', en: 'Paid in full: materials (QT2611-0448 and Ruam Surat foam) and 20,000 baht labour, in the paid total above' },
       opts: [
@@ -651,7 +655,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         { id: 'concrete', th: 'เทคอนกรีตหนา 10 ซม. + ไวร์เมช', en: '10 cm concrete slab + wire mesh', p: 650 },
         { id: 'raised', th: 'พื้นยกโครงเหล็ก + ไฟเบอร์ซีเมนต์ 20 มม.', en: 'Raised steel floor + 20 mm fibre-cement board', p: 950 }
       ]},
-    { id: 'roof', grp: 'shell', unit: 'm2', def: 'paid', q: function (g) { return g.roof; },
+    { id: 'roof', grp: 'extra', unit: 'm2', def: 'paid', q: function (g) { return g.roof; },
       name: { th: 'หลังคา', en: 'Roof' },
       hint: { th: 'จ่ายครบแล้ว: วัสดุ (QT2611-0141, QT2611-0196, QT2611-0358) และค่าแรง 30,000 บาท อยู่ในยอดจ่ายแล้วด้านบน ตัวเลือกอื่นไว้เทียบ', en: 'Paid in full: materials (QT2611-0141, QT2611-0196, QT2611-0358) and 30,000 baht labour, in the paid total above. Other options are for comparison.' },
       opts: [
@@ -661,24 +665,33 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         { id: 'sheetpu', th: 'เมทัลชีทบุโฟม PU 1 นิ้ว (รวมค่าแรง)', en: 'PU-foam-backed metal sheet 1" (with labour)', p: 1150 },
         { id: 'sandwich', th: 'แซนด์วิชพาเนลหลังคา PU 50 มม. (รวมค่าแรง)', en: 'PU roof sandwich panel 50 mm (with labour)', p: 1450 }
       ]},
-    { id: 'floor', grp: 'shell', unit: 'm2', def: 'spc', q: function (g) { return g.floor; },
-      name: { th: 'วัสดุปูพื้น', en: 'Floor finish' },
+    { id: 'floor', grp: 'floor', unit: 'm2', def: 'spc', q: function (g) { return g.floor; },
+      name: { th: 'พื้น SPC และค่าแรง', en: 'SPC floor with labour' },
+      hint: { th: 'คิดตามพื้นที่ออฟฟิศ (54 ตร.ม. ตามขนาดอาคาร) ราคาต่อ ตร.ม. รวมค่าแรง แก้ได้', en: 'Priced on the office floor area (54 m² from the building size), per m² with labour; edit the rate' },
       opts: [
         { id: 'polish', th: 'ขัดมันเคลือบใส', en: 'Polished, sealed concrete', p: 150 },
         { id: 'epoxy', th: 'อีพ็อกซี่', en: 'Epoxy coating', p: 450 },
         { id: 'tile', th: 'กระเบื้องพอร์ซเลน 60×60', en: 'Porcelain tile 60×60', p: 600 },
-        { id: 'spc', th: 'กระเบื้องยาง SPC คลิกล็อก 5 มม.', en: 'SPC click vinyl 5 mm', p: 650 },
+        { id: 'spc', th: 'กระเบื้องยาง SPC คลิกล็อก 5 มม. (รวมค่าแรง)', en: 'SPC click vinyl 5 mm (with labour)', p: 650 },
         { id: 'laminate', th: 'ลามิเนต 8 มม.', en: 'Laminate 8 mm', p: 750 }
       ]},
-    { id: 'wall', grp: 'shell', unit: 'm2', def: 'sheetboard', q: function (g) { return g.wallNet; },
-      name: { th: 'ผนังภายนอก', en: 'External walls' },
+    { id: 'wall', grp: 'wall', unit: 'm2', def: 'est', q: function (g) { return g.wallNet; },
+      name: { th: 'ผนังและค่าแรงผนัง', en: 'Walls with labour' },
+      hint: { th: 'ประมาณการเหมารวมวัสดุผนังและค่าแรง · ระแนงและเฌอร่าบอร์ดที่ซื้อแล้วอยู่ในยอดจ่ายแล้ว · ตัวเลือกต่อ ตร.ม. ไว้เทียบ', en: 'Lump-sum estimate for wall materials and labour · slats and SHERA board already bought are in the paid total · per-m² options are for comparison' },
       opts: [
+        { id: 'est', th: 'ประมาณการผนังทั้งหมดรวมค่าแรง (เหมา)', en: 'All walls with labour (lump sum)', p: 100000, lot: true },
         { id: 'sheet', th: 'เมทัลชีทชั้นเดียว ไม่มีฉนวน', en: 'Metal sheet only, no insulation', p: 380 },
         { id: 'sheetboard', th: 'เมทัลชีท + ฉนวนใยแก้ว + สมาร์ทบอร์ดด้านใน', en: 'Metal sheet + glass wool + inner smart board', p: 950 },
         { id: 'fcb', th: 'ไฟเบอร์ซีเมนต์ 2 ด้าน + ฉนวนร็อควูล', en: 'Fibre-cement both sides + rock wool', p: 1050 },
         { id: 'pu', th: 'แซนด์วิชพาเนล PU หนา 50 มม.', en: 'PU sandwich panel 50 mm', p: 1150 }
       ]},
-    { id: 'roofins', grp: 'shell', unit: 'm2', def: 'none', q: function (g) { return g.roof; },
+    { id: 'terrace', grp: 'terrace', unit: 'lump', def: 'est', q: function () { return 1; },
+      name: { th: 'กันสาดและเทอเรส (รวมค่าแรง)', en: 'Canopy & terrace (with labour)' },
+      opts: [
+        { id: 'none', th: 'ไม่ทำ', en: 'Not doing it', p: 0 },
+        { id: 'est', th: 'ประมาณการเหมารวมวัสดุและค่าแรง', en: 'Materials and labour, lump sum', p: 100000, lot: true }
+      ]},
+    { id: 'roofins', grp: 'extra', unit: 'm2', def: 'none', q: function (g) { return g.roof; },
       name: { th: 'ฉนวนกันร้อนหลังคา', en: 'Roof insulation' },
       hint: { th: 'แผ่นหลังคาที่ซื้อ (QT2611-0196) มีโฟม PU 1 นิ้วในตัวแล้ว', en: 'The roof sheets bought (QT2611-0196) already carry 1" PU foam' },
       opts: [
@@ -687,7 +700,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         { id: 'pu1', th: 'พ่นโฟม PU หนา 1 นิ้ว', en: 'Sprayed PU foam 1"', p: 380 },
         { id: 'pu2', th: 'พ่นโฟม PU หนา 2 นิ้ว', en: 'Sprayed PU foam 2"', p: 600 }
       ]},
-    { id: 'ceil', grp: 'shell', unit: 'm2', def: 'gypsum', q: function (g) { return g.floor; },
+    { id: 'ceil', grp: 'extra', unit: 'm2', def: 'none', q: function (g) { return g.floor; },
       name: { th: 'ฝ้าเพดาน', en: 'Ceiling' },
       opts: [
         { id: 'none', th: 'เปิดโล่ง โชว์โครง', en: 'Open, exposed frame', p: 0 },
@@ -695,7 +708,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         { id: 'pvc', th: 'ฝ้า PVC สำเร็จรูป', en: 'PVC ceiling panels', p: 450 },
         { id: 'gypsum', th: 'ฝ้ายิปซัมฉาบเรียบ 9 มม.', en: 'Smooth-set gypsum 9 mm', p: 480 }
       ]},
-    { id: 'part', grp: 'shell', unit: 'm2', def: 'gypsum', q: function (g) { return g.partA; },
+    { id: 'part', grp: 'extra', unit: 'm2', def: 'none', q: function (g) { return g.partA; },
       name: { th: 'ผนังกั้นห้องภายใน', en: 'Internal partitions' },
       opts: [
         { id: 'none', th: 'ไม่กั้นห้อง', en: 'No partitions', p: 0 },
@@ -703,21 +716,22 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         { id: 'smart', th: 'ผนังสมาร์ทบอร์ด 2 ด้าน', en: 'Smart board stud wall, both sides', p: 800 },
         { id: 'glass', th: 'กระจกใส 8 มม. กรอบอลูมิเนียม', en: '8 mm clear glass, aluminium frame', p: 2300 }
       ]},
-    { id: 'paint', grp: 'shell', unit: 'm2', def: 'std', q: function (g) { return g.paintA; },
+    { id: 'paint', grp: 'extra', unit: 'm2', def: 'none', q: function (g) { return g.paintA; },
       name: { th: 'งานสีภายใน', en: 'Interior paint' },
       opts: [
         { id: 'none', th: 'ไม่ทาสี', en: 'No paint', p: 0 },
         { id: 'std', th: 'สีอะคริลิก รองพื้น + ทับหน้า 2 เที่ยว', en: 'Acrylic, primer + 2 coats', p: 110 },
         { id: 'premium', th: 'สีเกรดพรีเมียม เช็ดล้างได้', en: 'Premium washable paint', p: 170 }
       ]},
-    { id: 'win', grp: 'open', unit: 'set', def: 'alu', q: function (g, s) { return s.dims.win; },
+    { id: 'win', grp: 'extra', unit: 'set', def: 'none', q: function (g, s) { return s.dims.win; },
       name: { th: 'หน้าต่าง (ประมาณ 120×110 ซม.)', en: 'Windows (about 120×110 cm)' },
       opts: [
+        { id: 'none', th: 'ไม่คิดแยก', en: 'Not costed separately', p: 0 },
         { id: 'alu', th: 'อลูมิเนียมบานเลื่อน + มุ้งลวด', en: 'Aluminium sliding + insect screen', p: 4800 },
         { id: 'awning', th: 'อลูมิเนียมบานกระทุ้ง + ช่องแสง', en: 'Aluminium awning + fixed light', p: 5500 },
         { id: 'upvc', th: 'uPVC บานเลื่อน + มุ้งลวด', en: 'uPVC sliding + insect screen', p: 7000 }
       ]},
-    { id: 'door', grp: 'open', unit: 'door', def: 'paid', q: function (g, s) { return s.dims.door; },
+    { id: 'door', grp: 'extra', unit: 'door', def: 'paid', q: function (g, s) { return s.dims.door; },
       name: { th: 'ประตูทางเข้าหลัก', en: 'Main entrance doors' },
       hint: { th: 'จ่ายเต็มแล้ว ฿47,080 ให้ร้านรักสกุลการช่าง อยู่ในยอดจ่ายแล้วด้านบน · ใบของ หจก. สมาร์ทโฮม แอนด์ เทรดดิ้ง ไว้เทียบ', en: 'Paid in full, ฿47,080 to Raksakul Kanchang; it sits in the paid total above · Smart Home and Trading LP kept for comparison' },
       opts: [
@@ -727,21 +741,23 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         { id: 'upvc', th: 'uPVC บานเปิด กระจกครึ่งบาน', en: 'uPVC swing, half glazed', p: 12500 },
         { id: 'aluslide', th: 'อลูมิเนียมกระจก บานเลื่อนคู่ 180×200', en: 'Aluminium & glass, double sliding 180×200', p: 16500 }
       ]},
-    { id: 'idoor', grp: 'open', unit: 'door', def: 'hdf', q: function (g, s) { return s.dims.idoor; },
+    { id: 'idoor', grp: 'extra', unit: 'door', def: 'none', q: function (g, s) { return s.dims.idoor; },
       name: { th: 'ประตูภายใน (ห้องประชุม ห้องน้ำ)', en: 'Internal doors (meeting room, WC)' },
       opts: [
+        { id: 'none', th: 'ไม่คิดแยก', en: 'Not costed separately', p: 0 },
         { id: 'pvc', th: 'ประตู PVC กันน้ำ + วงกบ', en: 'Waterproof PVC door + frame', p: 2800 },
         { id: 'hdf', th: 'ประตู HDF + วงกบ + ลูกบิด', en: 'HDF door + frame + lockset', p: 3800 },
         { id: 'glass', th: 'ประตูกระจกกรอบอลูมิเนียม', en: 'Glass door, aluminium frame', p: 8500 }
       ]},
-    { id: 'elec', grp: 'sys', unit: 'm2', def: 'std', q: function (g) { return g.floor; },
-      name: { th: 'ระบบไฟฟ้าและแสงสว่าง', en: 'Electrical & lighting' },
+    { id: 'elec', grp: 'elec', unit: 'm2', def: 'est', q: function (g) { return g.floor; },
+      name: { th: 'ไฟฟ้าและค่าช่างไฟ', en: 'Electrical & electrician' },
       opts: [
+        { id: 'est', th: 'ประมาณการไฟฟ้าทั้งหมดรวมค่าช่างไฟ (เหมา)', en: 'All electrical work with electrician (lump sum)', p: 30000, lot: true },
         { id: 'basic', th: 'พื้นฐาน: ไฟ LED ปลั๊ก ตู้ไฟ', en: 'Basic: LED lights, sockets, consumer unit', p: 450 },
         { id: 'std', th: 'มาตรฐาน: + กันดูด RCBO ดาวน์ไลท์ จุดแอร์', en: 'Standard: + RCBO, downlights, A/C circuits', p: 650 },
         { id: 'plus', th: 'ครบชุด: + สาย LAN ไฟตกแต่ง', en: 'Full: + LAN cabling, feature lighting', p: 900 }
       ]},
-    { id: 'ac', grp: 'sys', unit: 'unit', def: 'b24', q: function (g, s, o) { if (!o.btu) return 0; return s.dims.ac == null ? Math.ceil(g.btu / o.btu) : s.dims.ac; },
+    { id: 'ac', grp: 'appl', unit: 'unit', def: 'b24', q: function (g, s, o) { if (!o.btu) return 0; return s.dims.ac == null ? Math.ceil(g.btu / o.btu) : s.dims.ac; },
       name: { th: 'เครื่องปรับอากาศ (รวมติดตั้ง)', en: 'Air conditioning (installed)' },
       opts: [
         { id: 'none', th: 'ไม่ติดแอร์', en: 'No A/C', p: 0 },
@@ -749,7 +765,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         { id: 'b18', th: 'อินเวอร์เตอร์ 18,000 BTU', en: 'Inverter 18,000 BTU', p: 25000, btu: 18000 },
         { id: 'b24', th: 'อินเวอร์เตอร์ 24,000 BTU', en: 'Inverter 24,000 BTU', p: 33000, btu: 24000 }
       ]},
-    { id: 'plumb', grp: 'sys', unit: 'lump', def: 'wc', q: function (g, s, o) { return o.id === 'none' ? 0 : 1; },
+    { id: 'plumb', grp: 'extra', unit: 'lump', def: 'none', q: function (g, s, o) { return o.id === 'none' ? 0 : 1; },
       name: { th: 'ห้องน้ำและงานประปา', en: 'Restroom & plumbing' },
       opts: [
         { id: 'none', th: 'ไม่ทำ', en: 'None', p: 0 },
@@ -759,9 +775,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ]}
   ];
   var SECS = [
-    { id: 'shell', cats: ['slab', 'roof', 'floor', 'wall', 'roofins', 'ceil', 'part', 'paint'] },
-    { id: 'open', cats: ['win', 'door', 'idoor'] },
-    { id: 'sys', cats: ['elec', 'ac', 'plumb'] }
+    { id: 'main', cats: ['wall', 'terrace', 'elec', 'floor'] },
+    { id: 'other', cats: ['slab', 'roof', 'door', 'roofins', 'ceil', 'part', 'paint', 'win', 'idoor', 'plumb'] }
   ];
 
   var TIERS = [
@@ -770,12 +785,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     { id: 'pro', th: 'พรีเมียม', en: 'Premium' }
   ];
   var FGROUPS = [
-    { id: 'work', th: 'โซนทำงาน', en: 'Work area' },
+    { id: 'kitchen', th: 'ครัวและตู้เย็น', en: 'Kitchen & fridge' },
+    { id: 'work', th: 'โต๊ะทำงาน', en: 'Work desks' },
     { id: 'meet', th: 'ห้องประชุม', en: 'Meeting room' },
-    { id: 'lounge', th: 'ต้อนรับและรับแขก', en: 'Reception & lounge' },
-    { id: 'store', th: 'จัดเก็บและโชว์สินค้า', en: 'Storage & product display' },
-    { id: 'pantry', th: 'แพนทรี', en: 'Pantry' },
-    { id: 'equip', th: 'อุปกรณ์และของตกแต่ง', en: 'Equipment & decor' }
+    { id: 'other', th: 'อื่น ๆ (ยังไม่ได้รวม ใส่จำนวนถ้าจะซื้อ)', en: 'Other (not included yet; set a quantity to add)' }
   ];
   // p: [budget, standard, premium] in THB. ik: the IKEA Thailand product behind each tier
   // (null = IKEA has nothing at that tier, false = IKEA does not sell it). Prices from ikea.com/th, Oct 2026.
@@ -806,58 +819,58 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       ikp('TEODORES', 'ขาว', 'white', 'teodores-chair-white-70350938'),
       ikp('LÄKTARE', 'เบจอ่อน/ดำ', 'light beige/black', 'laektare-conference-chair-light-beige-black-s89503210'),
       ikp('LÅNGFJÄLL', 'Gunnared น้ำเงิน/ดำ (มีที่วางแขน 5,990)', 'Gunnared blue/black (with armrests 5,990)', 'langfjaell-conference-chair-gunnared-blue-black-s39177578')] },
-    { id: 'tv', g: 'meet', q: 1, p: [9500, 14000, 26000], th: 'จอทีวี 55 นิ้ว + ขาแขวน', en: '55" screen + wall mount', ik: false },
+    { id: 'tv', g: 'appl', q: 1, p: [9500, 14000, 26000], th: 'จอทีวี 55 นิ้ว + ขาแขวน', en: '55" screen + wall mount', ik: false },
     { id: 'board', g: 'meet', q: 1, p: [1200, 2200, 4500], th: 'ไวท์บอร์ด 90×180 ซม.', en: 'Whiteboard 90×180 cm', ik: false },
-    { id: 'reception', g: 'lounge', q: 0, p: [8000, 16000, 38000], th: 'เคาน์เตอร์ต้อนรับ', en: 'Reception counter', ik: false },
-    { id: 'sofa', g: 'lounge', q: 1, p: [2290, 5990, 13990], th: 'โซฟารับแขก', en: 'Guest sofa', ik: [
+    { id: 'reception', g: 'other', q: 0, p: [8000, 16000, 38000], th: 'เคาน์เตอร์ต้อนรับ', en: 'Reception counter', ik: false },
+    { id: 'sofa', g: 'other', q: 0, p: [2290, 5990, 13990], th: 'โซฟารับแขก', en: 'Guest sofa', ik: [
       ikp('GLOSTAD', '2 ที่นั่ง Knisa เทาเข้ม', '2-seat, Knisa dark grey', 'glostad-2-seat-sofa-knisa-dark-grey-10489009/'),
       ikp('KLIPPAN', '2 ที่นั่ง Vissle เทา', '2-seat, Vissle grey', 'klippan-2-seat-sofa-vissle-grey-s49010615'),
       ikp('KIVIK', '3 ที่นั่ง Kelinge เทาอมฟ้า', '3-seat, Kelinge grey-turquoise', 'kivik-3-seat-sofa-kelinge-grey-turquoise-s19443050')] },
-    { id: 'ctable', g: 'lounge', q: 1, p: [790, 1590, 1990], th: 'โต๊ะกลาง', en: 'Coffee table', ik: [
+    { id: 'ctable', g: 'other', q: 0, p: [790, 1590, 1990], th: 'โต๊ะกลาง', en: 'Coffee table', ik: [
       ikp('LACK', '90×55 ดำน้ำตาล', '90×55 black-brown', 'lack-coffee-table-black-brown-20352987'),
       ikp('VITTSJÖ', 'Ø75 ดำน้ำตาล/กระจก', 'Ø75 black-brown/glass', 'vittsjoe-coffee-table-black-brown-glass-00213313'),
       ikp('LISABO', '70×70 วีเนียร์แอช', '70×70 ash veneer', 'lisabo-coffee-table-ash-veneer-90353064')] },
-    { id: 'filing', g: 'store', q: 2, p: [1790, 2490, 4590], th: 'ตู้ลิ้นชักเอกสาร มีล้อ', en: 'Drawer unit on castors', ik: [
+    { id: 'filing', g: 'work', q: 2, p: [1790, 2490, 4590], th: 'ตู้ลิ้นชักเอกสาร มีล้อ', en: 'Drawer unit on castors', ik: [
       ikp('HELMER', '28×69 ขาว', '28×69 white', 'helmer-drawer-unit-on-castors-white-90251046'),
       ikp('TROTTEN', '3 ลิ้นชัก ขาว · ลดจาก 2,990', '3 drawers, white · was 2,990', 'trotten-drawer-unit-w-3-drawers-on-castors-white-60485099'),
       ikp('IDÅSEN', '42×61 เทาเข้ม', '42×61 dark grey', 'idasen-drawer-unit-on-castors-dark-grey-10360983')] },
-    { id: 'shelf', g: 'store', q: 2, p: [1990, 3290, 7990], th: 'ชั้นวาง / ตู้โชว์สินค้า', en: 'Shelving / product display', ik: [
+    { id: 'shelf', g: 'other', q: 0, p: [1990, 3290, 7990], th: 'ชั้นวาง / ตู้โชว์สินค้า', en: 'Shelving / product display', ik: [
       ikp('KALLAX', 'ชั้นเปิด 77×147 ขาว · ลดจาก 2,290', 'open shelving 77×147 white · was 2,290', 'kallax-shelving-unit-white-20351884/'),
       ikp('FABRIKÖR', 'ตู้กระจก 57×150 เทาเข้ม ล็อกได้ · ลดจาก 3,990', 'glass-door cabinet 57×150 dark grey, lockable · was 3,990', 'fabrikoer-glass-door-cabinet-dark-grey-40242295/'),
       ikp('MILSBO', 'ตู้กระจก 73×175 แอนทราไซต์', 'glass-door cabinet 73×175 anthracite', 'milsbo-glass-door-cabinet-anthracite-10396449/')] },
-    { id: 'locker', g: 'store', q: 0, p: [3500, 5500, 9000], th: 'ล็อกเกอร์พนักงาน', en: 'Staff lockers', ik: false },
-    { id: 'fridge', g: 'pantry', q: 1, p: [6900, 9900, 17000], th: 'ตู้เย็น 2 ประตู', en: 'Two-door fridge', ik: false },
-    { id: 'micro', g: 'pantry', q: 1, p: [2300, 3500, 6500], th: 'ไมโครเวฟ', en: 'Microwave', ik: false },
-    { id: 'water', g: 'pantry', q: 1, p: [3900, 5900, 9900], th: 'ตู้กดน้ำร้อน-เย็น', en: 'Hot & cold water dispenser', ik: false },
-    { id: 'pcab', g: 'pantry', q: 1, p: [6500, 10400, 20893], th: 'ชุดครัวแพนทรี (ซิงก์และก๊อกซื้อแยก)', en: 'Pantry kitchen (sink and tap extra)', ik: [
+    { id: 'locker', g: 'other', q: 0, p: [3500, 5500, 9000], th: 'ล็อกเกอร์พนักงาน', en: 'Staff lockers', ik: false },
+    { id: 'fridge', g: 'kitchen', q: 1, p: [6900, 9900, 17000], th: 'ตู้เย็น 2 ประตู', en: 'Two-door fridge', ik: false },
+    { id: 'micro', g: 'appl', q: 1, p: [2300, 3500, 6500], th: 'ไมโครเวฟ', en: 'Microwave', ik: false },
+    { id: 'water', g: 'appl', q: 1, p: [3900, 5900, 9900], th: 'ตู้กดน้ำร้อน-เย็น', en: 'Hot & cold water dispenser', ik: false },
+    { id: 'pcab', g: 'kitchen', q: 1, p: [6500, 10400, 20893], th: 'ชุดครัวแพนทรี (ซิงก์และก๊อกซื้อแยก)', en: 'Pantry kitchen (sink and tap extra)', ik: [
       ikp('KNOXHULT', 'ตู้ล่าง 120 ซม. พร้อมท็อป 4,150 + ตู้แขวน 120 ซม. 2,350', '120 cm base cabinet with worktop 4,150 + 120 cm wall cabinet 2,350', 'knoxhult-base-cabinet-with-doors-and-drawer-white-70334236'),
       ikp('KNOXHULT', 'ชุดครัว 204 ซม. ขาว · อีกรหัสแสดง 8,050', 'kitchen 204 cm white · another article shows 8,050', 'knoxhult-kitchen-white-s69202411'),
       ikp('ENHET', 'ชุดครัว 163 ซม. แอนทราไซต์/ขาว', 'kitchen 163 cm anthracite/white', 'enhet-kitchen-anthracite-white-s19416042')] },
-    { id: 'coffee', g: 'pantry', q: 0, p: [2500, 6500, 18000], th: 'เครื่องชงกาแฟ', en: 'Coffee machine', ik: false },
-    { id: 'printer', g: 'equip', q: 1, p: [4500, 8900, 19000], th: 'ปริ้นเตอร์มัลติฟังก์ชัน', en: 'Multifunction printer', ik: false },
-    { id: 'pc', g: 'equip', q: 0, p: [13000, 22000, 42000], th: 'คอมพิวเตอร์ / โน้ตบุ๊ก', en: 'Computer / laptop', ik: false },
-    { id: 'blinds', g: 'equip', q: 6, p: [1290, 1590, 1890], th: 'ม่านหน้าต่าง (ต่อบาน)', en: 'Window blind (per window)', ik: [
+    { id: 'coffee', g: 'appl', q: 0, p: [2500, 6500, 18000], th: 'เครื่องชงกาแฟ', en: 'Coffee machine', ik: false },
+    { id: 'printer', g: 'appl', q: 1, p: [4500, 8900, 19000], th: 'ปริ้นเตอร์มัลติฟังก์ชัน', en: 'Multifunction printer', ik: false },
+    { id: 'pc', g: 'appl', q: 0, p: [13000, 22000, 42000], th: 'คอมพิวเตอร์ / โน้ตบุ๊ก', en: 'Computer / laptop', ik: false },
+    { id: 'blinds', g: 'other', q: 0, p: [1290, 1590, 1890], th: 'ม่านหน้าต่าง (ต่อบาน)', en: 'Window blind (per window)', ik: [
       ikp('FRIDANS', 'ม่านม้วนทึบแสง 140×195 เทา', 'block-out roller blind 140×195 grey', 'fridans-block-out-roller-blind-grey-90396921'),
       ikp('HOPPVALS', 'ม่านรังผึ้ง 120×155 ขาว (ก้านดึงซื้อแยก)', 'cellular blind 120×155 white (draw rod extra)', 'hoppvals-cellular-blind-white-80290623/'),
       ikp('TRETUR', 'ม่านม้วนทึบแสงไร้สาย 120×195', 'cordless block-out roller blind 120×195', 'tretur-block-out-roller-blind-white-30491092')] },
-    { id: 'decor', g: 'equip', q: 3, p: [399, 1990, 3500], th: 'ต้นไม้ตกแต่ง (ต่อต้น)', en: 'Decor plant (each)', ik: [
+    { id: 'decor', g: 'other', q: 0, p: [399, 1990, 3500], th: 'ต้นไม้ตกแต่ง (ต่อต้น)', en: 'Decor plant (each)', ik: [
       ikp('FEJKA', 'เฟิร์นแขวนปลอม กระถาง 12 ซม.', 'artificial hanging fern, 12 cm pot', 'fejka-artificial-potted-plant-in-outdoor-hanging-fern-90548632'),
       ikp('FEJKA', 'ไทรใบสักปลอม กระถาง 19 ซม.', 'artificial fiddle-leaf fig, 19 cm pot', 'fejka-artificial-potted-plant-in-outdoor-fiddle-leaf-fig-60568891/'),
       null] }
   ];
 
   var EXTRAS = [
-    { id: 'gutter', on: true, p: 6500, th: 'รางน้ำฝน + ท่อลง', en: 'Rain gutters + downpipes' },
-    { id: 'pea', on: true, p: 8000, th: 'ขอมิเตอร์ไฟฟ้า กฟภ. + เดินสายเมน', en: 'PEA electricity meter + mains cable' },
-    { id: 'water', on: true, p: 9500, th: 'ต่อประปา + ถังเก็บน้ำ 1,000 ลิตร + ปั๊ม', en: 'Water connection + 1,000 L tank + pump' },
-    { id: 'steps', on: true, p: 7500, th: 'บันได / ทางลาดหน้าทางเข้า', en: 'Entrance steps / ramp' },
+    { id: 'gutter', on: false, p: 6500, th: 'รางน้ำฝน + ท่อลง', en: 'Rain gutters + downpipes' },
+    { id: 'pea', on: false, p: 8000, th: 'ขอมิเตอร์ไฟฟ้า กฟภ. + เดินสายเมน', en: 'PEA electricity meter + mains cable' },
+    { id: 'water', on: false, p: 9500, th: 'ต่อประปา + ถังเก็บน้ำ 1,000 ลิตร + ปั๊ม', en: 'Water connection + 1,000 L tank + pump' },
+    { id: 'steps', on: false, p: 7500, th: 'บันได / ทางลาดหน้าทางเข้า', en: 'Entrance steps / ramp' },
     { id: 'walk', on: false, p: 6750, th: 'ทางเดินปูบล็อก ประมาณ 15 ตร.ม.', en: 'Paver walkway, about 15 m²' },
-    { id: 'cctv', on: true, p: 12000, th: 'กล้องวงจรปิด 4 ตัว + เครื่องบันทึก', en: 'CCTV, 4 cameras + recorder' },
-    { id: 'net', on: true, p: 5500, th: 'อินเทอร์เน็ต WiFi + เดินสาย LAN', en: 'Internet, Wi-Fi + LAN runs' },
-    { id: 'fire', on: true, p: 3500, th: 'ถังดับเพลิง + ไฟฉุกเฉิน', en: 'Fire extinguishers + emergency lights' },
+    { id: 'cctv', on: false, p: 12000, th: 'กล้องวงจรปิด 4 ตัว + เครื่องบันทึก', en: 'CCTV, 4 cameras + recorder' },
+    { id: 'net', on: false, p: 5500, th: 'อินเทอร์เน็ต WiFi + เดินสาย LAN', en: 'Internet, Wi-Fi + LAN runs' },
+    { id: 'fire', on: false, p: 3500, th: 'ถังดับเพลิง + ไฟฉุกเฉิน', en: 'Fire extinguishers + emergency lights' },
     { id: 'sign', on: false, p: 6000, th: 'ป้ายชื่อบริษัท', en: 'Company sign' },
     { id: 'permit', on: false, p: 10000, th: 'ขออนุญาตก่อสร้าง / วิศวกรรับรอง', en: 'Building permit / engineer sign-off' },
-    { id: 'clean', on: true, p: 3000, th: 'ทำความสะอาดหลังก่อสร้าง', en: 'Post-construction cleaning' }
+    { id: 'clean', on: false, p: 3000, th: 'ทำความสะอาดหลังก่อสร้าง', en: 'Post-construction cleaning' }
   ];
 
   var UNITS = {
@@ -894,10 +907,11 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       w: 'กว้าง (ม.)', l: 'ยาว (ม.)', h: 'สูงผนัง (ม.)', part: 'ผนังกั้นห้อง (ม.)', win: 'หน้าต่าง (ชุด)', door: 'ประตูหลัก (บาน)', idoor: 'ประตูภายใน (บาน)',
       floorA: 'พื้นที่ใช้สอย', perim: 'เส้นรอบรูป', wallA: 'ผนังสุทธิ', btu: 'ความเย็นที่แนะนำ',
       planCap: 'แปลนโดยประมาณ เส้นประคือแนวโครงทุก 3 × 6 ม.', modules: '{n} โครง',
-      secShell: 'งานอาคารและตกแต่ง', secOpen: 'ประตูและหน้าต่าง', secSys: 'ไฟฟ้า แอร์ ประปา',
-      secShellSub: 'ราคาประเมินรวมวัสดุและค่าแรง ต่อหน่วย แก้ตัวเลขได้',
+      secMain: 'งานที่เหลือ: ผนัง กันสาด ไฟฟ้า พื้น', secMainSub: 'ประมาณการเหมารวมค่าแรงตามที่ทีมกำหนด แก้ตัวเลขได้',
+      secAppl: 'เครื่องใช้ไฟฟ้าและแอร์', secApplSub: 'แอร์คิดตามขนาดห้อง เครื่องใช้ไฟฟ้าซื้อร้านทั่วไป เลือกระดับและจำนวนได้', applItems: 'เครื่องใช้ไฟฟ้า',
+      secOther: 'งานอื่น ๆ', secOtherSub: 'รายการที่ไม่อยู่ในประมาณการหลัก ปิดไว้ทั้งหมด', otherOpen: 'ดูหรือเปิดใช้รายการอื่น (ฝ้า ผนังกั้นห้อง สี หน้าต่าง ห้องน้ำ งานเพิ่มเติม)',
       acCount: 'จำนวนเครื่อง', acAuto: 'อัตโนมัติ', acRec: 'แนะนำ {n} เครื่อง สำหรับ {b} BTU',
-      secFurn: 'เฟอร์นิเจอร์และอุปกรณ์', secFurnSub: 'เฟอร์นิเจอร์ใช้ IKEA ราคาอ้างอิงจาก ikea.com/th เลือกระดับและจำนวนแต่ละรายการ ใส่ 0 ถ้าไม่ซื้อ', ikeaSee: 'ดูที่ IKEA ↗', notIkea: 'ไม่มีขายที่ IKEA ซื้อร้านอื่น', ikeaNoTier: 'IKEA ไม่มีรุ่นในระดับนี้ ราคาอ้างอิงร้านอื่น',
+      secFurn: 'เฟอร์นิเจอร์', secFurnSub: 'เฟอร์นิเจอร์ใช้ IKEA ราคาอ้างอิงจาก ikea.com/th เลือกระดับและจำนวนแต่ละรายการ ใส่ 0 ถ้าไม่ซื้อ', ikeaSee: 'ดูที่ IKEA ↗', notIkea: 'ไม่มีขายที่ IKEA ซื้อร้านอื่น', ikeaNoTier: 'IKEA ไม่มีรุ่นในระดับนี้ ราคาอ้างอิงร้านอื่น',
       ikeaSvc: 'บริการ IKEA', ikeaShip: 'ค่าจัดส่ง IKEA ถึงสุราษฎร์ธานี (ประมาณการ)', ikeaShipHint: 'IKEA แจ้งค่าส่งรถบรรทุกเริ่ม 290–299 บาท แล้วแต่พื้นที่และปริมาตร ยังไม่ทราบยอดจริงของสุราษฎร์ธานี · สาขาใกล้สุด IKEA ภูเก็ต',
       ikeaAsm: 'ค่าประกอบโดย IKEA (7% ของราคาสินค้า IKEA)', ikeaAsmHint: 'ใช้ผู้ให้บริการภายนอกของ IKEA ยังไม่ยืนยันว่าให้บริการถึงสุราษฎร์ธานี ปิดไว้ถ้าประกอบเอง', allTier: 'ปรับทุกรายการเป็น',
       tier: 'ระดับ', less: 'ลด', more: 'เพิ่ม',
@@ -907,6 +921,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       resetPrice: 'กลับเป็นราคาเริ่มต้น', priceOf: 'ราคาต่อหน่วยของ {n}',
       notesH: 'สมมติฐานที่ใช้คำนวณ',
       notes: [
+        'ประมาณการงานที่เหลือของออฟฟิศใช้ตัวเลขที่ทีมกำหนด: ผนัง 100,000 กันสาดและเทอเรส 100,000 ไฟฟ้าและช่างไฟ 30,000 (รวมค่าแรง) ไม่ได้บวกเงินเผื่อ ตั้งเพิ่มได้ที่แถบ "เผื่อ"',
         'แผนทั้งปี = ยอดจ่ายจริงของงานที่เสร็จแล้ว + ยอดรวมออฟฟิศตามตัวเลือกด้านล่าง (รวมเงินเผื่อ) + ประมาณการของโครงการที่เพิ่มเอง',
         'ราคางานที่ยังเหลือเป็นราคาประเมินตลาดภาคใต้ ปี 2569 รวมค่าวัสดุและค่าแรง ใช้วางงบเท่านั้น ควรขอใบเสนอราคาจริงก่อนสั่งงาน',
         'ผนังสุทธิ = เส้นรอบรูป × ความสูง หักหน้าต่าง 1.32 ตร.ม./ชุด และประตูหลัก 2.0 ตร.ม./บาน (ถ้าเลือกตามใบเสนอราคา หักตามขนาดประตูจริง เช่น 2 × 2.70 × 2.20 = 11.88 ตร.ม.)',
@@ -949,10 +964,11 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       w: 'Width (m)', l: 'Length (m)', h: 'Wall height (m)', part: 'Partitions (m)', win: 'Windows (sets)', door: 'Main doors', idoor: 'Internal doors',
       floorA: 'Floor area', perim: 'Perimeter', wallA: 'Net wall area', btu: 'Suggested cooling',
       planCap: 'Approximate plan. Dashed lines mark the 3 × 6 m frame grid.', modules: '{n} frames',
-      secShell: 'Building & finishes', secOpen: 'Doors & windows', secSys: 'Power, A/C, plumbing',
-      secShellSub: 'Estimated unit prices include materials and labour. Edit any number.',
+      secMain: 'Remaining work: walls, canopy, electrical, floor', secMainSub: 'Lump-sum estimates with labour, as set by the team. Edit any number.',
+      secAppl: 'Appliances & A/C', secApplSub: 'A/C is sized to the room; appliances come from regular shops. Pick a tier and quantity.', applItems: 'Appliances',
+      secOther: 'Other work', secOtherSub: 'Items outside the main estimate, all switched off', otherOpen: 'Show or switch on other items (ceiling, partitions, paint, windows, restroom, extras)',
       acCount: 'Units', acAuto: 'Auto', acRec: '{n} units suggested for {b} BTU',
-      secFurn: 'Furniture & equipment', secFurnSub: 'Furniture comes from IKEA, priced from ikea.com/th. Choose a tier and quantity per item; set 0 to skip.', ikeaSee: 'View at IKEA ↗', notIkea: 'Not sold by IKEA, buy elsewhere', ikeaNoTier: 'IKEA has no model at this tier; price from another shop',
+      secFurn: 'Furniture', secFurnSub: 'Furniture comes from IKEA, priced from ikea.com/th. Choose a tier and quantity per item; set 0 to skip.', ikeaSee: 'View at IKEA ↗', notIkea: 'Not sold by IKEA, buy elsewhere', ikeaNoTier: 'IKEA has no model at this tier; price from another shop',
       ikeaSvc: 'IKEA services', ikeaShip: 'IKEA delivery to Surat Thani (estimate)', ikeaShipHint: 'IKEA quotes truck delivery from 290–299 baht depending on area and volume; the Surat Thani fee is not known yet · nearest store: IKEA Phuket',
       ikeaAsm: 'IKEA assembly (7% of the IKEA items)', ikeaAsmHint: 'Done by a third-party provider for IKEA; not yet confirmed for Surat Thani. Leave it off if you assemble yourselves.', allTier: 'Set every item to',
       tier: 'Tier', less: 'Fewer', more: 'More',
@@ -962,6 +978,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       resetPrice: 'Back to the default price', priceOf: 'Unit price for {n}',
       notesH: 'How the numbers are worked out',
       notes: [
+        'The office estimate uses the team\'s figures: walls 100,000, canopy and terrace 100,000, electrical with electrician 30,000 (all with labour). No contingency is added; set one with the buffer slider.',
         'Year plan = actual spend on finished work + the office total from the options below (with contingency) + the estimates you enter for other projects.',
         'Prices for the remaining work are 2026 southern-Thailand market estimates including materials and labour. Use them to plan, and get real quotations before ordering.',
         'Net wall area = perimeter × height, less 1.32 m² per window and 2.0 m² per main door (the real door size when a quoted option is chosen, e.g. 2 × 2.70 × 2.20 = 11.88 m²).',
@@ -991,7 +1008,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     CATS.forEach(function (c) { pick[c.id] = c.def; });
     FURN.forEach(function (f) { furn[f.id] = { q: f.q, t: 'std' }; });
     EXTRAS.forEach(function (x) { extras[x.id] = !!x.on; });
-    return { v: 8, dims: { w: 9, l: 6, h: 3, part: 6, win: 6, door: 2, idoor: 2, ac: null }, pick: pick, price: {}, furn: furn, extras: extras, custom: [], paidExtra: [], cont: 10, budget: null, projects: [], officeStatus: 'doing', yearBudget: null, pstatus: {}, rest: {}, ikea: { ship: true, asm: false } };
+    return { v: 9, dims: { w: 9, l: 6, h: 3, part: 6, win: 6, door: 2, idoor: 2, ac: null }, pick: pick, price: {}, furn: furn, extras: extras, custom: [], paidExtra: [], cont: 0, budget: null, projects: [], officeStatus: 'doing', yearBudget: null, pstatus: {}, rest: {}, ikea: { ship: true, asm: false } };
   }
   function numOr(v, d, min, max) { v = Number(v); if (!isFinite(v)) return d; if (min != null && v < min) v = min; if (max != null && v > max) v = max; return v; }
   function normalize(s) {
@@ -1016,7 +1033,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     if (s.extras) EXTRAS.forEach(function (x) { if (typeof s.extras[x.id] === 'boolean') o.extras[x.id] = s.extras[x.id]; });
     if (Array.isArray(s.custom)) o.custom = s.custom.slice(0, 100).map(function (c) { return { id: String(c.id || uid()), n: String(c.n || '').slice(0, 120), g: GROUPS[c.g] && c.g !== 'paid' && c.g !== 'cont' ? c.g : 'extra', q: numOr(c.q, 1, 0, 9999), p: numOr(c.p, 0, 0, 1e9) }; });
     if (Array.isArray(s.paidExtra)) o.paidExtra = s.paidExtra.slice(0, 200).map(function (p) { return { id: String(p.id || uid()), d: /^\d{4}-\d{2}-\d{2}$/.test(p.d) ? p.d : todayISO(), n: String(p.n || '').slice(0, 160), c: PAIDCAT[p.c] ? p.c : 'other', a: numOr(p.a, 0, 0, 1e9) }; });
-    o.cont = numOr(s.cont, 10, 0, 50);
+    o.cont = numOr(s.cont, 0, 0, 50);
     o.budget = s.budget == null || s.budget === '' ? null : numOr(s.budget, null, 0, 1e10);
     if (Array.isArray(s.projects)) o.projects = s.projects.slice(0, 50).map(function (p) { return { id: String(p.id || uid()), n: String(p.n || '').slice(0, 120), s: STATUSES.indexOf(p.s) >= 0 ? p.s : 'plan', est: numOr(p.est, 0, 0, 1e10), paid: numOr(p.paid, 0, 0, 1e10) }; });
     if (STATUSES.indexOf(s.officeStatus) >= 0) o.officeStatus = s.officeStatus;
@@ -1024,6 +1041,13 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     if (s.pstatus && typeof s.pstatus === 'object') Object.keys(s.pstatus).forEach(function (k) { if (STATUSES.indexOf(s.pstatus[k]) >= 0) o.pstatus[k] = s.pstatus[k]; });
     if (s.ikea && typeof s.ikea === 'object') ['ship', 'asm'].forEach(function (k) { if (typeof s.ikea[k] === 'boolean') o.ikea[k] = s.ikea[k]; });
     if (s.rest && typeof s.rest === 'object') Object.keys(s.rest).forEach(function (k) { if (typeof s.rest[k] === 'boolean') o.rest[k] = s.rest[k]; });
+    if (!(s.v >= 9)) {
+      o.pick.wall = 'est'; o.pick.terrace = 'est'; o.pick.elec = 'est'; o.pick.floor = 'spc';
+      ['roofins', 'ceil', 'part', 'paint', 'win', 'idoor', 'plumb'].forEach(function (k) { o.pick[k] = 'none'; });
+      EXTRAS.forEach(function (x) { o.extras[x.id] = false; });
+      FURN.forEach(function (f) { if (f.g === 'other') o.furn[f.id].q = 0; });
+      o.cont = 0;
+    }
     return o;
   }
   function uid() { return Math.random().toString(36).slice(2, 10); }
@@ -1079,7 +1103,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     });
     FURN.forEach(function (f) {
       var st = state.furn[f.id], ti = ['eco', 'std', 'pro'].indexOf(st.t), p = priceOf('furn.' + f.id + '.' + st.t, f.p[ti]);
-      lines.push({ grp: 'furn', kind: 'furn', f: f, q: st.q, u: 'pc', p: p, a: st.q * p });
+      lines.push({ grp: f.g === 'appl' ? 'appl' : 'furn', kind: 'furn', f: f, q: st.q, u: 'pc', p: p, a: st.q * p });
     });
     var ikeaSum = lines.reduce(function (sum, l) { return sum + (l.kind === 'furn' && l.f.ik && l.f.ik[['eco', 'std', 'pro'].indexOf(state.furn[l.f.id].t)] ? l.a : 0); }, 0);
     var asm = Math.round(ikeaSum * 0.07);
@@ -1091,9 +1115,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
       lines.push({ grp: 'extra', kind: 'extra', x: x, q: 1, u: 'lump', p: p, a: p });
     });
     state.custom.forEach(function (cu) { lines.push({ grp: cu.g, kind: 'custom', cu: cu, q: cu.q, u: 'pc', p: cu.p, a: r2(cu.q * cu.p) }); });
-    var by = { shell: 0, open: 0, sys: 0, furn: 0, extra: 0 };
-    lines.forEach(function (l) { by[l.grp] += l.a; });
-    var planned = by.shell + by.open + by.sys + by.furn + by.extra;
+    var by = {};
+    PLANNED.forEach(function (k) { by[k] = 0; });
+    lines.forEach(function (l) { by[GROUPS[l.grp] ? l.grp : 'extra'] += l.a; });
+    var planned = PLANNED.reduce(function (sum, k) { return sum + by[k]; }, 0);
     var cont = Math.round(planned * state.cont / 100);
     var paid = r2(paidDocs().reduce(function (s, d) { return s + d.total; }, 0));
     var toSpend = planned + cont, total = paid + toSpend;
@@ -1266,10 +1291,28 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     return h + '</div>';
   }
 
-  function secCats(sec, titleKey, subKey) {
-    var h = '<section aria-labelledby="h-' + sec.id + '">' + secHead(sec.id, t(titleKey), subKey ? t(subKey) : '', 'grp-' + sec.id) + '<div class="grid2">';
-    sec.cats.forEach(function (id) { h += catHTML(CATS.filter(function (c) { return c.id === id; })[0]); });
+  function catById(id) { return CATS.filter(function (c) { return c.id === id; })[0]; }
+  function mainHTML() {
+    var h = '<section aria-labelledby="h-main">' + secHead('main', t('secMain'), t('secMainSub'), 'sec-main') + '<div class="grid2">';
+    SECS[0].cats.forEach(function (id) { h += catHTML(catById(id)); });
     return h + '</div></section>';
+  }
+  function applHTML() {
+    return '<section aria-labelledby="h-appl">' + secHead('appl', t('secAppl'), t('secApplSub'), 'grp-appl') +
+      '<div class="grid2">' + catHTML(catById('ac')) + '</div>' +
+      '<div class="fgroup" style="margin-top:12px"><h3><span>' + t('applItems') + '</span><span data-out="fg-appl"></span></h3>' +
+      FURN.filter(function (f) { return f.g === 'appl'; }).map(frowHTML).join('') + '</div></section>';
+  }
+  function otherHTML() {
+    var h = '<section aria-labelledby="h-extra">' + secHead('extra', t('secOther'), t('secOtherSub'), 'grp-extra') +
+      '<details class="other-box" data-doc="other-items"' + (openDocs['other-items'] ? ' open' : '') + '><summary>' + t('otherOpen') + '</summary><div class="grid2">';
+    SECS[1].cats.forEach(function (id) { h += catHTML(catById(id)); });
+    h += '</div><div class="extras" style="margin-top:14px">';
+    EXTRAS.forEach(function (x) {
+      var on = state.extras[x.id];
+      h += '<div class="xrow' + (on ? '' : ' off') + '" data-xrow="' + x.id + '"><input type="checkbox" id="x-' + x.id + '" data-ex="' + x.id + '"' + (on ? ' checked' : '') + '><label for="x-' + x.id + '">' + L(x) + '</label>' + priceInput('extra.' + x.id, x.p, '', L(x)) + '</div>';
+    });
+    return h + '</div></details></section>';
   }
 
   // which IKEA product a furniture tier stands for, or a note that it is bought elsewhere
@@ -1280,19 +1323,20 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     return '<small class="f-prod">IKEA <b>' + esc(ik.n) + '</b>' + (ik.d ? ' · ' + esc(L(ik.d)) : '') +
       (ik.u ? ' · <a href="' + esc(ik.u) + '" target="_blank" rel="noopener noreferrer">' + t('ikeaSee') + '</a>' : '') + '</small>';
   }
+  function frowHTML(f) {
+    var st = state.furn[f.id], ti = ['eco', 'std', 'pro'].indexOf(st.t), name = L(f);
+    return '<div class="frow' + (st.q ? '' : ' zero') + '" id="frow-' + f.id + '"><div class="f-name">' + name + prodLine(f, ti) + '</div>' +
+      '<select id="ft-' + f.id + '" data-ft="' + f.id + '" aria-label="' + esc(t('tier') + ': ' + name) + '">' + TIERS.map(function (x) { return '<option value="' + x.id + '"' + (x.id === st.t ? ' selected' : '') + '>' + L(x) + '</option>'; }).join('') + '</select>' +
+      '<div class="stepper"><button type="button" data-step="' + f.id + '" data-d="-1" aria-label="' + esc(t('less') + ': ' + name) + '">−</button><input type="number" min="0" step="1" inputmode="numeric" id="fq-' + f.id + '" data-fq="' + f.id + '" value="' + st.q + '" aria-label="' + esc(t('qty') + ': ' + name) + '"><button type="button" data-step="' + f.id + '" data-d="1" aria-label="' + esc(t('more') + ': ' + name) + '">+</button></div>' +
+      priceInput('furn.' + f.id + '.' + st.t, f.p[ti], '', name) +
+      '<span class="f-sum" data-out="f-' + f.id + '"></span></div>';
+  }
   function furnHTML() {
     var h = '<section aria-labelledby="h-furn">' + secHead('furn', t('secFurn'), t('secFurnSub'), 'grp-furn');
     h += '<div class="tierbar"><span>' + t('allTier') + '</span>' + TIERS.map(function (ti) { return '<button type="button" class="btn ghost" data-alltier="' + ti.id + '">' + L(ti) + '</button>'; }).join('') + '</div>';
     FGROUPS.forEach(function (fg) {
       h += '<div class="fgroup"><h3><span>' + L(fg) + '</span><span data-out="fg-' + fg.id + '"></span></h3>';
-      FURN.filter(function (f) { return f.g === fg.id; }).forEach(function (f) {
-        var st = state.furn[f.id], ti = ['eco', 'std', 'pro'].indexOf(st.t), name = L(f);
-        h += '<div class="frow' + (st.q ? '' : ' zero') + '" id="frow-' + f.id + '"><div class="f-name">' + name + prodLine(f, ti) + '</div>' +
-          '<select id="ft-' + f.id + '" data-ft="' + f.id + '" aria-label="' + esc(t('tier') + ': ' + name) + '">' + TIERS.map(function (x) { return '<option value="' + x.id + '"' + (x.id === st.t ? ' selected' : '') + '>' + L(x) + '</option>'; }).join('') + '</select>' +
-          '<div class="stepper"><button type="button" data-step="' + f.id + '" data-d="-1" aria-label="' + esc(t('less') + ': ' + name) + '">−</button><input type="number" min="0" step="1" inputmode="numeric" id="fq-' + f.id + '" data-fq="' + f.id + '" value="' + st.q + '" aria-label="' + esc(t('qty') + ': ' + name) + '"><button type="button" data-step="' + f.id + '" data-d="1" aria-label="' + esc(t('more') + ': ' + name) + '">+</button></div>' +
-          priceInput('furn.' + f.id + '.' + st.t, f.p[ti], '', name) +
-          '<span class="f-sum" data-out="f-' + f.id + '"></span></div>';
-      });
+      h += FURN.filter(function (f) { return f.g === fg.id; }).map(frowHTML).join('');
       h += '</div>';
     });
     function svc(k, label, hint, right) {
@@ -1306,21 +1350,12 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     return h + '</section>';
   }
 
-  function extrasHTML() {
-    var h = '<section aria-labelledby="h-extra">' + secHead('extra', t('secExtra'), t('secExtraSub'), 'grp-extra') + '<div class="extras">';
-    EXTRAS.forEach(function (x) {
-      var on = state.extras[x.id];
-      h += '<div class="xrow' + (on ? '' : ' off') + '" data-xrow="' + x.id + '"><input type="checkbox" id="x-' + x.id + '" data-ex="' + x.id + '"' + (on ? ' checked' : '') + '><label for="x-' + x.id + '">' + L(x) + '</label>' + priceInput('extra.' + x.id, x.p, '', L(x)) + '</div>';
-    });
-    return h + '</div></section>';
-  }
-
   function customHTML() {
     var h = '<section aria-labelledby="h-custom">' + secHead('custom', t('secCustom'), t('secCustomSub'), 'custom-total') + '<div class="custom">';
     if (!state.custom.length) h += '<div class="empty">' + t('customEmpty') + '</div>';
     state.custom.forEach(function (cu) {
       h += '<div class="crow"><input class="field wide" type="text" id="cn-' + esc(cu.id) + '" data-cu="' + esc(cu.id) + '" data-f="n" value="' + esc(cu.n) + '" placeholder="' + esc(t('itemName')) + '" aria-label="' + esc(t('itemName')) + '" maxlength="120">' +
-        '<select class="field" id="cg-' + esc(cu.id) + '" data-cu="' + esc(cu.id) + '" data-f="g" aria-label="' + esc(t('cat')) + '">' + ['shell', 'open', 'sys', 'furn', 'extra'].map(function (g) { return '<option value="' + g + '"' + (g === cu.g ? ' selected' : '') + '>' + L(GROUPS[g]) + '</option>'; }).join('') + '</select>' +
+        '<select class="field" id="cg-' + esc(cu.id) + '" data-cu="' + esc(cu.id) + '" data-f="g" aria-label="' + esc(t('cat')) + '">' + PLANNED.map(function (g) { return '<option value="' + g + '"' + (g === cu.g ? ' selected' : '') + '>' + L(GROUPS[g]) + '</option>'; }).join('') + '</select>' +
         '<input class="field" type="number" min="0" step="any" inputmode="decimal" id="cq-' + esc(cu.id) + '" data-cu="' + esc(cu.id) + '" data-f="q" value="' + cu.q + '" aria-label="' + esc(t('qty')) + '">' +
         '<input class="field" type="number" min="0" step="any" inputmode="decimal" id="cp-' + esc(cu.id) + '" data-cu="' + esc(cu.id) + '" data-f="p" value="' + cu.p + '" aria-label="' + esc(t('unitPrice')) + '">' +
         '<span class="f-sum" data-out="cu-' + esc(cu.id) + '"></span><button type="button" class="del" data-delcu="' + esc(cu.id) + '">' + t('del') + '</button></div>';
@@ -1360,7 +1395,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     document.getElementById('overview').innerHTML = overviewHTML();
     document.getElementById('office').innerHTML = bandHTML();
     ['th', 'en'].forEach(function (l) { document.getElementById('lang-' + l).setAttribute('aria-pressed', String(l === lang)); });
-    main.innerHTML = paidHTML() + sizeHTML() + secCats(SECS[0], 'secShell', 'secShellSub') + secCats(SECS[1], 'secOpen') + secCats(SECS[2], 'secSys') + furnHTML() + extrasHTML() + customHTML() + notesHTML();
+    main.innerHTML = paidHTML() + sizeHTML() + mainHTML() + applHTML() + furnHTML() + otherHTML() + customHTML() + notesHTML();
     aside.innerHTML = asideHTML();
     document.getElementById('reset-wrap').innerHTML = resetHTML();
     showCsv();
@@ -1379,7 +1414,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     out('paid-total', baht(r.paid, true));
     out('g-floor', fq(g.floor, 'm2')); out('g-perim', fq(g.perim, 'm')); out('g-wall', fq(g.wallNet, 'm2')); out('g-btu', nfmt(g.btu) + ' BTU');
     var plan = document.getElementById('plan'); if (plan) plan.innerHTML = planSVG();
-    ['shell', 'open', 'sys', 'furn', 'extra'].forEach(function (k) { out('grp-' + k, baht(r.by[k])); });
+    PLANNED.forEach(function (k) { out('grp-' + k, baht(r.by[k])); });
+    out('sec-main', baht(r.by.wall + r.by.terrace + r.by.elec + r.by.floor));
     r.lines.forEach(function (l) {
       if (l.kind === 'cat') {
         out('sum-' + l.c.id, baht(l.a));
@@ -1395,7 +1431,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     out('ikea-asm', baht(r.asm));
     var irs = document.querySelectorAll('[data-irow]');
     for (var ii = 0; ii < irs.length; ii++) irs[ii].classList.toggle('off', !state.ikea[irs[ii].getAttribute('data-irow')]);
-    FGROUPS.forEach(function (fg) { out('fg-' + fg.id, baht(r.lines.filter(function (l) { return l.kind === 'furn' && l.f.g === fg.id; }).reduce(function (s, l) { return s + l.a; }, 0))); });
+    FGROUPS.concat([{ id: 'appl' }]).forEach(function (fg) { out('fg-' + fg.id, baht(r.lines.filter(function (l) { return l.kind === 'furn' && l.f.g === fg.id; }).reduce(function (s, l) { return s + l.a; }, 0))); });
     out('custom-total', baht(r.lines.filter(function (l) { return l.kind === 'custom'; }).reduce(function (s, l) { return s + l.a; }, 0)));
     var acO = CATS.filter(function (c) { return c.id === 'ac'; })[0].opts.filter(function (o) { return o.id === state.pick.ac; })[0];
     out('ac-rec', acO && acO.btu ? tf('acRec', { n: Math.ceil(g.btu / acO.btu), b: nfmt(g.btu) }) : '');
@@ -1411,7 +1447,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     out('cont-pct', state.cont + '%');
 
     // stacked bar + legend
-    var vals = { paid: r.paid, shell: r.by.shell, open: r.by.open, sys: r.by.sys, furn: r.by.furn, extra: r.by.extra, cont: r.cont };
+    var vals = { paid: r.paid, cont: r.cont };
+    PLANNED.forEach(function (k) { vals[k] = r.by[k]; });
     var bar = document.getElementById('bar'), legend = document.getElementById('legend');
     if (bar) {
       bar.innerHTML = ORDER.filter(function (k) { return vals[k] > 0; }).map(function (k) {
@@ -1526,7 +1563,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
     lines.push(t('size') + ' ' + nfmt(state.dims.w, 1) + ' × ' + nfmt(state.dims.l, 1) + ' ' + U('m') + ' = ' + fq(r.g.floor, 'm2'));
     lines.push('');
     lines.push(L(GROUPS.paid) + ': ' + baht(r.paid, true));
-    ['shell', 'open', 'sys', 'furn', 'extra'].forEach(function (k) { if (r.by[k]) lines.push(L(GROUPS[k]) + ': ' + baht(r.by[k])); });
+    PLANNED.forEach(function (k) { if (r.by[k]) lines.push(L(GROUPS[k]) + ': ' + baht(r.by[k])); });
     lines.push(L(GROUPS.cont) + ' ' + state.cont + '%: ' + baht(r.cont));
     lines.push('');
     lines.push(t('toSpend') + ': ' + baht(r.toSpend));
@@ -1660,7 +1697,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
   function showTip(seg) {
     var tip = document.getElementById('tip'), wrap = seg.parentNode.parentNode;
     if (!tip || !last) return;
-    var k = seg.dataset.seg, vals = { paid: last.paid, shell: last.by.shell, open: last.by.open, sys: last.by.sys, furn: last.by.furn, extra: last.by.extra, cont: last.cont };
+    var k = seg.dataset.seg, vals = { paid: last.paid, cont: last.cont };
+    PLANNED.forEach(function (g) { vals[g] = last.by[g]; });
     tip.innerHTML = '<b>' + esc(L(GROUPS[k])) + '</b> ' + baht(vals[k], k === 'paid') + ' · ' + nfmt(last.total ? vals[k] / last.total * 100 : 0, 1) + '%';
     tip.hidden = false;
     var wr = wrap.getBoundingClientRect(), sr = seg.getBoundingClientRect(), tw = tip.offsetWidth;
